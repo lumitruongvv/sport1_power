@@ -1,0 +1,107 @@
+C51 COMPILER V9.60.0.0   DELAY                                                             01/07/2021 20:27:44 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DELAY
+OBJECT MODULE PLACED IN .\Objects\delay.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\Driver\delay.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\Common;..\Driver;..
+                    -Mid\Irf) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\delay.lst) TABS(2) OBJECT(.\Objects\delay.obj)
+
+line level    source
+
+   1          /*
+   2           * Copyright (c) 2021
+   3           * Team, JSC.
+   4           * All Rights Reserved
+   5           *
+   6           *
+   7           * Description:
+   8           *
+   9           * Author: Truongvv
+  10           *
+  11           * Last Changed By:  $Author: Truongvv $
+  12           * Revision:         $Revision: 1.0 $
+  13           * Last Changed:     $Date: x/x/xxxx $
+  14           */
+  15          #include "N76E003.h"
+  16          #include "SFR_Macro.h"
+  17          #include "Function_Define.h"
+  18          #include "delay.h"
+  19          
+  20          /**
+  21           * @func   delay_ms
+  22           * @brief  None
+  23           * @param  
+  24           * @retval None
+  25           */
+  26          void delay_ms (uint16_t time_ms)
+  27          {
+  28   1        while (time_ms)
+  29   1        {
+  30   2          CKCON |= (1 << 3); // clock source of Timer 0 is direct the system clock
+  31   2          TL0 =  0x80;  // 1ms
+  32   2          TH0 =  0xC1;  // 1ms
+  33   2          TMOD |= (1 << 0); // timer0 16bit
+  34   2          TCON |= (1 << 4); // enable timer0
+  35   2          while(!(TCON & (1 << 5)));
+  36   2          TCON &= ~((1 << 5)|(1 << 4)); // Clear TF0, disable timer0
+  37   2          time_ms--;
+  38   2        }
+  39   1      }
+  40          
+  41          /**
+  42           * @func   delay_us
+  43           * @brief  None
+  44           * @param  
+  45           * @retval None
+  46           */
+  47          void delay_us (uint16_t  time_us)
+  48          {
+  49   1        while (time_us)
+  50   1        {
+  51   2          CKCON |= (1 << 3); // clock source of Timer 0 is direct the system clock
+  52   2          TL0 =  0xF0;  // 1us
+  53   2          TH0 =  0xFF;  // 1us
+  54   2          TMOD |= (1 << 0); // timer0 16bit
+C51 COMPILER V9.60.0.0   DELAY                                                             01/07/2021 20:27:44 PAGE 2   
+
+  55   2          TCON |= (1 << 4); // enable timer0
+  56   2          while(!(TCON & (1 << 5)));
+  57   2          TCON &= ~((1 << 5)|(1 << 4)); // Clear TF0, disable timer0
+  58   2          time_us--;
+  59   2        }
+  60   1      }
+  61          
+  62          /**
+  63           * @func   delay_100us
+  64           * @brief  None
+  65           * @param  
+  66           * @retval None
+  67           */
+  68          void delay_100us (uint16_t time_us)
+  69          {
+  70   1        while (time_us)
+  71   1        {
+  72   2          CKCON |= (1 << 3); // clock source of Timer 0 is direct the system clock
+  73   2          TL0 =  0xC0;  // 100us
+  74   2          TH0 =  0xF9;  // 100us
+  75   2          TMOD |= (1 << 0); // timer0 16bit
+  76   2          TCON |= (1 << 4); // enable timer0
+  77   2          while(!(TCON & (1 << 5)));
+  78   2          TCON &= ~((1 << 5)|(1 << 4)); // Clear TF0, disable timer0
+  79   2          time_us--;
+  80   2        }
+  81   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    105    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

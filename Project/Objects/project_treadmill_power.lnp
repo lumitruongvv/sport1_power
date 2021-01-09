@@ -1,0 +1,10 @@
+".\Objects\main.obj",
+".\Objects\adc.obj",
+".\Objects\delay.obj",
+".\Objects\pwm.obj",
+".\Objects\uart.obj",
+".\Objects\Irf.obj",
+".\Objects\STARTUP.obj" 
+TO ".\Objects\project_treadmill_power" 
+PRINT(".\Listings\project_treadmill_power.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 
