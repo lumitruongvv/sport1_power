@@ -13,9 +13,9 @@
  * Last Changed:     $Date: x/x/xxxx $
  */
 
-#ifndef PWM_H_
+#ifndef PWM_H
 
-#define PWM_H_
+#define PWM_H
 
 
 /******************************************************************************/
@@ -27,6 +27,9 @@
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
 
+#define PWM_PinInit()           P10_PushPull_Mode
+#define PWM_PORT                P1
+
 /******************************************************************************/
 /*                            EXPORTED FUNCTIONS                              */
 /******************************************************************************/
@@ -37,4 +40,4 @@ void PWM_Stop(uint16_t pwmDuty);
 void PWM_Start(uint16_t pwmDuty);
 
 
-#endif	/* PWM_H_*/
+#endif	/* PWM_H*/

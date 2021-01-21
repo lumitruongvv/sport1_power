@@ -107,7 +107,6 @@ void UART_SendData (u8* buff, u8 length)
 u8 UART_RevData (void)
 {
 	u8 dataRx;
-	while (RI==0);
 	dataRx = SBUF;
 	return dataRx;
 }

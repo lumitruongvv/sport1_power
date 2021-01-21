@@ -5,30 +5,28 @@
  *      Author: Truong VV
  */
 
-#ifndef _IRFAPP_MAIN_H_
-#define _IRFAPP_MAIN_H_
+#ifndef IRFAPP_MAIN_H_
+#define IRFAPP_MAIN_H_
 
 /******************************************************************************/
 /*                              DEFINE                                      */
 /******************************************************************************/
 
 /* Command type */
-#define MASTER_UPDATA_TYPE              0xB0
-#define MASTER_ERROR_TYE                0xB1
-#define SLAVE_UPDATE_TYPE               0xA0
-#define SLAVE_ERROR_TYPE                0xA1
+#define MASTER_REQUEST_TYPE              0xB0
+#define MASTER_REPONSE_TYE               0xB1
+#define SLAVE_REQUEST_TYPE               0xA0
+#define SLAVE_REPONSE_TYPE               0xA1
 
 /* Command */
 /* INFORMATION */
 #define DEVICE_ANNOUNCE                 0x10
-#define SEND_FIRST_TIME                 0x11
-#define SEND_FIRST_TIME_1               0x12
-#define SEND_FIRST_TIME_2               0x13
 
 /* Connect */
 #define CHECK_CONNECT                   0x20
 #define CHECK_CONNECT_SUCCESS           0x21
 #define CHECK_CONNECT_NOTSUCCESS        0x22
+#define CHECK_CONNECT_STATE             0x23
 
 
 /* Start */
@@ -71,20 +69,18 @@
 
 /* LOG STATE */
 #define GET_ALL_STATE                   0x90
+#define GET_ALL_REQUEST                 0x91  
 
+/* RESET */
+#define RESET_DEVICE                    0x0F
 
-typedef void (*App_CommandHandle_t)(u8 type, u8* buff, u8 length);
-
-typedef struct App_ComandInfo_t
-{
-    u8 cmdId;
-    App_CommandHandle_t cmdHandle;
-} App_ComandInfo_t;
-
+/* REPLY CONTENT */
+#define YES                             0x0A
+#define NO                              0x0B
 
 /******************************************************************************/
 /*                              FUNCTION                                      */
 /******************************************************************************/
 void APP_CheckCommandExistAndExecutes(u8 command, u8 type, u8* buff, u8 length);
 
-#endif /*_IRFAPP_MAIN_H_*/
+#endif /*IRFAPP_MAIN_H_*/

@@ -1,0 +1,2717 @@
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IRFAPP_MAIN
+OBJECT MODULE PLACED IN .\Objects\irfapp_main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\App\irfapp_main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Dr
+                    -iver;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND CODE LISTINCLUDE SYMBOLS PRINT(.\Listings\irfapp_mai
+                    -n.lst) TABS(2) OBJECT(.\Objects\irfapp_main.obj)
+
+line level    source
+
+   1          /*
+   2           *      irfapp_main.c
+   3           *
+   4           *      Created on: Dec 25, 2020
+   5           *      Author: Truong VV
+   6           */
+   7          
+   8          #include "N76E003.h"
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  N76E003.H
+   3      =1  
+   4      =1  Header file for Nuvoton N76E003
+   5      =1  --------------------------------------------------------------------------*/
+   6      =1  
+   7      =1  sfr P0          = 0x80;
+   8      =1  sfr SP          = 0x81;
+   9      =1  sfr DPL         = 0x82;
+  10      =1  sfr DPH         = 0x83;
+  11      =1  sfr RCTRIM0     = 0x84;
+  12      =1  sfr RCTRIM1     = 0x85; 
+  13      =1  sfr RWK         = 0x86;
+  14      =1  sfr PCON        = 0x87;
+  15      =1  
+  16      =1  sfr TCON        = 0x88;
+  17      =1  sfr TMOD        = 0x89;
+  18      =1  sfr TL0         = 0x8A;
+  19      =1  sfr TL1         = 0x8B;
+  20      =1  sfr TH0         = 0x8C;
+  21      =1  sfr TH1         = 0x8D;
+  22      =1  sfr CKCON       = 0x8E;
+  23      =1  sfr WKCON       = 0x8F;
+  24      =1  
+  25      =1  sfr P1          = 0x90;
+  26      =1  sfr SFRS        = 0x91; //TA Protection
+  27      =1  sfr CAPCON0     = 0x92;
+  28      =1  sfr CAPCON1     = 0x93;
+  29      =1  sfr CAPCON2     = 0x94;
+  30      =1  sfr CKDIV       = 0x95;
+  31      =1  sfr CKSWT       = 0x96; //TA Protection
+  32      =1  sfr CKEN        = 0x97; //TA Protection
+  33      =1  
+  34      =1  sfr SCON        = 0x98;
+  35      =1  sfr SBUF        = 0x99;
+  36      =1  sfr SBUF_1      = 0x9A;
+  37      =1  sfr EIE         = 0x9B;
+  38      =1  sfr EIE1        = 0x9C;
+  39      =1  sfr CHPCON      = 0x9F; //TA Protection
+  40      =1  
+  41      =1  sfr P2          = 0xA0;
+  42      =1  sfr AUXR1       = 0xA2;
+  43      =1  sfr BODCON0     = 0xA3; //TA Protection
+  44      =1  sfr IAPTRG      = 0xA4; //TA Protection
+  45      =1  sfr IAPUEN      = 0xA5; //TA Protection
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 2   
+
+  46      =1  sfr IAPAL       = 0xA6;
+  47      =1  sfr IAPAH       = 0xA7;
+  48      =1  
+  49      =1  sfr IE          = 0xA8;
+  50      =1  sfr SADDR       = 0xA9;
+  51      =1  sfr WDCON       = 0xAA; //TA Protection
+  52      =1  sfr BODCON1     = 0xAB; //TA Protection
+  53      =1  sfr P3M1        = 0xAC;
+  54      =1  sfr P3S         = 0xAC; //Page1
+  55      =1  sfr P3M2        = 0xAD;
+  56      =1  sfr P3SR        = 0xAD; //Page1
+  57      =1  sfr IAPFD       = 0xAE;
+  58      =1  sfr IAPCN       = 0xAF;
+  59      =1  
+  60      =1  sfr P3          = 0xB0;
+  61      =1  sfr P0M1        = 0xB1;
+  62      =1  sfr P0S         = 0xB1; //Page1
+  63      =1  sfr P0M2        = 0xB2;
+  64      =1  sfr P0SR        = 0xB2; //Page1
+  65      =1  sfr P1M1        = 0xB3;
+  66      =1  sfr P1S         = 0xB3; //Page1
+  67      =1  sfr P1M2        = 0xB4;
+  68      =1  sfr P1SR        = 0xB4; //Page1
+  69      =1  sfr P2S         = 0xB5; 
+  70      =1  sfr IPH         = 0xB7;
+  71      =1  sfr PWMINTC     = 0xB7; //Page1
+  72      =1  
+  73      =1  sfr IP          = 0xB8;
+  74      =1  sfr SADEN       = 0xB9;
+  75      =1  sfr SADEN_1     = 0xBA;
+  76      =1  sfr SADDR_1     = 0xBB;
+  77      =1  sfr I2DAT       = 0xBC;
+  78      =1  sfr I2STAT      = 0xBD;
+  79      =1  sfr I2CLK       = 0xBE;
+  80      =1  sfr I2TOC       = 0xBF;
+  81      =1  
+  82      =1  sfr I2CON       = 0xC0;
+  83      =1  sfr I2ADDR      = 0xC1;
+  84      =1  sfr ADCRL       = 0xC2;
+  85      =1  sfr ADCRH       = 0xC3;
+  86      =1  sfr T3CON       = 0xC4;
+  87      =1  sfr PWM4H       = 0xC4; //Page1
+  88      =1  sfr RL3         = 0xC5;
+  89      =1  sfr PWM5H       = 0xC5; //Page1
+  90      =1  sfr RH3         = 0xC6;
+  91      =1  sfr PIOCON1     = 0xC6; //Page1
+  92      =1  sfr TA          = 0xC7;
+  93      =1  
+  94      =1  sfr T2CON       = 0xC8;
+  95      =1  sfr T2MOD       = 0xC9;
+  96      =1  sfr RCMP2L      = 0xCA;
+  97      =1  sfr RCMP2H      = 0xCB;
+  98      =1  sfr TL2         = 0xCC; 
+  99      =1  sfr PWM4L       = 0xCC; //Page1
+ 100      =1  sfr TH2         = 0xCD;
+ 101      =1  sfr PWM5L       = 0xCD; //Page1
+ 102      =1  sfr ADCMPL      = 0xCE;
+ 103      =1  sfr ADCMPH      = 0xCF;
+ 104      =1  
+ 105      =1  sfr PSW         = 0xD0;
+ 106      =1  sfr PWMPH       = 0xD1;
+ 107      =1  sfr PWM0H       = 0xD2;
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 3   
+
+ 108      =1  sfr PWM1H       = 0xD3;
+ 109      =1  sfr PWM2H       = 0xD4;
+ 110      =1  sfr PWM3H       = 0xD5;
+ 111      =1  sfr PNP         = 0xD6;
+ 112      =1  sfr FBD         = 0xD7;
+ 113      =1  
+ 114      =1  sfr PWMCON0     = 0xD8;
+ 115      =1  sfr PWMPL       = 0xD9;
+ 116      =1  sfr PWM0L       = 0xDA;
+ 117      =1  sfr PWM1L       = 0xDB;
+ 118      =1  sfr PWM2L       = 0xDC;
+ 119      =1  sfr PWM3L       = 0xDD;
+ 120      =1  sfr PIOCON0     = 0xDE;
+ 121      =1  sfr PWMCON1     = 0xDF;
+ 122      =1  
+ 123      =1  sfr ACC         = 0xE0;
+ 124      =1  sfr ADCCON1     = 0xE1;
+ 125      =1  sfr ADCCON2     = 0xE2;
+ 126      =1  sfr ADCDLY      = 0xE3;
+ 127      =1  sfr C0L         = 0xE4;
+ 128      =1  sfr C0H         = 0xE5;
+ 129      =1  sfr C1L         = 0xE6;
+ 130      =1  sfr C1H         = 0xE7;
+ 131      =1  
+ 132      =1  sfr ADCCON0     = 0xE8;
+ 133      =1  sfr PICON       = 0xE9;
+ 134      =1  sfr PINEN       = 0xEA;
+ 135      =1  sfr PIPEN       = 0xEB;
+ 136      =1  sfr PIF         = 0xEC;
+ 137      =1  sfr C2L         = 0xED;
+ 138      =1  sfr C2H         = 0xEE;
+ 139      =1  sfr EIP         = 0xEF;
+ 140      =1  
+ 141      =1  sfr B           = 0xF0;
+ 142      =1  sfr CAPCON3     = 0xF1;
+ 143      =1  sfr CAPCON4     = 0xF2;
+ 144      =1  sfr SPCR        = 0xF3;
+ 145      =1  sfr SPCR2       = 0xF3; //Page1
+ 146      =1  sfr SPSR        = 0xF4;
+ 147      =1  sfr SPDR        = 0xF5;
+ 148      =1  sfr AINDIDS     = 0xF6;
+ 149      =1  sfr EIPH        = 0xF7;
+ 150      =1  
+ 151      =1  sfr SCON_1      = 0xF8;
+ 152      =1  sfr PDTEN       = 0xF9; //TA Protection
+ 153      =1  sfr PDTCNT      = 0xFA; //TA Protection
+ 154      =1  sfr PMEN        = 0xFB;
+ 155      =1  sfr PMD         = 0xFC;
+ 156      =1  sfr EIP1        = 0xFE;
+ 157      =1  sfr EIPH1       = 0xFF;
+ 158      =1  
+ 159      =1  /*  BIT Registers  */
+ 160      =1  /*  SCON_1  */
+ 161      =1  sbit SM0_1      = SCON_1^7;
+ 162      =1  sbit FE_1       = SCON_1^7; 
+ 163      =1  sbit SM1_1      = SCON_1^6; 
+ 164      =1  sbit SM2_1      = SCON_1^5; 
+ 165      =1  sbit REN_1      = SCON_1^4; 
+ 166      =1  sbit TB8_1      = SCON_1^3; 
+ 167      =1  sbit RB8_1      = SCON_1^2; 
+ 168      =1  sbit TI_1       = SCON_1^1; 
+ 169      =1  sbit RI_1       = SCON_1^0; 
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 4   
+
+ 170      =1  
+ 171      =1  /*  ADCCON0  */
+ 172      =1  sbit ADCF       = ADCCON0^7;
+ 173      =1  sbit ADCS       = ADCCON0^6;
+ 174      =1  sbit ETGSEL1    = ADCCON0^5;
+ 175      =1  sbit ETGSEL0    = ADCCON0^4;
+ 176      =1  sbit ADCHS3     = ADCCON0^3;
+ 177      =1  sbit ADCHS2     = ADCCON0^2;
+ 178      =1  sbit ADCHS1     = ADCCON0^1;
+ 179      =1  sbit ADCHS0     = ADCCON0^0;
+ 180      =1  
+ 181      =1  /*  PWMCON0  */
+ 182      =1  sbit PWMRUN     = PWMCON0^7;
+ 183      =1  sbit LOAD       = PWMCON0^6;
+ 184      =1  sbit PWMF       = PWMCON0^5;
+ 185      =1  sbit CLRPWM     = PWMCON0^4;
+ 186      =1  
+ 187      =1  
+ 188      =1  /*  PSW */
+ 189      =1  sbit CY         = PSW^7;
+ 190      =1  sbit AC         = PSW^6;
+ 191      =1  sbit F0         = PSW^5;
+ 192      =1  sbit RS1        = PSW^4;
+ 193      =1  sbit RS0        = PSW^3;
+ 194      =1  sbit OV         = PSW^2;
+ 195      =1  sbit P          = PSW^0;
+ 196      =1  
+ 197      =1  /*  T2CON  */
+ 198      =1  sbit TF2        = T2CON^7;
+ 199      =1  sbit TR2        = T2CON^2;
+ 200      =1  sbit CM_RL2     = T2CON^0;
+ 201      =1   
+ 202      =1  /*  I2CON  */
+ 203      =1  sbit I2CEN      = I2CON^6;
+ 204      =1  sbit STA        = I2CON^5;
+ 205      =1  sbit STO        = I2CON^4;
+ 206      =1  sbit SI         = I2CON^3;
+ 207      =1  sbit AA         = I2CON^2;
+ 208      =1  sbit I2CPX  = I2CON^0;
+ 209      =1  
+ 210      =1  /*  IP  */  
+ 211      =1  sbit PADC       = IP^6;
+ 212      =1  sbit PBOD       = IP^5;
+ 213      =1  sbit PS         = IP^4;
+ 214      =1  sbit PT1        = IP^3;
+ 215      =1  sbit PX1        = IP^2;
+ 216      =1  sbit PT0        = IP^1;
+ 217      =1  sbit PX0        = IP^0;
+ 218      =1  
+ 219      =1  /*  P3  */  
+ 220      =1  sbit P30    = P3^0;
+ 221      =1  
+ 222      =1  
+ 223      =1  /*  IE  */
+ 224      =1  sbit EA         = IE^7;
+ 225      =1  sbit EADC       = IE^6;
+ 226      =1  sbit EBOD       = IE^5;
+ 227      =1  sbit ES         = IE^4;
+ 228      =1  sbit ET1        = IE^3;
+ 229      =1  sbit EX1        = IE^2;
+ 230      =1  sbit ET0        = IE^1;
+ 231      =1  sbit EX0        = IE^0;
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 5   
+
+ 232      =1  
+ 233      =1  /*  P2  */ 
+ 234      =1  sbit P20        = P2^0;
+ 235      =1  
+ 236      =1  /*  SCON  */
+ 237      =1  sbit SM0        = SCON^7;
+ 238      =1  sbit FE         = SCON^7; 
+ 239      =1  sbit SM1        = SCON^6; 
+ 240      =1  sbit SM2        = SCON^5; 
+ 241      =1  sbit REN        = SCON^4; 
+ 242      =1  sbit TB8        = SCON^3; 
+ 243      =1  sbit RB8        = SCON^2; 
+ 244      =1  sbit TI         = SCON^1; 
+ 245      =1  sbit RI         = SCON^0; 
+ 246      =1  
+ 247      =1  /*  P1  */     
+ 248      =1  sbit P17  = P1^7;
+ 249      =1  sbit P16  = P1^6;
+ 250      =1  sbit TXD_1  = P1^6; 
+ 251      =1  sbit P15  = P1^5;
+ 252      =1  sbit P14  = P1^4;
+ 253      =1  sbit SDA  = P1^4;    
+ 254      =1  sbit P13  = P1^3;
+ 255      =1  sbit SCL  = P1^3;  
+ 256      =1  sbit P12        = P1^2; 
+ 257      =1  sbit P11        = P1^1;
+ 258      =1  sbit P10        = P1^0;
+ 259      =1  
+ 260      =1  /*  TCON  */
+ 261      =1  sbit TF1        = TCON^7;
+ 262      =1  sbit TR1        = TCON^6;
+ 263      =1  sbit TF0        = TCON^5;
+ 264      =1  sbit TR0        = TCON^4;
+ 265      =1  sbit IE1        = TCON^3;
+ 266      =1  sbit IT1        = TCON^2;
+ 267      =1  sbit IE0        = TCON^1;
+ 268      =1  sbit IT0        = TCON^0;
+ 269      =1  
+ 270      =1  /*  P0  */  
+ 271      =1  
+ 272      =1  sbit P07        = P0^7;
+ 273      =1  sbit RXD        = P0^7;
+ 274      =1  sbit P06        = P0^6;
+ 275      =1  sbit TXD        = P0^6;
+ 276      =1  sbit P05        = P0^5;
+ 277      =1  sbit P04        = P0^4;
+ 278      =1  sbit STADC        = P0^4;
+ 279      =1  sbit P03        = P0^3;
+ 280      =1  sbit P02        = P0^2;
+ 281      =1  sbit RXD_1        = P0^2;
+ 282      =1  sbit P01        = P0^1;
+ 283      =1  sbit MISO       = P0^1;
+ 284      =1  sbit P00        = P0^0;
+ 285      =1  sbit MOSI       = P0^0;
+ 286      =1  
+ 287      =1  
+ 288      =1  
+ 289      =1  
+ 290      =1  
+ 291      =1  
+ 292      =1  
+ 293      =1  
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 6   
+
+ 294      =1  
+ 295      =1  
+ 296      =1  
+ 297      =1  
+ 298      =1  
+ 299      =1  
+ 300      =1  
+ 301      =1  
+ 302      =1  
+ 303      =1  
+ 304      =1  
+ 305      =1  
+ 306      =1  
+ 307      =1  
+   9          #include "SFR_Macro.h"
+   1      =1  /* My define */
+   2      =1  typedef char                  int8_t;
+   3      =1  typedef unsigned char         uint8_t;
+   4      =1  typedef unsigned int          uint16_t;
+   5      =1  typedef int                   int16_t;
+   6      =1  typedef unsigned long         uint32_t;
+   7      =1  
+   8      =1  typedef unsigned char         UINT8;
+   9      =1  typedef unsigned int          UINT16;
+  10      =1  typedef unsigned long         UINT32;
+  11      =1  
+  12      =1  typedef unsigned char         u8;
+  13      =1  typedef unsigned int          u16;
+  14      =1  typedef unsigned long         u32;
+  15      =1  
+  16      =1  #define SET             1
+  17      =1  #define RESET           0
+  18      =1  #define ENABLE_AllInterrupt()   set_EA
+  19      =1  #define DISABLE_ALLInterrupt()  clr_EA
+  20      =1  
+  21      =1  #define SetBit(port, bit)       port |= (1 << bit)
+  22      =1  #define ResetBit(port, bit)     port &= ~(1 << bit)
+  23      =1  
+  24      =1  /**** P0    80H *****/
+  25      =1  #define set_P00     P00   =   1
+  26      =1  #define set_P01     P01   =   1
+  27      =1  #define set_P02     P02   =   1
+  28      =1  #define set_P03     P03   =   1
+  29      =1  #define set_P04     P04   =   1
+  30      =1  #define set_P05     P05   =   1
+  31      =1  #define set_P06     P06   =   1
+  32      =1  #define set_P07     P07   =   1
+  33      =1  
+  34      =1  #define clr_P00     P00   =   0
+  35      =1  #define clr_P01     P01   =   0
+  36      =1  #define clr_P02     P02   =   0
+  37      =1  #define clr_P03     P03   =   0
+  38      =1  #define clr_P04     P04   =   0
+  39      =1  #define clr_P05     P05   =   0
+  40      =1  #define clr_P06     P06   =   0
+  41      =1  #define clr_P07     P07   =   0
+  42      =1  
+  43      =1  //**** SP   81H **** 
+  44      =1  //**** DPH  82H **** 
+  45      =1  //**** DPL  83H **** 
+  46      =1  //**** RWK  86H **** 
+  47      =1  
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 7   
+
+  48      =1  //**** PCON 87H *****
+  49      =1  #define set_SMOD    PCON    |= SET_BIT7
+  50      =1  #define set_SMOD0   PCON    |= SET_BIT6
+  51      =1  #define set_POF     PCON    |= SET_BIT4
+  52      =1  #define set_GF1     PCON    |= SET_BIT3
+  53      =1  #define set_GF0     PCON    |= SET_BIT2 
+  54      =1  #define set_PD      PCON    |= SET_BIT1
+  55      =1  #define set_IDL     PCON    |= SET_BIT0
+  56      =1                              
+  57      =1  #define clr_SMOD    PCON    &= ~SET_BIT7
+  58      =1  #define clr_SMOD0   PCON    &= ~SET_BIT6
+  59      =1  #define clr_POF     PCON    &= ~SET_BIT4
+  60      =1  #define clr_GF1     PCON    &= ~SET_BIT3
+  61      =1  #define clr_GF0     PCON    &= ~SET_BIT2 
+  62      =1  #define clr_PD      PCON    &= ~SET_BIT1
+  63      =1  #define clr_IDL     PCON    &= ~SET_BIT0
+  64      =1  
+  65      =1  /**** TCON    88H ****/
+  66      =1  #define set_TF1     TF1   =   1
+  67      =1  #define set_TR1     TR1   =   1
+  68      =1  #define set_TF0     TF0   =   1
+  69      =1  #define set_TR0     TR0   =   1
+  70      =1  #define set_IE1     IE1   =   1
+  71      =1  #define set_IT1     IT1   =   1
+  72      =1  #define set_IE0     IE0   =   1
+  73      =1  #define set_IT0     IT0   =   1
+  74      =1  
+  75      =1  #define clr_TF1     TF1   =   0
+  76      =1  #define clr_TR1     TR1   =   0
+  77      =1  #define clr_TF0     TF0   =   0
+  78      =1  #define clr_TR0     TR0   =   0
+  79      =1  #define clr_IE1     IE1   =   0
+  80      =1  #define clr_IT1     IT1   =   0
+  81      =1  #define clr_IE0     IE0   =   0
+  82      =1  #define clr_IT0     IT0   =   0
+  83      =1  
+  84      =1  //**** TMOD   89H **** 
+  85      =1  #define set_GATE_T1   TMOD    |=  SET_BIT7
+  86      =1  #define set_CT_T1     TMOD    |=  SET_BIT6
+  87      =1  #define set_M1_T1     TMOD    |=  SET_BIT5
+  88      =1  #define set_M0_T1     TMOD    |=  SET_BIT4
+  89      =1  #define set_GATE_T0   TMOD    |=  SET_BIT3
+  90      =1  #define set_CT_T0     TMOD    |=  SET_BIT2
+  91      =1  #define set_M1_T0     TMOD    |=  SET_BIT1
+  92      =1  #define set_M0_T0     TMOD    |=  SET_BIT0
+  93      =1                              
+  94      =1  #define clr_GATE_T1   TMOD    &=  ~SET_BIT7
+  95      =1  #define clr_CT_T1     TMOD    &=  ~SET_BIT6
+  96      =1  #define clr_M1_T1     TMOD    &=  ~SET_BIT5
+  97      =1  #define clr_M0_T1     TMOD    &=  ~SET_BIT4
+  98      =1  #define clr_GATE_T0   TMOD    &=  ~SET_BIT3
+  99      =1  #define clr_CT_T0     TMOD    &=  ~SET_BIT2
+ 100      =1  #define clr_M1_T0     TMOD    &=  ~SET_BIT1
+ 101      =1  #define clr_M0_T0     TMOD    &=  ~SET_BIT0
+ 102      =1  
+ 103      =1  //**** TH1    8AH **** 
+ 104      =1  //**** TH0    8BH **** 
+ 105      =1  //**** TL1    8CH **** 
+ 106      =1  //**** TL0    8DH **** 
+ 107      =1  
+ 108      =1  //**** CKCON  8EH ****
+ 109      =1  #define set_PWMCKS  CKCON   |= SET_BIT6
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 8   
+
+ 110      =1  #define set_T1M     CKCON   |= SET_BIT4
+ 111      =1  #define set_T0M     CKCON   |= SET_BIT3
+ 112      =1  #define set_CLOEN   CKCON   |= SET_BIT1
+ 113      =1                              
+ 114      =1  #define clr_PWMCKS  CKCON   &= ~SET_BIT6
+ 115      =1  #define clr_T1M     CKCON   &= ~SET_BIT4
+ 116      =1  #define clr_T0M     CKCON   &= ~SET_BIT3
+ 117      =1  #define clr_CLOEN   CKCON   &= ~SET_BIT1
+ 118      =1  
+ 119      =1  //**** WKCON  8FH ****
+ 120      =1  #define set_WKTCK   WKCON   |= SET_BIT5
+ 121      =1  #define set_WKTF    WKCON   |= SET_BIT4
+ 122      =1  #define set_WKTR    WKCON   |= SET_BIT3
+ 123      =1  #define set_WKPS2   WKCON   |= SET_BIT2
+ 124      =1  #define set_WKPS1   WKCON   |= SET_BIT1
+ 125      =1  #define set_WKPS0   WKCON   |= SET_BIT0
+ 126      =1                              
+ 127      =1  #define clr_WKTCK   WKCON   &= ~SET_BIT5
+ 128      =1  #define clr_WKTF    WKCON   &= ~SET_BIT4
+ 129      =1  #define clr_WKTR    WKCON   &= ~SET_BIT3
+ 130      =1  #define clr_WKPS2   WKCON   &= ~SET_BIT2
+ 131      =1  #define clr_WKPS1   WKCON   &= ~SET_BIT1
+ 132      =1  #define clr_WKPS0   WKCON   &= ~SET_BIT0
+ 133      =1  
+ 134      =1  /**** P1    90H *****/
+ 135      =1  #define set_P10     P10   =   1
+ 136      =1  #define set_P11     P11   =   1
+ 137      =1  #define set_P12     P12   =   1
+ 138      =1  #define set_P13     P13   =   1
+ 139      =1  #define set_P14     P14   =   1
+ 140      =1  #define set_P15     P15   =   1
+ 141      =1  #define set_P16     P16   =   1
+ 142      =1  #define set_P17     P17   =   1
+ 143      =1  
+ 144      =1  #define clr_P10     P10   =   0
+ 145      =1  #define clr_P11     P11   =   0
+ 146      =1  #define clr_P12     P12   =   0
+ 147      =1  #define clr_P13     P13   =   0
+ 148      =1  #define clr_P14     P14   =   0
+ 149      =1  #define clr_P15     P15   =   0
+ 150      =1  #define clr_P16     P16   =   0
+ 151      =1  #define clr_P17     P17   =   0
+ 152      =1  
+ 153      =1  //****SFRS    91H ****
+ 154      =1  #define set_SFRPAGE  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=SET_BIT0;EA=BIT_TMP
+ 155      =1  #define clr_SFRPAGE  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS&=~SET_BIT0;EA=BIT_TMP
+ 156      =1  
+ 157      =1  //****CAPCON0 92H ****
+ 158      =1  #define set_CAPEN2  CAPCON0 |= SET_BIT6
+ 159      =1  #define set_CAPEN1  CAPCON0 |= SET_BIT5
+ 160      =1  #define set_CAPEN0  CAPCON0 |= SET_BIT4
+ 161      =1  #define set_CAPF2   CAPCON0 |= SET_BIT2
+ 162      =1  #define set_CAPF1   CAPCON0 |= SET_BIT1
+ 163      =1  #define set_CAPF0   CAPCON0 |= SET_BIT0
+ 164      =1  
+ 165      =1  #define clr_CAPEN2  CAPCON0 &= ~SET_BIT6
+ 166      =1  #define clr_CAPEN1  CAPCON0 &= ~SET_BIT5
+ 167      =1  #define clr_CAPEN0  CAPCON0 &= ~SET_BIT4
+ 168      =1  #define clr_CAPF2   CAPCON0 &= ~SET_BIT2
+ 169      =1  #define clr_CAPF1   CAPCON0 &= ~SET_BIT1
+ 170      =1  #define clr_CAPF0   CAPCON0 &= ~SET_BIT0
+ 171      =1  
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 9   
+
+ 172      =1  //**** CAPCON1  93H ****
+ 173      =1  #define set_CAP2LS1 CAPCON1 |= SET_BIT5
+ 174      =1  #define set_CAP2LS0 CAPCON1 |= SET_BIT4
+ 175      =1  #define set_CAP1LS1 CAPCON1 |= SET_BIT3
+ 176      =1  #define set_CAP1LS0 CAPCON1 |= SET_BIT2
+ 177      =1  #define set_CAP0LS1 CAPCON1 |= SET_BIT1
+ 178      =1  #define set_CAP0LS0 CAPCON1 |= SET_BIT0
+ 179      =1  
+ 180      =1  #define clr_CAP2LS1 CAPCON1 &= ~SET_BIT5
+ 181      =1  #define clr_CAP2LS0 CAPCON1 &= ~SET_BIT4
+ 182      =1  #define clr_CAP1LS1 CAPCON1 &= ~SET_BIT3
+ 183      =1  #define clr_CAP1LS0 CAPCON1 &= ~SET_BIT2
+ 184      =1  #define clr_CAP0LS1 CAPCON1 &= ~SET_BIT1
+ 185      =1  #define clr_CAP0LS0 CAPCON1 &= ~SET_BIT0
+ 186      =1  
+ 187      =1  //**** CAPCON2    94H ****
+ 188      =1  #define set_ENF2  CAPCON2   |= SET_BIT6
+ 189      =1  #define set_ENF1  CAPCON2   |= SET_BIT5
+ 190      =1  #define set_ENF0  CAPCON2   |= SET_BIT4
+ 191      =1                              
+ 192      =1  #define clr_ENF2  CAPCON2   &= ~SET_BIT6
+ 193      =1  #define clr_ENF1  CAPCON2   &= ~SET_BIT5
+ 194      =1  #define clr_ENF0  CAPCON2   &= ~SET_BIT4
+ 195      =1  
+ 196      =1  //**** CKDIV    95H ****
+ 197      =1  
+ 198      =1  //**** CKSWT    96H ****  TA protect register
+ 199      =1  #define set_HIRCST  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT|=SET_BIT5;EA=BIT_TMP;
+ 200      =1  #define set_LIRCST  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT|=SET_BIT4;EA=BIT_TMP;
+ 201      =1  #define set_ECLKST  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT|=SET_BIT3;EA=BIT_TMP;
+ 202      =1  #define set_OSC1    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT|=SET_BIT2;EA=BIT_TMP;
+ 203      =1  #define set_OSC0    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT|=SET_BIT1;EA=BIT_TMP;
+ 204      =1  
+ 205      =1  #define clr_HIRCST  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT&=~SET_BIT5;EA=BIT_TMP;
+ 206      =1  #define clr_LIRCST  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT&=~SET_BIT4;EA=BIT_TMP;
+ 207      =1  #define clr_ECLKST  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT&=~SET_BIT3;EA=BIT_TMP;
+ 208      =1  #define clr_OSC1    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT&=~SET_BIT2;EA=BIT_TMP;
+ 209      =1  #define clr_OSC0    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKSWT&=~SET_BIT1;EA=BIT_TMP;
+ 210      =1  
+ 211      =1  //**** CKEN   97H **** TA protect register
+ 212      =1  #define set_EXTEN1  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN|=SET_BIT7;EA=BIT_TMP;
+ 213      =1  #define set_EXTEN0  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN|=SET_BIT6;EA=BIT_TMP;
+ 214      =1  #define set_HIRCEN  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN|=SET_BIT5;EA=BIT_TMP;
+ 215      =1  #define set_CKSWTF  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN|=SET_BIT0;EA=BIT_TMP;
+ 216      =1         
+ 217      =1  #define clr_EXTEN1  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN&=~SET_BIT7;EA=BIT_TMP;
+ 218      =1  #define clr_EXTEN0  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN&=~SET_BIT6;EA=BIT_TMP;
+ 219      =1  #define clr_HIRCEN  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN&=~SET_BIT5;EA=BIT_TMP;
+ 220      =1  #define clr_CKSWTF  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CKEN&=~SET_BIT0;EA=BIT_TMP;
+ 221      =1  
+ 222      =1  //**** SCON   98H ****
+ 223      =1  #define set_FE      FE    = 1
+ 224      =1  #define set_SM1     SM1   = 1
+ 225      =1  #define set_SM2     SM2   = 1
+ 226      =1  #define set_REN     REN   = 1
+ 227      =1  #define set_TB8     TB8   = 1
+ 228      =1  #define set_RB8     RB8   = 1
+ 229      =1  #define set_TI      TI    = 1
+ 230      =1  #define set_RI      RI    = 1
+ 231      =1  
+ 232      =1  #define clr_FE      FE    = 0
+ 233      =1  #define clr_SM1     SM1   = 0
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 10  
+
+ 234      =1  #define clr_SM2     SM2   = 0
+ 235      =1  #define clr_REN     REN   = 0
+ 236      =1  #define clr_TB8     TB8   = 0
+ 237      =1  #define clr_RB8     RB8   = 0
+ 238      =1  #define clr_TI      TI    = 0
+ 239      =1  #define clr_RI      RI    = 0
+ 240      =1  
+ 241      =1  //**** SBUF   99H ****
+ 242      =1  //**** SBUF_1 9AH ****
+ 243      =1  
+ 244      =1  //**** EIE    9BH ****                      
+ 245      =1  #define set_ET2     EIE     |= SET_BIT7
+ 246      =1  #define set_ESPI    EIE     |= SET_BIT6
+ 247      =1  #define set_EFB     EIE     |= SET_BIT5
+ 248      =1  #define set_EWDT    EIE     |= SET_BIT4
+ 249      =1  #define set_EPWM    EIE     |= SET_BIT3
+ 250      =1  #define set_ECAP    EIE     |= SET_BIT2
+ 251      =1  #define set_EPI     EIE     |= SET_BIT1
+ 252      =1  #define set_EI2C    EIE     |= SET_BIT0
+ 253      =1                              
+ 254      =1  #define clr_ET2     EIE     &= ~SET_BIT7
+ 255      =1  #define clr_ESPI    EIE     &= ~SET_BIT6
+ 256      =1  #define clr_EFB     EIE     &= ~SET_BIT5
+ 257      =1  #define clr_EWDT    EIE     &= ~SET_BIT4
+ 258      =1  #define clr_EPWM    EIE     &= ~SET_BIT3
+ 259      =1  #define clr_ECAP    EIE     &= ~SET_BIT2
+ 260      =1  #define clr_EPI     EIE     &= ~SET_BIT1
+ 261      =1  #define clr_EI2C    EIE     &= ~SET_BIT0
+ 262      =1  
+ 263      =1  //**** EIE1   9CH ****                      
+ 264      =1  #define set_EWKT    EIE1    |= SET_BIT2
+ 265      =1  #define set_ET3     EIE1    |= SET_BIT1
+ 266      =1  #define set_ES_1    EIE1    |= SET_BIT0
+ 267      =1                              
+ 268      =1  #define clr_EWKT    EIE1    &= ~SET_BIT2
+ 269      =1  #define clr_ET3     EIE1    &= ~SET_BIT1
+ 270      =1  #define clr_ES_1    EIE1    &= ~SET_BIT0
+ 271      =1                              
+ 272      =1  //**** CHPCON   9DH ****  TA protect register
+ 273      =1  #define set_SWRST   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON|=SET_BIT7 ;EA=BIT_TMP
+ 274      =1  #define set_IAPFF   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON|=SET_BIT6 ;EA=BIT_TMP
+ 275      =1  #define set_BS      BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON|=SET_BIT1 ;EA=BIT_TMP
+ 276      =1  #define set_IAPEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON|=SET_BIT0 ;EA=BIT_TMP
+ 277      =1         
+ 278      =1  #define clr_SWRST   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON&=~SET_BIT7;EA=BIT_TMP
+ 279      =1  #define clr_IAPFF   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON&=~SET_BIT6;EA=BIT_TMP
+ 280      =1  #define clr_BS      BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON&=~SET_BIT1;EA=BIT_TMP
+ 281      =1  #define clr_IAPEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;CHPCON&=~SET_BIT0;EA=BIT_TMP
+ 282      =1  
+ 283      =1  //**** P2   A0H ****
+ 284      =1  
+ 285      =1  //**** AUXR1  A2H ****
+ 286      =1  #define set_SWRF    AUXR1   |= SET_BIT7
+ 287      =1  #define set_RSTPINF AUXR1   |= SET_BIT6
+ 288      =1  #define set_HARDF   AUXR1   |= SET_BIT5
+ 289      =1  #define set_GF2     AUXR1   |= SET_BIT3
+ 290      =1  #define set_UART0PX AUXR1   |= SET_BIT2
+ 291      =1  #define set_DPS     AUXR1   |= SET_BIT0
+ 292      =1                              
+ 293      =1  #define clr_SWRF    AUXR1   &= ~SET_BIT7
+ 294      =1  #define clr_RSTPINF AUXR1   &= ~SET_BIT6
+ 295      =1  #define clr_HARDF   AUXR1   &= ~SET_BIT5
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 11  
+
+ 296      =1  #define clr_GF2     AUXR1   &= ~SET_BIT3
+ 297      =1  #define clr_UART0PX AUXR1   &= ~SET_BIT2
+ 298      =1  #define clr_DPS     AUXR1   &= ~SET_BIT0
+ 299      =1  
+ 300      =1  //**** BODCON0  A3H ****  TA protect register
+ 301      =1  #define set_BODEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT7;EA=BIT_TMP
+ 302      =1  #define set_BOV1    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT5;EA=BIT_TMP
+ 303      =1  #define set_BOV0    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT4;EA=BIT_TMP
+ 304      =1  #define set_BOF     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT3;EA=BIT_TMP
+ 305      =1  #define set_BORST   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT2;EA=BIT_TMP
+ 306      =1  #define set_BORF    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT1;EA=BIT_TMP
+ 307      =1  #define set_BOS     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0|=SET_BIT0;EA=BIT_TMP
+ 308      =1  
+ 309      =1  #define clr_BODEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT7;EA=BIT_TMP
+ 310      =1  #define clr_BOV2    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT6;EA=BIT_TMP
+ 311      =1  #define clr_BOV1    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT5;EA=BIT_TMP
+ 312      =1  #define clr_BOV0    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT4;EA=BIT_TMP
+ 313      =1  #define clr_BOF     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT3;EA=BIT_TMP
+ 314      =1  #define clr_BORST   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT2;EA=BIT_TMP
+ 315      =1  #define clr_BORF    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT1;EA=BIT_TMP
+ 316      =1  #define clr_BOS     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON0&=~SET_BIT0;EA=BIT_TMP
+ 317      =1  
+ 318      =1  //**** IAPTRG   A4H ****  TA protect register
+ 319      =1  #define set_IAPGO   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPTRG|=SET_BIT0 ;EA=BIT_TMP
+ 320      =1  #define clr_IAPGO   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPTRG&=~SET_BIT0;EA=BIT_TMP
+ 321      =1  
+ 322      =1  //**** IAPUEN   A5H **** TA protect register
+ 323      =1  #define set_CFUEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPUEN|=SET_BIT2;EA=BIT_TMP
+ 324      =1  #define set_LDUEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPUEN|=SET_BIT1;EA=BIT_TMP
+ 325      =1  #define set_APUEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPUEN|=SET_BIT0;EA=BIT_TMP
+ 326      =1  
+ 327      =1  #define clr_CFUEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPUEN&=~SET_BIT2;EA=BIT_TMP
+ 328      =1  #define clr_LDUEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPUEN&=~SET_BIT1;EA=BIT_TMP
+ 329      =1  #define clr_APUEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;IAPUEN&=~SET_BIT0;EA=BIT_TMP
+ 330      =1  
+ 331      =1  //**** IAPAL  A6H ****
+ 332      =1  //**** IAPAH  A7H ****
+ 333      =1  
+ 334      =1  //**** IE     A8H ****
+ 335      =1  #define set_EA      EA       = 1
+ 336      =1  #define set_EADC    EADC     = 1
+ 337      =1  #define set_EBOD    EBOD     = 1
+ 338      =1  #define set_ES      ES       = 1
+ 339      =1  #define set_ET1     ET1      = 1
+ 340      =1  #define set_EX1     EX1      = 1
+ 341      =1  #define set_ET0     ET0      = 1
+ 342      =1  #define set_EX0     EX0      = 1
+ 343      =1  
+ 344      =1  #define clr_EA      EA       = 0
+ 345      =1  #define clr_EADC    EADC     = 0
+ 346      =1  #define clr_EBOD    EBOD     = 0
+ 347      =1  #define clr_ES      ES       = 0
+ 348      =1  #define clr_ET1     ET1      = 0
+ 349      =1  #define clr_EX1     EX1      = 0
+ 350      =1  #define clr_ET0     ET0      = 0
+ 351      =1  #define clr_EX0     EX0      = 0
+ 352      =1  
+ 353      =1  //**** SADDR    A9H ****
+ 354      =1  
+ 355      =1  //**** WDCON    AAH **** TA protect register
+ 356      =1  #define set_WDTR    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT7;EA=BIT_TMP;
+ 357      =1  #define set_WDCLR   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT6;EA=BIT_TMP;
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 12  
+
+ 358      =1  #define set_WDTF    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT5;EA=BIT_TMP;
+ 359      =1  #define set_WIDPD   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT4;EA=BIT_TMP;
+ 360      =1  #define set_WDTRF   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT3;EA=BIT_TMP;
+ 361      =1  #define set_WPS2    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT2;EA=BIT_TMP;
+ 362      =1  #define set_WPS1    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT1;EA=BIT_TMP;
+ 363      =1  #define set_WPS0    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON|=SET_BIT0;EA=BIT_TMP;
+ 364      =1          
+ 365      =1  #define clr_WDTEN   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT7;EA=BIT_TMP;
+ 366      =1  #define clr_WDCLR   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT6;EA=BIT_TMP;
+ 367      =1  #define clr_WDTF    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT5;EA=BIT_TMP;
+ 368      =1  #define clr_WDTRF   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT3;EA=BIT_TMP;
+ 369      =1  #define clr_WPS2    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT2;EA=BIT_TMP;
+ 370      =1  #define clr_WPS1    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT1;EA=BIT_TMP;
+ 371      =1  #define clr_WPS0    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;WDCON&=~SET_BIT0;EA=BIT_TMP;
+ 372      =1  
+ 373      =1  //**** BODCON1 ABH **** TA protect register
+ 374      =1  #define set_LPBOD1  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON1|=SET_BIT2 ;EA=BIT_TMP;
+ 375      =1  #define set_LPBOD0  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON1|=SET_BIT1 ;EA=BIT_TMP;
+ 376      =1  #define set_BODFLT  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON1|=SET_BIT0 ;EA=BIT_TMP;
+ 377      =1          
+ 378      =1  #define clr_LPBOD1  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON1&=~SET_BIT2;EA=BIT_TMP;
+ 379      =1  #define clr_LPBOD0  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON1&=~SET_BIT1;EA=BIT_TMP;
+ 380      =1  #define clr_BODFLT  BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;BODCON1&=~SET_BIT0;EA=BIT_TMP;
+ 381      =1  
+ 382      =1  
+ 383      =1  //**** P3M1   ACH PAGE0 ****
+ 384      =1  #define set_P3M1_0  P3M1    |= SET_BIT0
+ 385      =1  #define clr_P3M1_0  P3M1    &= ~SET_BIT0
+ 386      =1  
+ 387      =1  //**** P3S    ACH PAGE1 **** SFRS must set as 1 to modify this register  
+ 388      =1  #define set_P3S_0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P3S|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 389      =1  #define clr_P3S_0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P3S&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 390      =1  
+ 391      =1  //**** P3M2   ADH PAGE0 ****
+ 392      =1  #define set_P3M2_0  P3M2    |= SET_BIT0
+ 393      =1  #define clr_P3M2_0  P3M2    &= ~SET_BIT0
+ 394      =1  
+ 395      =1  //**** P3SR   ADH PAGE1 **** SFRS must set as 1 to modify this register  
+ 396      =1  #define set_P3SR_0  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P3SR|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 397      =1  #define clr_P3SR_0  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P3SR&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 398      =1  
+ 399      =1  //**** IAPFD  AEH ****
+ 400      =1  
+ 401      =1  //**** IAPCN  AFH ****
+ 402      =1  #define set_FOEN    IAPN    |= SET_BIT5
+ 403      =1  #define set_FCEN    IAPN    |= SET_BIT4
+ 404      =1  #define set_FCTRL3  IAPN    |= SET_BIT3
+ 405      =1  #define set_FCTRL2  IAPN    |= SET_BIT2
+ 406      =1  #define set_FCTRL1  IAPN    |= SET_BIT1
+ 407      =1  #define set_FCTRL0  IAPN    |= SET_BIT0
+ 408      =1                              
+ 409      =1  #define clr_FOEN    IAPN    &= ~SET_BIT5
+ 410      =1  #define clr_FCEN    IAPN    &= ~SET_BIT4
+ 411      =1  #define clr_FCTRL3  IAPN    &= ~SET_BIT3
+ 412      =1  #define clr_FCTRL2  IAPN    &= ~SET_BIT2
+ 413      =1  #define clr_FCTRL1  IAPN    &= ~SET_BIT1
+ 414      =1  #define clr_FCTRL0  IAPN    &= ~SET_BIT0
+ 415      =1  
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 13  
+
+ 416      =1  //**** P3   B0H ****
+ 417      =1  #define set_P30     P30      = 1
+ 418      =1  #define clr_P30     P30      = 0
+ 419      =1  
+ 420      =1  //**** P0M1 B1H PAGE0 ****
+ 421      =1  #define set_P0M1_7  P0M1    |= SET_BIT7
+ 422      =1  #define set_P0M1_6  P0M1    |= SET_BIT6
+ 423      =1  #define set_P0M1_5  P0M1    |= SET_BIT5 
+ 424      =1  #define set_P0M1_4  P0M1    |= SET_BIT4
+ 425      =1  #define set_P0M1_3  P0M1    |= SET_BIT3
+ 426      =1  #define set_P0M1_2  P0M1    |= SET_BIT2
+ 427      =1  #define set_P0M1_1  P0M1    |= SET_BIT1
+ 428      =1  #define set_P0M1_0  P0M1    |= SET_BIT0
+ 429      =1  
+ 430      =1  #define clr_P0M1_7  P0M1    &= ~SET_BIT7
+ 431      =1  #define clr_P0M1_6  P0M1    &= ~SET_BIT6
+ 432      =1  #define clr_P0M1_5  P0M1    &= ~SET_BIT5
+ 433      =1  #define clr_P0M1_4  P0M1    &= ~SET_BIT4
+ 434      =1  #define clr_P0M1_3  P0M1    &= ~SET_BIT3
+ 435      =1  #define clr_P0M1_2  P0M1    &= ~SET_BIT2
+ 436      =1  #define clr_P0M1_1  P0M1    &= ~SET_BIT1
+ 437      =1  #define clr_P0M1_0  P0M1    &= ~SET_BIT0
+ 438      =1  
+ 439      =1  //**** P0S  B2H PAGE1 **** SFRS must set as 1 to modify this register  
+ 440      =1  #define set_P0S_7   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 441      =1  #define set_P0S_6   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 442      =1  #define set_P0S_5   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 443      =1  #define set_P0S_4   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 444      =1  #define set_P0S_3   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 445      =1  #define set_P0S_2   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 446      =1  #define set_P0S_1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 447      =1  #define set_P0S_0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 448      =1  
+ 449      =1  #define clr_P0S_7   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 450      =1  #define clr_P0S_6   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 451      =1  #define clr_P0S_5   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 452      =1  #define clr_P0S_4   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 453      =1  #define clr_P0S_3   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 454      =1  #define clr_P0S_2   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 455      =1  #define clr_P0S_1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 456      =1  #define clr_P0S_0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0S&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 457      =1  
+ 458      =1  //**** P0M2   B2H PAGE0 ****
+ 459      =1  #define set_P0M2_7  P0M2    |= SET_BIT7
+ 460      =1  #define set_P0M2_6  P0M2    |= SET_BIT6
+ 461      =1  #define set_P0M2_5  P0M2    |= SET_BIT5 
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 14  
+
+ 462      =1  #define set_P0M2_4  P0M2    |= SET_BIT4
+ 463      =1  #define set_P0M2_3  P0M2    |= SET_BIT3
+ 464      =1  #define set_P0M2_2  P0M2    |= SET_BIT2
+ 465      =1  #define set_P0M2_1  P0M2    |= SET_BIT1
+ 466      =1  #define set_P0M2_0  P0M2    |= SET_BIT0
+ 467      =1  
+ 468      =1  #define clr_P0M2_7  P0M2    &= ~SET_BIT7
+ 469      =1  #define clr_P0M2_6  P0M2    &= ~SET_BIT6
+ 470      =1  #define clr_P0M2_5  P0M2    &= ~SET_BIT5
+ 471      =1  #define clr_P0M2_4  P0M2    &= ~SET_BIT4
+ 472      =1  #define clr_P0M2_3  P0M2    &= ~SET_BIT3
+ 473      =1  #define clr_P0M2_2  P0M2    &= ~SET_BIT2
+ 474      =1  #define clr_P0M2_1  P0M2    &= ~SET_BIT1
+ 475      =1  #define clr_P0M2_0  P0M2    &= ~SET_BIT0
+ 476      =1  
+ 477      =1  
+ 478      =1  //**** P0SR   B0H PAGE1 **** SFRS must set as 1 to modify this register  
+ 479      =1  #define set_P0SR_7  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 480      =1  #define set_P0SR_6  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 481      =1  #define set_P0SR_5  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 482      =1  #define set_P0SR_4  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 483      =1  #define set_P0SR_3  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 484      =1  #define set_P0SR_2  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 485      =1  #define set_P0SR_1  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 486      =1  #define set_P0SR_0  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 487      =1  
+ 488      =1  #define clr_P0SR_7  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 489      =1  #define clr_P0SR_6  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 490      =1  #define clr_P0SR_5  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 491      =1  #define clr_P0SR_4  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 492      =1  #define clr_P0SR_3  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 493      =1  #define clr_P0SR_2  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 494      =1  #define clr_P0SR_1  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 495      =1  #define clr_P0SR_0  BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P0SR&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 496      =1  
+ 497      =1  
+ 498      =1  //**** P1M1 B3H PAGE0 ****
+ 499      =1  #define set_P1M1_7  P1M1  |= SET_BIT7
+ 500      =1  #define set_P1M1_6  P1M1  |= SET_BIT6
+ 501      =1  #define set_P1M1_5  P1M1  |= SET_BIT5 
+ 502      =1  #define set_P1M1_4  P1M1  |= SET_BIT4
+ 503      =1  #define set_P1M1_3  P1M1  |= SET_BIT3
+ 504      =1  #define set_P1M1_2  P1M1  |= SET_BIT2
+ 505      =1  #define set_P1M1_1  P1M1  |= SET_BIT1
+ 506      =1  #define set_P1M1_0  P1M1  |= SET_BIT0
+ 507      =1  
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 15  
+
+ 508      =1  #define clr_P1M1_7  P1M1  &= ~SET_BIT7
+ 509      =1  #define clr_P1M1_6  P1M1  &= ~SET_BIT6
+ 510      =1  #define clr_P1M1_5  P1M1  &= ~SET_BIT5
+ 511      =1  #define clr_P1M1_4  P1M1  &= ~SET_BIT4
+ 512      =1  #define clr_P1M1_3  P1M1  &= ~SET_BIT3
+ 513      =1  #define clr_P1M1_2  P1M1  &= ~SET_BIT2
+ 514      =1  #define clr_P1M1_1  P1M1  &= ~SET_BIT1
+ 515      =1  #define clr_P1M1_0  P1M1  &= ~SET_BIT0
+ 516      =1  
+ 517      =1  //**** P1S B3H PAGE1 **** SFRS must set as 1 to modify this register  
+ 518      =1  #define set_P1S_7   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TMP
+ 519      =1  #define set_P1S_6   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TMP
+ 520      =1  #define set_P1S_5   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TMP
+ 521      =1  #define set_P1S_4   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TMP
+ 522      =1  #define set_P1S_3   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TMP
+ 523      =1  #define set_P1S_2   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 524      =1  #define set_P1S_1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 525      =1  #define set_P1S_0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 526      =1  
+ 527      =1  #define clr_P1S_7   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 528      =1  #define clr_P1S_6   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 529      =1  #define clr_P1S_5   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 530      =1  #define clr_P1S_4   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 531      =1  #define clr_P1S_3   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_TM
+             -P
+ 532      =1  #define clr_P1S_2   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 533      =1  #define clr_P1S_1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 534      =1  #define clr_P1S_0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1S&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 535      =1  
+ 536      =1  //**** P1M2   B4H PAGE0 ****                      
+ 537      =1  #define set_P12UP   P1M2    |= SET_BIT2
+ 538      =1  #define set_P1M2_1  P1M2    |= SET_BIT1
+ 539      =1  #define set_P1M2_0  P1M2    |= SET_BIT0
+ 540      =1                              
+ 541      =1  #define clr_P12UP   P1M2    &= ~SET_BIT2
+ 542      =1  #define clr_P1M2_1  P1M2    &= ~SET_BIT1
+ 543      =1  #define clr_P1M2_0  P1M2    &= ~SET_BIT0
+ 544      =1  
+ 545      =1  //**** P1SR   B4H PAGE1 **** SFRS must set as 1 to modify this register  
+ 546      =1  #define set_P1SR_7    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 547      =1  #define set_P1SR_6    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 548      =1  #define set_P1SR_5    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 549      =1  #define set_P1SR_4    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 550      =1  #define set_P1SR_3    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 551      =1  #define set_P1SR_2    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 552      =1  #define set_P1SR_1    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 16  
+
+             -MP
+ 553      =1  #define set_P1SR_0    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+ 554      =1  
+ 555      =1  #define clr_P1SR_7    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT7;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 556      =1  #define clr_P1SR_6    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT6;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 557      =1  #define clr_P1SR_5    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 558      =1  #define clr_P1SR_4    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 559      =1  #define clr_P1SR_3    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 560      =1  #define clr_P1SR_2    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 561      =1  #define clr_P1SR_1    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 562      =1  #define clr_P1SR_0    BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;P1SR&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+ 563      =1  
+ 564      =1  
+ 565      =1  //**** P2S    B5H ****
+ 566      =1  #define set_P2S_0   P2S     |= SET_BIT0
+ 567      =1  #define clr_P2S_0   P2S     &= ~SET_BIT0
+ 568      =1  
+ 569      =1  //**** IPH    B7H PAGE0 ****                    
+ 570      =1  #define set_PADCH   IPH   |= SET_BIT6
+ 571      =1  #define set_PBODH   IPH   |= SET_BIT5
+ 572      =1  #define set_PSH     IPH   |= SET_BIT4
+ 573      =1  #define set_PT1H    IPH   |= SET_BIT3
+ 574      =1  #define set_PX11    IPH   |= SET_BIT2
+ 575      =1  #define set_PT0H    IPH   |= SET_BIT1
+ 576      =1  #define set_PX0H    IPH   |= SET_BIT0
+ 577      =1                              
+ 578      =1  #define clr_PADCH   IPH   &= ~SET_BIT6
+ 579      =1  #define clr_PBODH   IPH   &= ~SET_BIT5
+ 580      =1  #define clr_PSH     IPH   &= ~SET_BIT4
+ 581      =1  #define clr_PT1H    IPH   &= ~SET_BIT3
+ 582      =1  #define clr_PX11    IPH   &= ~SET_BIT2
+ 583      =1  #define clr_PT0H    IPH   &= ~SET_BIT1
+ 584      =1  #define clr_PX0H    IPH   &= ~SET_BIT0
+ 585      =1  
+ 586      =1  //**** PWMINTC B7H PAGE1 **** SFRS must set as 1 to modify this register  
+ 587      =1  #define set_INTTYP1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=B
+             -IT_TMP
+ 588      =1  #define set_INTTYP0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA=B
+             -IT_TMP
+ 589      =1  #define set_INTSEL2   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=B
+             -IT_TMP
+ 590      =1  #define set_INTSEL1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=B
+             -IT_TMP
+ 591      =1  #define set_INTSEL0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=B
+             -IT_TMP
+ 592      =1  
+ 593      =1  #define clr_INTTYP1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=~SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA
+             -=BIT_TMP
+ 594      =1  #define clr_INTTYP0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=~SET_BIT4;TA=0xAA;TA=0x55;SFRS=0x00;EA
+             -=BIT_TMP
+ 595      =1  #define clr_INTSEL2   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=~SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=
+             -BIT_TMP
+ 596      =1  #define clr_INTSEL1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 17  
+
+             -BIT_TMP
+ 597      =1  #define clr_INTSEL0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=
+             -BIT_TMP
+ 598      =1  
+ 599      =1  //**** IP   B8H ****
+ 600      =1  #define set_PADC    PADC     = 1
+ 601      =1  #define set_PBOD    PBOD     = 1
+ 602      =1  #define set_PS      PS       = 1
+ 603      =1  #define set_PT1     PT1      = 1
+ 604      =1  #define set_PX1     PX1      = 1
+ 605      =1  #define set_PT0     PT0      = 1
+ 606      =1  #define set_PX0     PX0      = 1
+ 607      =1  
+ 608      =1  #define clr_PADC    PADC     = 0
+ 609      =1  #define clr_PBOD    PBOD     = 0
+ 610      =1  #define clr_PS      PS       = 0
+ 611      =1  #define clr_PT1     PT1      = 0
+ 612      =1  #define clr_PX1     PX1      = 0
+ 613      =1  #define clr_PT0     PT0      = 0
+ 614      =1  #define clr_PX0     PX0      = 0
+ 615      =1  
+ 616      =1  //**** SADEN    B9H ****
+ 617      =1  //**** SADEN_1  8AH ****
+ 618      =1  //**** SADDR_1  BBH ****
+ 619      =1  //**** I2DAT    BCH ****
+ 620      =1  //**** I2STAT   BDH ****
+ 621      =1  //**** I2CLK    BEH ****
+ 622      =1  
+ 623      =1  //**** I2TOC    BFH ****
+ 624      =1  #define set_I2TOCEN   I2TOC   |= SET_BIT2
+ 625      =1  #define set_DIV       I2TOC   |= SET_BIT1
+ 626      =1  #define set_I2TOF     I2TOC   |= SET_BIT0
+ 627      =1  
+ 628      =1  #define clr_I2TOCEN   I2TOC   &= ~SET_BIT2
+ 629      =1  #define clr_DIV       I2TOC   &= ~SET_BIT1
+ 630      =1  #define clr_I2TOF     I2TOC   &= ~SET_BIT0
+ 631      =1  
+ 632      =1  //**** I2CON  C0H **** 
+ 633      =1  #define set_I2CEN     I2CEN   = 1
+ 634      =1  #define set_STA       STA     = 1
+ 635      =1  #define set_STO       STO     = 1
+ 636      =1  #define set_SI        SI      = 1
+ 637      =1  #define set_AA        AA      = 1
+ 638      =1  #define set_I2CPX     I2CPX   = 1
+ 639      =1  
+ 640      =1  #define clr_I2CEN     I2CEN   = 0
+ 641      =1  #define clr_STA       STA     = 0
+ 642      =1  #define clr_STO       STO     = 0
+ 643      =1  #define clr_SI        SI      = 0
+ 644      =1  #define clr_AA        AA      = 0
+ 645      =1  #define clr_I2CPX     I2CPX   = 0 
+ 646      =1  
+ 647      =1  //**** I2ADDR   C1H ****
+ 648      =1  #define set_GC      I2ADDR  |= SET_BIT0
+ 649      =1  #define clr_GC      I2ADDR  &= ~SET_BIT0
+ 650      =1  
+ 651      =1  //**** ADCRL    C2H ****
+ 652      =1  //**** ADCRH    C3H ****
+ 653      =1  
+ 654      =1  //**** T3CON    C4H PAGE0 ****                     
+ 655      =1  #define set_SMOD_1  T3CON   |= SET_BIT7
+ 656      =1  #define set_SMOD0_1 T3CON   |= SET_BIT6
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 18  
+
+ 657      =1  #define set_BRCK    T3CON   |= SET_BIT5
+ 658      =1  #define set_TF3     T3CON   |= SET_BIT4
+ 659      =1  #define set_TR3     T3CON   |= SET_BIT3
+ 660      =1  #define set_T3PS2   T3CON   |= SET_BIT2
+ 661      =1  #define set_T3PS1   T3CON   |= SET_BIT1
+ 662      =1  #define set_T3PS0   T3CON   |= SET_BIT0
+ 663      =1                              
+ 664      =1  #define clr_SMOD_1  T3CON   &= ~SET_BIT7
+ 665      =1  #define clr_SMOD0_1 T3CON   &= ~SET_BIT6
+ 666      =1  #define clr_BRCK    T3CON   &= ~SET_BIT5
+ 667      =1  #define clr_TF3     T3CON   &= ~SET_BIT4
+ 668      =1  #define clr_TR3     T3CON   &= ~SET_BIT3
+ 669      =1  #define clr_T3PS2   T3CON   &= ~SET_BIT2
+ 670      =1  #define clr_T3PS1   T3CON   &= ~SET_BIT1
+ 671      =1  #define clr_T3PS0   T3CON   &= ~SET_BIT0
+ 672      =1  
+ 673      =1  //**** PWM4H  C4H PAGE1 **** SFRS must set as 1 to modify this register  
+ 674      =1  //**** RL3    C5H PAGE0 ****
+ 675      =1  //**** PWM5H  C5H PAGE1 **** SFRS must set as 1 to modify this register  
+ 676      =1  //**** RH3    C6H PAGE0 ****
+ 677      =1  
+ 678      =1  //**** PIOCON1 C6H PAGE1 **** SFRS must set as 1 to modify this register  
+ 679      =1  #define set_PIO15   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1|=SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT
+             -_TMP
+ 680      =1  #define set_PIO13   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1|=SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 681      =1  #define set_PIO12   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1|=SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 682      =1  #define set_PIO11   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 683      =1  
+ 684      =1  #define clr_PIO15   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1&=~SET_BIT5;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 685      =1  #define clr_PIO13   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1&=~SET_BIT3;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 686      =1  #define clr_PIO12   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1&=~SET_BIT2;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 687      =1  #define clr_PIO11   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PIOCON1&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BI
+             -T_TMP
+ 688      =1  
+ 689      =1  //**** T2CON  C8H ****
+ 690      =1  #define set_TF2     TF2      = 1
+ 691      =1  #define set_TR2     TR2      = 1
+ 692      =1  #define set_CMRL2   CMRL2    = 1
+ 693      =1  
+ 694      =1  #define clr_TF2     TF2      = 0
+ 695      =1  #define clr_TR2     TR2      = 0
+ 696      =1  #define clr_CMRL2   CMRL2    = 0
+ 697      =1  
+ 698      =1  //**** T2MOD  C9H ****                     
+ 699      =1  #define set_LDEN    T2MOD   |= SET_BIT7
+ 700      =1  #define set_T2DIV2  T2MOD   |= SET_BIT6
+ 701      =1  #define set_T2DIV1  T2MOD   |= SET_BIT5
+ 702      =1  #define set_T2DIV0  T2MOD   |= SET_BIT4
+ 703      =1  #define set_CAPCR   T2MOD   |= SET_BIT3
+ 704      =1  #define set_CMPCR   T2MOD   |= SET_BIT2
+ 705      =1  #define set_LDTS1   T2MOD   |= SET_BIT1
+ 706      =1  #define set_LDTS0   T2MOD   |= SET_BIT0
+ 707      =1                              
+ 708      =1  #define clr_LDEN    T2MOD   &= ~SET_BIT7
+ 709      =1  #define clr_T2DIV2  T2MOD   &= ~SET_BIT6
+ 710      =1  #define clr_T2DIV1  T2MOD   &= ~SET_BIT5
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 19  
+
+ 711      =1  #define clr_T2DIV0  T2MOD   &= ~SET_BIT4
+ 712      =1  #define clr_CAPCR   T2MOD   &= ~SET_BIT3
+ 713      =1  #define clr_CMPCR   T2MOD   &= ~SET_BIT2
+ 714      =1  #define clr_LDTS1   T2MOD   &= ~SET_BIT1
+ 715      =1  #define clr_LDTS0   T2MOD   &= ~SET_BIT0
+ 716      =1  
+ 717      =1  //**** RCMP2H CAH ****
+ 718      =1  //**** RCMP2L CBH ****
+ 719      =1  //**** TL2    CCH PAGE0 ****
+ 720      =1  //**** PWM4L  CCH PAGE1 **** SFRS must set as 1 to modify this register  
+ 721      =1  //**** TH2    CDH PAGE0 ****
+ 722      =1  //**** PWM5L  CDH PAGE1 **** SFRS must set as 1 to modify this register  
+ 723      =1  //**** ADCMPL CEH **** 
+ 724      =1  //**** ADCMPH CFH ****
+ 725      =1  
+ 726      =1  /****  PSW    D0H ****/
+ 727      =1  #define set_CY    CY  = 1
+ 728      =1  #define set_AC    AC  = 1
+ 729      =1  #define set_F0    F0  = 1 
+ 730      =1  #define set_RS1   RS1 = 1
+ 731      =1  #define set_RS0   RS0 = 1
+ 732      =1  #define set_OV    OV  = 1
+ 733      =1  #define set_P     P   = 1
+ 734      =1  
+ 735      =1  #define clr_CY    CY  = 0
+ 736      =1  #define clr_AC    AC  = 0
+ 737      =1  #define clr_F0    F0  = 0 
+ 738      =1  #define clr_RS1   RS1 = 0
+ 739      =1  #define clr_RS0   RS0 = 0
+ 740      =1  #define clr_OV    OV  = 0
+ 741      =1  #define clr_P     P   = 0
+ 742      =1  
+ 743      =1  //**** PWMPH    D1H ****
+ 744      =1  //**** PWM0H    D2H ****
+ 745      =1  //**** PWM1H    D3H ****
+ 746      =1  //**** PWM2H    D4H ****
+ 747      =1  //**** PWM3H    D5H ****
+ 748      =1  
+ 749      =1  //**** PNP      D6H ****
+ 750      =1  #define set_PNP5    PNP     |= SET_BIT5
+ 751      =1  #define set_PNP4    PNP     |= SET_BIT4
+ 752      =1  #define set_PNP3    PNP     |= SET_BIT3
+ 753      =1  #define set_PNP2    PNP     |= SET_BIT2
+ 754      =1  #define set_PNP1    PNP     |= SET_BIT1
+ 755      =1  #define set_PNP0    PNP     |= SET_BIT0
+ 756      =1  
+ 757      =1  #define clr_PNP5    PNP     &= ~SET_BIT5
+ 758      =1  #define clr_PNP4    PNP     &= ~SET_BIT4
+ 759      =1  #define clr_PNP3    PNP     &= ~SET_BIT3
+ 760      =1  #define clr_PNP2    PNP     &= ~SET_BIT2
+ 761      =1  #define clr_PNP1    PNP     &= ~SET_BIT1
+ 762      =1  #define clr_PNP0    PNP     &= ~SET_BIT0
+ 763      =1  
+ 764      =1  //**** FBD    D7H ****
+ 765      =1  #define set_FBF     FBD     |= SET_BIT7
+ 766      =1  #define set_FBINLS  FBD     |= SET_BIT6
+ 767      =1  #define set_FBD5    FBD     |= SET_BIT5
+ 768      =1  #define set_FBD4    FBD     |= SET_BIT4
+ 769      =1  #define set_FBD3    FBD     |= SET_BIT3
+ 770      =1  #define set_FBD2    FBD     |= SET_BIT2
+ 771      =1  #define set_FBD1    FBD     |= SET_BIT1
+ 772      =1  #define set_FBD0    FBD     |= SET_BIT0
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 20  
+
+ 773      =1  
+ 774      =1  #define clr_FBF     FBD     &= ~SET_BIT7
+ 775      =1  #define clr_FBINLS  FBD     &= ~SET_BIT6
+ 776      =1  #define clr_FBD5    FBD     &= ~SET_BIT5
+ 777      =1  #define clr_FBD4    FBD     &= ~SET_BIT4
+ 778      =1  #define clr_FBD3    FBD     &= ~SET_BIT3
+ 779      =1  #define clr_FBD2    FBD     &= ~SET_BIT2
+ 780      =1  #define clr_FBD1    FBD     &= ~SET_BIT1
+ 781      =1  #define clr_FBD0    FBD     &= ~SET_BIT0
+ 782      =1  
+ 783      =1  /**** PWMCON0     D8H ****/
+ 784      =1  #define set_PWMRUN  PWMRUN   = 1
+ 785      =1  #define set_LOAD    LOAD     = 1
+ 786      =1  #define set_PWMF    PWMF     = 1
+ 787      =1  #define set_CLRPWM  CLRPWM   = 1
+ 788      =1  
+ 789      =1  #define clr_PWMRUN  PWMRUN   = 0
+ 790      =1  #define clr_LOAD    LOAD     = 0
+ 791      =1  #define clr_PWMF    PWMF     = 0 
+ 792      =1  #define clr_CLRPWM  CLRPWM   = 0
+ 793      =1  
+ 794      =1  //**** PWMPL    D9H ****
+ 795      =1  //**** PWM0L    DAH ****
+ 796      =1  //**** PWM1L    DBH ****
+ 797      =1  //**** PWM2L    DCH ****
+ 798      =1  //**** PWM3L    DDH ****
+ 799      =1  
+ 800      =1  //**** PIOCON0  DEH ****
+ 801      =1  #define set_PIO05    PIOCON0     |= SET_BIT5
+ 802      =1  #define set_PIO04    PIOCON0     |= SET_BIT4
+ 803      =1  #define set_PIO03    PIOCON0     |= SET_BIT3
+ 804      =1  #define set_PIO02    PIOCON0     |= SET_BIT2
+ 805      =1  #define set_PIO01    PIOCON0     |= SET_BIT1
+ 806      =1  #define set_PIO00    PIOCON0     |= SET_BIT0
+ 807      =1  
+ 808      =1  #define clr_PIO05    PIOCON0     &= ~SET_BIT5
+ 809      =1  #define clr_PIO04    PIOCON0     &= ~SET_BIT4
+ 810      =1  #define clr_PIO03    PIOCON0     &= ~SET_BIT3
+ 811      =1  #define clr_PIO02    PIOCON0     &= ~SET_BIT2
+ 812      =1  #define clr_PIO01    PIOCON0     &= ~SET_BIT1
+ 813      =1  #define clr_PIO00    PIOCON0     &= ~SET_BIT0
+ 814      =1  
+ 815      =1  //**** PWMCON1  DFH ****
+ 816      =1  #define set_PWMMOD1   PWMCON1  |= SET_BIT7
+ 817      =1  #define set_PWMMOD0   PWMCON1  |= SET_BIT6
+ 818      =1  #define set_GP        PWMCON1  |= SET_BIT5
+ 819      =1  #define set_PWMTYP    PWMCON1  |= SET_BIT4
+ 820      =1  #define set_FBINEN    PWMCON1  |= SET_BIT3
+ 821      =1  #define set_PWMDIV2   PWMCON1  |= SET_BIT2 
+ 822      =1  #define set_PWMDIV1   PWMCON1  |= SET_BIT1
+ 823      =1  #define set_PWMDIV0   PWMCON1  |= SET_BIT0
+ 824      =1                              
+ 825      =1  #define clr_PWMMOD1   PWMCON1  &= ~SET_BIT7
+ 826      =1  #define clr_PWMMOD0   PWMCON1  &= ~SET_BIT6
+ 827      =1  #define clr_GP        PWMCON1  &= ~SET_BIT5
+ 828      =1  #define clr_PWMTYP    PWMCON1  &= ~SET_BIT4
+ 829      =1  #define clr_FBINEN    PWMCON1  &= ~SET_BIT3
+ 830      =1  #define clr_PWMDIV2   PWMCON1  &= ~SET_BIT2 
+ 831      =1  #define clr_PWMDIV1   PWMCON1  &= ~SET_BIT1
+ 832      =1  #define clr_PWMDIV0   PWMCON1  &= ~SET_BIT0
+ 833      =1  
+ 834      =1  //**** ACC  E0H ****
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 21  
+
+ 835      =1  
+ 836      =1  //**** ADCCON1  E1H ****
+ 837      =1  #define set_STADCPX ADCCON1  |= SET_BIT6
+ 838      =1  #define set_ETGTYP1 ADCCON1  |= SET_BIT3
+ 839      =1  #define set_ETGTYP0 ADCCON1  |= SET_BIT2
+ 840      =1  #define set_ADCEX   ADCCON1  |= SET_BIT1
+ 841      =1  #define set_ADCEN   ADCCON1  |= SET_BIT0
+ 842      =1  
+ 843      =1  #define clr_STADCPX ADCCON1  &= ~SET_BIT6
+ 844      =1  #define clr_ETGTYP1 ADCCON1  &= ~SET_BIT3
+ 845      =1  #define clr_ETGTYP0 ADCCON1  &= ~SET_BIT2
+ 846      =1  #define clr_ADCEX   ADCCON1  &= ~SET_BIT1
+ 847      =1  #define clr_ADCEN   ADCCON1  &= ~SET_BIT0
+ 848      =1  
+ 849      =1  //**** ADCON2   E2H ****
+ 850      =1  #define set_ADFBEN  ADCCON2  |= SET_BIT7
+ 851      =1  #define set_ADCMPOP ADCCON2  |= SET_BIT6
+ 852      =1  #define set_ADCMPEN ADCCON2  |= SET_BIT5
+ 853      =1  #define set_ADCMPO  ADCCON2  |= SET_BIT4
+ 854      =1  
+ 855      =1  #define clr_ADFBEN  ADCCON2  &= ~SET_BIT7
+ 856      =1  #define clr_ADCMPOP ADCCON2  &= ~SET_BIT6
+ 857      =1  #define clr_ADCMPEN ADCCON2  &= ~SET_BIT5
+ 858      =1  #define clr_ADCMPO  ADCCON2  &= ~SET_BIT4
+ 859      =1  
+ 860      =1  //**** ADCDLY   E3H ****
+ 861      =1  //**** C0L      E4H ****
+ 862      =1  //**** C0H      E5H ****
+ 863      =1  //**** C1L      E6H ****
+ 864      =1  //**** C1H      E7H ****
+ 865      =1  
+ 866      =1  //**** ADCCON0  EAH ****
+ 867      =1  #define set_ADCF    ADCF     = 1
+ 868      =1  #define set_ADCS    ADCS     = 1
+ 869      =1  #define set_ETGSEL1 ETGSEL1  = 1
+ 870      =1  #define set_ETGSEL0 ETGSEL0  = 1
+ 871      =1  #define set_ADCHS3  ADCHS3   = 1
+ 872      =1  #define set_ADCHS2  ADCHS2   = 1
+ 873      =1  #define set_ADCHS1  ADCHS1   = 1
+ 874      =1  #define set_ADCHS0  ADCHS0   = 1
+ 875      =1  
+ 876      =1  #define clr_ADCF    ADCF     = 0
+ 877      =1  #define clr_ADCS    ADCS     = 0
+ 878      =1  #define clr_ETGSEL1 ETGSEL1  = 0
+ 879      =1  #define clr_ETGSEL0 ETGSEL0  = 0
+ 880      =1  #define clr_ADCHS3  ADCHS3   = 0
+ 881      =1  #define clr_ADCHS2  ADCHS2   = 0
+ 882      =1  #define clr_ADCHS1  ADCHS1   = 0
+ 883      =1  #define clr_ADCHS0  ADCHS0   = 0
+ 884      =1  
+ 885      =1  //**** PICON  E9H ****
+ 886      =1  #define set_PIT67   PICON   |= SET_BIT7
+ 887      =1  #define set_PIT45   PICON   |= SET_BIT6
+ 888      =1  #define set_PIT3    PICON   |= SET_BIT5
+ 889      =1  #define set_PIT2    PICON   |= SET_BIT4
+ 890      =1  #define set_PIT1    PICON   |= SET_BIT3
+ 891      =1  #define set_PIT0    PICON   |= SET_BIT2
+ 892      =1  #define set_PIPS1   PICON   |= SET_BIT1
+ 893      =1  #define set_PIPS0   PICON   |= SET_BIT0
+ 894      =1                              
+ 895      =1  #define clr_PIT67   PICON   &= ~SET_BIT7
+ 896      =1  #define clr_PIT45   PICON   &= ~SET_BIT6
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 22  
+
+ 897      =1  #define clr_PIT3    PICON   &= ~SET_BIT5
+ 898      =1  #define clr_PIT2    PICON   &= ~SET_BIT4
+ 899      =1  #define clr_PIT1    PICON   &= ~SET_BIT3
+ 900      =1  #define clr_PIT0    PICON   &= ~SET_BIT2
+ 901      =1  #define clr_PIPS1   PICON   &= ~SET_BIT1
+ 902      =1  #define clr_PIPS0   PICON   &= ~SET_BIT0
+ 903      =1  
+ 904      =1  //**** PINEN    EAH **** 
+ 905      =1  #define set_PINEN7  PINEN   |= SET_BIT7
+ 906      =1  #define set_PINEN6  PINEN   |= SET_BIT6
+ 907      =1  #define set_PINEN5  PINEN   |= SET_BIT5
+ 908      =1  #define set_PINEN4  PINEN   |= SET_BIT4
+ 909      =1  #define set_PINEN3  PINEN   |= SET_BIT3
+ 910      =1  #define set_PINEN2  PINEN   |= SET_BIT2
+ 911      =1  #define set_PINEN1  PINEN   |= SET_BIT1
+ 912      =1  #define set_PINEN0  PINEN   |= SET_BIT0
+ 913      =1                              
+ 914      =1  #define clr_PINEN7  PINEN   &= ~SET_BIT7
+ 915      =1  #define clr_PINEN6  PINEN   &= ~SET_BIT6
+ 916      =1  #define clr_PINEN5  PINEN   &= ~SET_BIT5
+ 917      =1  #define clr_PINEN4  PINEN   &= ~SET_BIT4
+ 918      =1  #define clr_PINEN3  PINEN   &= ~SET_BIT3
+ 919      =1  #define clr_PINEN2  PINEN   &= ~SET_BIT2
+ 920      =1  #define clr_PINEN1  PINEN   &= ~SET_BIT1
+ 921      =1  #define clr_PINEN0  PINEN   &= ~SET_BIT0
+ 922      =1                              
+ 923      =1  //**** PIPEN    EBH ****
+ 924      =1  #define set_PIPEN7  PIPEN   |= SET_BIT7
+ 925      =1  #define set_PIPEN6  PIPEN   |= SET_BIT6
+ 926      =1  #define set_PIPEN5  PIPEN   |= SET_BIT5
+ 927      =1  #define set_PIPEN4  PIPEN   |= SET_BIT4
+ 928      =1  #define set_PIPEN3  PIPEN   |= SET_BIT3
+ 929      =1  #define set_PIPEN2  PIPEN   |= SET_BIT2
+ 930      =1  #define set_PIPEN1  PIPEN   |= SET_BIT1
+ 931      =1  #define set_PIPEN0  PIPEN   |= SET_BIT0
+ 932      =1                              
+ 933      =1  #define clr_PIPEN7  PIPEN   &= ~SET_BIT7
+ 934      =1  #define clr_PIPEN6  PIPEN   &= ~SET_BIT6
+ 935      =1  #define clr_PIPEN5  PIPEN   &= ~SET_BIT5
+ 936      =1  #define clr_PIPEN4  PIPEN   &= ~SET_BIT4
+ 937      =1  #define clr_PIPEN3  PIPEN   &= ~SET_BIT3
+ 938      =1  #define clr_PIPEN2  PIPEN   &= ~SET_BIT2
+ 939      =1  #define clr_PIPEN1  PIPEN   &= ~SET_BIT1
+ 940      =1  #define clr_PIPEN0  PIPEN   &= ~SET_BIT0
+ 941      =1     
+ 942      =1  //**** PIF  ECH ****
+ 943      =1  #define set_PIF7    PIF     |= SET_BIT7
+ 944      =1  #define set_PIF6    PIF     |= SET_BIT6
+ 945      =1  #define set_PIF5    PIF     |= SET_BIT5
+ 946      =1  #define set_PIF4    PIF     |= SET_BIT4
+ 947      =1  #define set_PIF3    PIF     |= SET_BIT3
+ 948      =1  #define set_PIF2    PIF     |= SET_BIT2
+ 949      =1  #define set_PIF1    PIF     |= SET_BIT1
+ 950      =1  #define set_PIF0    PIF     |= SET_BIT0
+ 951      =1  
+ 952      =1  #define clr_PIF7    PIF     &= ~SET_BIT7
+ 953      =1  #define clr_PIF6    PIF     &= ~SET_BIT6
+ 954      =1  #define clr_PIF5    PIF     &= ~SET_BIT5
+ 955      =1  #define clr_PIF4    PIF     &= ~SET_BIT4
+ 956      =1  #define clr_PIF3    PIF     &= ~SET_BIT3
+ 957      =1  #define clr_PIF2    PIF     &= ~SET_BIT2
+ 958      =1  #define clr_PIF1    PIF     &= ~SET_BIT1
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 23  
+
+ 959      =1  #define clr_PIF0    PIF     &= ~SET_BIT0
+ 960      =1  
+ 961      =1  //**** C2L  EDH ****  
+ 962      =1  //**** C2H  EEH ****
+ 963      =1  
+ 964      =1  //**** EIP  EFH ****                      
+ 965      =1  #define set_PT2     EIP     |= SET_BIT7
+ 966      =1  #define set_PSPI    EIP     |= SET_BIT6
+ 967      =1  #define set_PFB     EIP     |= SET_BIT5
+ 968      =1  #define set_PWDT    EIP     |= SET_BIT4
+ 969      =1  #define set_PPWM    EIP     |= SET_BIT3
+ 970      =1  #define set_PCAP    EIP     |= SET_BIT2
+ 971      =1  #define set_PPI     EIP     |= SET_BIT1
+ 972      =1  #define set_PI2C    EIP     |= SET_BIT0
+ 973      =1                              
+ 974      =1  #define clr_PT2     EIP     &= ~SET_BIT7
+ 975      =1  #define clr_PSPI    EIP     &= ~SET_BIT6
+ 976      =1  #define clr_PFB     EIP     &= ~SET_BIT5
+ 977      =1  #define clr_PWDT    EIP     &= ~SET_BIT4
+ 978      =1  #define clr_PPWM    EIP     &= ~SET_BIT3
+ 979      =1  #define clr_PCAP    EIP     &= ~SET_BIT2
+ 980      =1  #define clr_PPI     EIP     &= ~SET_BIT1
+ 981      =1  #define clr_PI2C    EIP     &= ~SET_BIT0
+ 982      =1  
+ 983      =1  //**** B  F0H ****
+ 984      =1  
+ 985      =1  //**** CAPCON3    F1H ****
+ 986      =1  #define set_CAP13   CAPCON3    |= SET_BIT7
+ 987      =1  #define set_CAP12   CAPCON3    |= SET_BIT6
+ 988      =1  #define set_CAP11   CAPCON3    |= SET_BIT5
+ 989      =1  #define set_CAP10   CAPCON3    |= SET_BIT4
+ 990      =1  #define set_CAP03   CAPCON3    |= SET_BIT3
+ 991      =1  #define set_CAP02   CAPCON3    |= SET_BIT2
+ 992      =1  #define set_CAP01   CAPCON3    |= SET_BIT1
+ 993      =1  #define set_CAP00   CAPCON3    |= SET_BIT0
+ 994      =1  
+ 995      =1  #define clr_CAP13   CAPCON3    &= ~SET_BIT7
+ 996      =1  #define clr_CAP12   CAPCON3    &= ~SET_BIT6
+ 997      =1  #define clr_CAP11   CAPCON3    &= ~SET_BIT5
+ 998      =1  #define clr_CAP10   CAPCON3    &= ~SET_BIT4
+ 999      =1  #define clr_CAP03   CAPCON3    &= ~SET_BIT3
+1000      =1  #define clr_CAP02   CAPCON3    &= ~SET_BIT2
+1001      =1  #define clr_CAP01   CAPCON3    &= ~SET_BIT1
+1002      =1  #define clr_CAP00   CAPCON3    &= ~SET_BIT0
+1003      =1  
+1004      =1  //**** CAPCON4    F2H ****
+1005      =1  #define set_CAP23    CAPCON4    |= SET_BIT3
+1006      =1  #define set_CAP22    CAPCON4    |= SET_BIT2
+1007      =1  #define set_CAP21    CAPCON4    |= SET_BIT1
+1008      =1  #define set_CAP20    CAPCON4    |= SET_BIT0
+1009      =1  
+1010      =1  #define clr_CAP23    CAPCON4    &= ~SET_BIT3
+1011      =1  #define clr_CAP22    CAPCON4    &= ~SET_BIT2
+1012      =1  #define clr_CAP21    CAPCON4    &= ~SET_BIT1
+1013      =1  #define clr_CAP20    CAPCON4    &= ~SET_BIT0
+1014      =1  
+1015      =1  //**** SPCR   F3H PAGE0 ****
+1016      =1  #define set_SSOE    SPCR    |= SET_BIT7
+1017      =1  #define set_SPIEN   SPCR    |= SET_BIT6
+1018      =1  #define set_LSBFE   SPCR    |= SET_BIT5
+1019      =1  #define set_MSTR    SPCR    |= SET_BIT4
+1020      =1  #define set_CPOL    SPCR    |= SET_BIT3
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 24  
+
+1021      =1  #define set_CPHA    SPCR    |= SET_BIT2
+1022      =1  #define set_SPR1    SPCR    |= SET_BIT1
+1023      =1  #define set_SPR0    SPCR    |= SET_BIT0
+1024      =1  
+1025      =1  #define clr_SSOE    SPCR    &= ~SET_BIT7
+1026      =1  #define clr_SPIEN   SPCR    &= ~SET_BIT6
+1027      =1  #define clr_LSBFE   SPCR    &= ~SET_BIT5
+1028      =1  #define clr_MSTR    SPCR    &= ~SET_BIT4
+1029      =1  #define clr_CPOL    SPCR    &= ~SET_BIT3
+1030      =1  #define clr_CPHA    SPCR    &= ~SET_BIT2
+1031      =1  #define clr_SPR1    SPCR    &= ~SET_BIT1
+1032      =1  #define clr_SPR0    SPCR    &= ~SET_BIT0
+1033      =1  
+1034      =1  //**** SPCR2    F3H PAGE1 **** SFRS must set as 1 to modify this register  
+1035      =1  #define set_SPIS1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;SPCR2|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+1036      =1  #define set_SPIS0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x00;SPCR2|=SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_T
+             -MP
+1037      =1  
+1038      =1  #define clr_SPIS1   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x00;SPCR2&=~SET_BIT1;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+1039      =1  #define clr_SPIS0   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x00;SPCR2&=~SET_BIT0;TA=0xAA;TA=0x55;SFRS=0x00;EA=BIT_
+             -TMP
+1040      =1  
+1041      =1  //**** SPSR     F4H ****
+1042      =1  #define set_SPIF    SPSR    |= SET_BIT7
+1043      =1  #define set_WCOL    SPSR    |= SET_BIT6
+1044      =1  #define set_SPIOVF  SPSR    |= SET_BIT5
+1045      =1  #define set_MODF    SPSR    |= SET_BIT4
+1046      =1  #define set_DISMODF SPSR    |= SET_BIT3
+1047      =1                              
+1048      =1  #define clr_SPIF    SPSR    &= ~SET_BIT7
+1049      =1  #define clr_WCOL    SPSR    &= ~SET_BIT6
+1050      =1  #define clr_SPIOVF  SPSR    &= ~SET_BIT5
+1051      =1  #define clr_MODF    SPSR    &= ~SET_BIT4
+1052      =1  #define clr_DISMODF SPSR    &= ~SET_BIT3
+1053      =1  
+1054      =1  //**** SPDR   F5H ****
+1055      =1  
+1056      =1  //**** AINDIDS  F6H ****
+1057      =1  #define set_P11DIDS AINDIDS  |= SET_BIT7
+1058      =1  #define set_P03DIDS AINDIDS  |= SET_BIT6
+1059      =1  #define set_P04DIDS AINDIDS  |= SET_BIT5
+1060      =1  #define set_P05DIDS AINDIDS  |= SET_BIT4
+1061      =1  #define set_P06DIDS AINDIDS  |= SET_BIT3
+1062      =1  #define set_P07DIDS AINDIDS  |= SET_BIT2
+1063      =1  #define set_P30DIDS AINDIDS  |= SET_BIT1
+1064      =1  #define set_P17DIDS AINDIDS  |= SET_BIT0
+1065      =1  
+1066      =1  #define clr_P11DIDS AINDIDS  &= ~SET_BIT7
+1067      =1  #define clr_P03DIDS AINDIDS  &= ~SET_BIT6
+1068      =1  #define clr_P04DIDS AINDIDS  &= ~SET_BIT5
+1069      =1  #define clr_P05DIDS AINDIDS  &= ~SET_BIT4
+1070      =1  #define clr_P06DIDS AINDIDS  &= ~SET_BIT3
+1071      =1  #define clr_P07DIDS AINDIDS  &= ~SET_BIT2
+1072      =1  #define clr_P30DIDS AINDIDS  &= ~SET_BIT1
+1073      =1  #define clr_P17DIDS AINDIDS  &= ~SET_BIT0
+1074      =1  
+1075      =1  //**** EIPH     F7H ****
+1076      =1  #define set_PT2H    EIPH    |= SET_BIT7
+1077      =1  #define set_PSPIH   EIPH    |= SET_BIT6
+1078      =1  #define set_PFBH    EIPH    |= SET_BIT5
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 25  
+
+1079      =1  #define set_PWDTH   EIPH    |= SET_BIT4
+1080      =1  #define set_PPWMH   EIPH    |= SET_BIT3
+1081      =1  #define set_PCAPH   EIPH    |= SET_BIT2
+1082      =1  #define set_PPIH    EIPH    |= SET_BIT1
+1083      =1  #define set_PI2CH   EIPH    |= SET_BIT0
+1084      =1                              
+1085      =1  #define clr_PT2H    EIPH    &= ~SET_BIT7
+1086      =1  #define clr_PSPIH   EIPH    &= ~SET_BIT6
+1087      =1  #define clr_PFBH    EIPH    &= ~SET_BIT5
+1088      =1  #define clr_PWDTH   EIPH    &= ~SET_BIT4
+1089      =1  #define clr_PPWMH   EIPH    &= ~SET_BIT3
+1090      =1  #define clr_PCAPH   EIPH    &= ~SET_BIT2
+1091      =1  #define clr_PPIH    EIPH    &= ~SET_BIT1
+1092      =1  #define clr_PI2CH   EIPH    &= ~SET_BIT0
+1093      =1  
+1094      =1  /**** SCON_1    F8H ****/
+1095      =1  #define set_FE_1    FE_1  = 1
+1096      =1  #define set_SM1_1   SM1_1 = 1
+1097      =1  #define set_SM2_1   SM2_1 = 1
+1098      =1  #define set_REN_1   REN_1 = 1
+1099      =1  #define set_TB8_1   TB8_1 = 1
+1100      =1  #define set_RB8_1   RB8_1 = 1
+1101      =1  #define set_TI_1    TI_1  = 1
+1102      =1  #define set_RI_1    RI_1  = 1
+1103      =1  
+1104      =1  #define clr_FE_1    FE_1  = 0
+1105      =1  #define clr_SM1_1   SM1_1 = 0
+1106      =1  #define clr_SM2_1   SM2_1 = 0
+1107      =1  #define clr_REN_1   REN_1 = 0
+1108      =1  #define clr_TB8_1   TB8_1 = 0
+1109      =1  #define clr_RB8_1   RB8_1 = 0
+1110      =1  #define clr_TI_1    TI_1  = 0
+1111      =1  #define clr_RI_1    RI_1  = 0
+1112      =1  
+1113      =1  //**** PDTEN    F9H ****
+1114      =1  #define set_PDT45EN BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN|= SET_BIT2  ;EA=BIT_TMP;
+1115      =1  #define set_PDT23EN BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN|= SET_BIT1  ;EA=BIT_TMP;
+1116      =1  #define set_PDT01EN BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN|= SET_BIT0  ;EA=BIT_TMP;
+1117      =1  
+1118      =1  #define clr_PDT45EN BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN &= ~SET_BIT2 ;EA=BIT_TMP;
+1119      =1  #define clr_PDT23EN BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN &= ~SET_BIT1 ;EA=BIT_TMP;
+1120      =1  #define clr_PDT01EN BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN &= ~SET_BIT0 ;EA=BIT_TMP;
+1121      =1  
+1122      =1  //**** PDTCNT   FAH ****
+1123      =1  
+1124      =1  //**** PMEN     FBH ****                   
+1125      =1  #define set_PMEN5   PMEN    |= SET_BIT5
+1126      =1  #define set_PMEN4   PMEN    |= SET_BIT4
+1127      =1  #define set_PMEN3   PMEN    |= SET_BIT3
+1128      =1  #define set_PMEN2   PMEN    |= SET_BIT2
+1129      =1  #define set_PMEN1   PMEN    |= SET_BIT1
+1130      =1  #define set_PMEN0   PMEN    |= SET_BIT0
+1131      =1                              
+1132      =1  #define clr_PMEN5   PMEN    &= ~SET_BIT5
+1133      =1  #define clr_PMEN4   PMEN    &= ~SET_BIT4
+1134      =1  #define clr_PMEN3   PMEN    &= ~SET_BIT3
+1135      =1  #define clr_PMEN2   PMEN    &= ~SET_BIT2
+1136      =1  #define clr_PMEN1   PMEN    &= ~SET_BIT1
+1137      =1  #define clr_PMEN0   PMEN    &= ~SET_BIT0
+1138      =1                              
+1139      =1  //**** PMD    FCH ****                       
+1140      =1  #define set_PMD7    PMD     |= SET_BIT7
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 26  
+
+1141      =1  #define set_PMD6    PMD     |= SET_BIT6
+1142      =1  #define set_PMD5    PMD     |= SET_BIT5
+1143      =1  #define set_PMD4    PMD     |= SET_BIT4
+1144      =1  #define set_PMD3    PMD     |= SET_BIT3
+1145      =1  #define set_PMD2    PMD     |= SET_BIT2
+1146      =1  #define set_PMD1    PMD     |= SET_BIT1
+1147      =1  #define set_PMD0    PMD     |= SET_BIT0
+1148      =1                              
+1149      =1  #define clr_PMD7    PMD     &= ~SET_BIT7
+1150      =1  #define clr_PMD6    PMD     &= ~SET_BIT6
+1151      =1  #define clr_PMD5    PMD     &= ~SET_BIT5
+1152      =1  #define clr_PMD4    PMD     &= ~SET_BIT4
+1153      =1  #define clr_PMD3    PMD     &= ~SET_BIT3
+1154      =1  #define clr_PMD2    PMD     &= ~SET_BIT2
+1155      =1  #define clr_PMD1    PMD     &= ~SET_BIT1
+1156      =1  #define clr_PMD0    PMD     &= ~SET_BIT0
+1157      =1  
+1158      =1  //****  EIP1    FEH ****                     
+1159      =1  #define set_PWKT    EIP1    |= SET_BIT2
+1160      =1  #define set_PT3     EIP1    |= SET_BIT1
+1161      =1  #define set_PS_1    EIP1    |= SET_BIT0
+1162      =1                              
+1163      =1  #define clr_PWKT    EIP1    &= ~SET_BIT2
+1164      =1  #define clr_PT3     EIP1    &= ~SET_BIT1
+1165      =1  #define clr_PS_1    EIP1    &= ~SET_BIT0
+1166      =1  
+1167      =1  //**** EIPH1    FFH ****                
+1168      =1  #define set_PWKTH   EIPH1   |= SET_BIT2
+1169      =1  #define set_PT3H    EIPH1   |= SET_BIT1
+1170      =1  #define set_PSH_1   EIPH1   |= SET_BIT0
+1171      =1                              
+1172      =1  #define clr_PWKTH   EIPH1   &= ~SET_BIT2
+1173      =1  #define clr_PT3H    EIPH1   &= ~SET_BIT1
+1174      =1  #define clr_PSH_1   EIPH1   &= ~SET_BIT0
+1175      =1  
+1176      =1  
+1177      =1  
+1178      =1  
+1179      =1  
+1180      =1  
+1181      =1  
+1182      =1  
+1183      =1                              
+1184      =1  
+1185      =1  
+1186      =1                              
+1187      =1                 
+1188      =1  
+1189      =1  
+1190      =1  
+1191      =1  
+1192      =1  
+1193      =1  
+1194      =1  
+1195      =1  
+1196      =1  
+1197      =1  
+1198      =1  
+1199      =1  
+  10          #include "Function_Define.h"
+   1      =1  /*--------------------------------------------------------------------------
+   2      =1  N76E003 Function_define.h V1.02
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 27  
+
+   3      =1  
+   4      =1  All function define inital setting file for Nuvoton N76E003
+   5      =1  --------------------------------------------------------------------------*/
+   6      =1  
+   7      =1  #include <intrins.h>
+   1      =2  /*--------------------------------------------------------------------------
+   2      =2  INTRINS.H
+   3      =2  
+   4      =2  Intrinsic functions for C51.
+   5      =2  Copyright (c) 1988-2010 Keil Elektronik GmbH and ARM Germany GmbH
+   6      =2  All rights reserved.
+   7      =2  --------------------------------------------------------------------------*/
+   8      =2  
+   9      =2  #ifndef __INTRINS_H__
+  10      =2  #define __INTRINS_H__
+  11      =2  
+  12      =2  #pragma SAVE
+  13      =2  
+  14      =2  #if defined (__CX2__)
+           =2 #pragma FUNCTIONS(STATIC)
+           =2 /* intrinsic functions are reentrant, but need static attribute */
+           =2 #endif
+  18      =2  
+  19      =2  extern void          _nop_     (void);
+  20      =2  extern bit           _testbit_ (bit);
+  21      =2  extern unsigned char _cror_    (unsigned char, unsigned char);
+  22      =2  extern unsigned int  _iror_    (unsigned int,  unsigned char);
+  23      =2  extern unsigned long _lror_    (unsigned long, unsigned char);
+  24      =2  extern unsigned char _crol_    (unsigned char, unsigned char);
+  25      =2  extern unsigned int  _irol_    (unsigned int,  unsigned char);
+  26      =2  extern unsigned long _lrol_    (unsigned long, unsigned char);
+  27      =2  extern unsigned char _chkfloat_(float);
+  28      =2  #if defined (__CX2__)
+           =2 extern int           abs       (int);
+           =2 extern void          _illop_   (void);
+           =2 #endif
+  32      =2  #if !defined (__CX2__)
+  33      =2  extern void          _push_    (unsigned char _sfr);
+  34      =2  extern void          _pop_     (unsigned char _sfr);
+  35      =2  #endif
+  36      =2  
+  37      =2  #pragma RESTORE
+  38      =2  
+  39      =2  #endif
+  40      =2  
+   8      =1  #include <stdio.h>
+   1      =2  /*--------------------------------------------------------------------------
+   2      =2  STDIO.H
+   3      =2  
+   4      =2  Prototypes for standard I/O functions.
+   5      =2  Copyright (c) 1988-2002 Keil Elektronik GmbH and Keil Software, Inc.
+   6      =2  All rights reserved.
+   7      =2  --------------------------------------------------------------------------*/
+   8      =2  
+   9      =2  #ifndef __STDIO_H__
+  10      =2  #define __STDIO_H__
+  11      =2  
+  12      =2  #ifndef EOF
+  13      =2   #define EOF -1
+  14      =2  #endif
+  15      =2  
+  16      =2  #ifndef NULL
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 28  
+
+  17      =2   #define NULL ((void *) 0)
+  18      =2  #endif
+  19      =2  
+  20      =2  #ifndef _SIZE_T
+  21      =2   #define _SIZE_T
+  22      =2   typedef unsigned int size_t;
+  23      =2  #endif
+  24      =2  
+  25      =2  #pragma SAVE
+  26      =2  #pragma REGPARMS
+  27      =2  extern char _getkey (void);
+  28      =2  extern char getchar (void);
+  29      =2  extern char ungetchar (char);
+  30      =2  extern char putchar (char);
+  31      =2  extern int printf   (const char *, ...);
+  32      =2  extern int sprintf  (char *, const char *, ...);
+  33      =2  extern int vprintf  (const char *, char *);
+  34      =2  extern int vsprintf (char *, const char *, char *);
+  35      =2  extern char *gets (char *, int n);
+  36      =2  extern int scanf (const char *, ...);
+  37      =2  extern int sscanf (char *, const char *, ...);
+  38      =2  extern int puts (const char *);
+  39      =2  
+  40      =2  #pragma RESTORE
+  41      =2  
+  42      =2  #endif
+  43      =2  
+   9      =1  
+  10      =1  #define nop _nop_();
+  11      =1  
+  12      =1  extern bit BIT_TMP;
+  13      =1  
+  14      =1  //16 --> 8 x 2
+  15      =1  #define HIBYTE(v1)              ((UINT8)((v1)>>8))                      //v1 is UINT16
+  16      =1  #define LOBYTE(v1)              ((UINT8)((v1)&0xFF))
+  17      =1  //8 x 2 --> 16
+  18      =1  #define MAKEWORD(v1,v2)         ((((UINT16)(v1))<<8)+(UINT16)(v2))      //v1,v2 is UINT8
+  19      =1  //8 x 4 --> 32
+  20      =1  #define MAKELONG(v1,v2,v3,v4)   (UINT32)((v1<<32)+(v2<<16)+(v3<<8)+v4)  //v1,v2,v3,v4 is UINT8
+  21      =1  //32 --> 16 x 2
+  22      =1  #define YBYTE1(v1)              ((UINT16)((v1)>>16))                    //v1 is UINT32
+  23      =1  #define YBYTE0(v1)              ((UINT16)((v1)&0xFFFF))
+  24      =1  //32 --> 8 x 4
+  25      =1  #define TBYTE3(v1)              ((UINT8)((v1)>>24))                     //v1 is UINT32
+  26      =1  #define TBYTE2(v1)              ((UINT8)((v1)>>16))
+  27      =1  #define TBYTE1(v1)              ((UINT8)((v1)>>8)) 
+  28      =1  #define TBYTE0(v1)              ((UINT8)((v1)&0xFF))
+  29      =1  
+  30      =1  #define SET_BIT0        0x01
+  31      =1  #define SET_BIT1        0x02
+  32      =1  #define SET_BIT2        0x04
+  33      =1  #define SET_BIT3        0x08
+  34      =1  #define SET_BIT4        0x10
+  35      =1  #define SET_BIT5        0x20
+  36      =1  #define SET_BIT6        0x40
+  37      =1  #define SET_BIT7        0x80
+  38      =1  #define SET_BIT8        0x0100
+  39      =1  #define SET_BIT9        0x0200
+  40      =1  #define SET_BIT10       0x0400
+  41      =1  #define SET_BIT11       0x0800
+  42      =1  #define SET_BIT12       0x1000
+  43      =1  #define SET_BIT13       0x2000
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 29  
+
+  44      =1  #define SET_BIT14       0x4000
+  45      =1  #define SET_BIT15       0x8000
+  46      =1  
+  47      =1  #define CLR_BIT0        0xFE
+  48      =1  #define CLR_BIT1        0xFD
+  49      =1  #define CLR_BIT2        0xFB
+  50      =1  #define CLR_BIT3        0xF7
+  51      =1  #define CLR_BIT4        0xEF
+  52      =1  #define CLR_BIT5        0xDF
+  53      =1  #define CLR_BIT6        0xBF
+  54      =1  #define CLR_BIT7        0x7F
+  55      =1  
+  56      =1  #define CLR_BIT8        0xFEFF
+  57      =1  #define CLR_BIT9        0xFDFF
+  58      =1  #define CLR_BIT10       0xFBFF
+  59      =1  #define CLR_BIT11       0xF7FF
+  60      =1  #define CLR_BIT12       0xEFFF
+  61      =1  #define CLR_BIT13       0xDFFF
+  62      =1  #define CLR_BIT14       0xBFFF
+  63      =1  #define CLR_BIT15       0x7FFF
+  64      =1  
+  65      =1  #define FAIL            1
+  66      =1  #define PASS            0
+  67      =1  
+  68      =1  /*****************************************************************************************
+  69      =1  * For GPIO INIT setting 
+  70      =1  *****************************************************************************************/
+  71      =1  //------------------- Define Port as Quasi mode  -------------------
+  72      =1  #define P00_Quasi_Mode        P0M1&=~SET_BIT0;P0M2&=~SET_BIT0
+  73      =1  #define P01_Quasi_Mode        P0M1&=~SET_BIT1;P0M2&=~SET_BIT1
+  74      =1  #define P02_Quasi_Mode        P0M1&=~SET_BIT2;P0M2&=~SET_BIT2
+  75      =1  #define P03_Quasi_Mode        P0M1&=~SET_BIT3;P0M2&=~SET_BIT3
+  76      =1  #define P04_Quasi_Mode        P0M1&=~SET_BIT4;P0M2&=~SET_BIT4
+  77      =1  #define P05_Quasi_Mode        P0M1&=~SET_BIT5;P0M2&=~SET_BIT5
+  78      =1  #define P06_Quasi_Mode        P0M1&=~SET_BIT6;P0M2&=~SET_BIT6
+  79      =1  #define P07_Quasi_Mode        P0M1&=~SET_BIT7;P0M2&=~SET_BIT7
+  80      =1  #define P10_Quasi_Mode        P1M1&=~SET_BIT0;P1M2&=~SET_BIT0
+  81      =1  #define P11_Quasi_Mode        P1M1&=~SET_BIT1;P1M2&=~SET_BIT1
+  82      =1  #define P12_Quasi_Mode        P1M1&=~SET_BIT2;P1M2&=~SET_BIT2
+  83      =1  #define P13_Quasi_Mode        P1M1&=~SET_BIT3;P1M2&=~SET_BIT3
+  84      =1  #define P14_Quasi_Mode        P1M1&=~SET_BIT4;P1M2&=~SET_BIT4
+  85      =1  #define P15_Quasi_Mode        P1M1&=~SET_BIT5;P1M2&=~SET_BIT5
+  86      =1  #define P16_Quasi_Mode        P1M1&=~SET_BIT6;P1M2&=~SET_BIT6
+  87      =1  #define P17_Quasi_Mode        P1M1&=~SET_BIT7;P1M2&=~SET_BIT7
+  88      =1  #define P30_Quasi_Mode        P3M1&=~SET_BIT0;P3M2&=~SET_BIT0
+  89      =1  //------------------- Define Port as Push Pull mode -------------------
+  90      =1  #define P00_PushPull_Mode     P0M1&=~SET_BIT0;P0M2|=SET_BIT0
+  91      =1  #define P01_PushPull_Mode     P0M1&=~SET_BIT1;P0M2|=SET_BIT1
+  92      =1  #define P02_PushPull_Mode     P0M1&=~SET_BIT2;P0M2|=SET_BIT2
+  93      =1  #define P03_PushPull_Mode     P0M1&=~SET_BIT3;P0M2|=SET_BIT3
+  94      =1  #define P04_PushPull_Mode     P0M1&=~SET_BIT4;P0M2|=SET_BIT4
+  95      =1  #define P05_PushPull_Mode     P0M1&=~SET_BIT5;P0M2|=SET_BIT5
+  96      =1  #define P06_PushPull_Mode     P0M1&=~SET_BIT6;P0M2|=SET_BIT6
+  97      =1  #define P07_PushPull_Mode     P0M1&=~SET_BIT7;P0M2|=SET_BIT7
+  98      =1  #define P10_PushPull_Mode     P1M1&=~SET_BIT0;P1M2|=SET_BIT0
+  99      =1  #define P11_PushPull_Mode     P1M1&=~SET_BIT1;P1M2|=SET_BIT1
+ 100      =1  #define P12_PushPull_Mode     P1M1&=~SET_BIT2;P1M2|=SET_BIT2
+ 101      =1  #define P13_PushPull_Mode     P1M1&=~SET_BIT3;P1M2|=SET_BIT3
+ 102      =1  #define P14_PushPull_Mode     P1M1&=~SET_BIT4;P1M2|=SET_BIT4
+ 103      =1  #define P15_PushPull_Mode     P1M1&=~SET_BIT5;P1M2|=SET_BIT5
+ 104      =1  #define P16_PushPull_Mode     P1M1&=~SET_BIT6;P1M2|=SET_BIT6
+ 105      =1  #define P17_PushPull_Mode     P1M1&=~SET_BIT7;P1M2|=SET_BIT7
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 30  
+
+ 106      =1  #define P30_PushPull_Mode     P3M1&=~SET_BIT0;P3M2|=SET_BIT0
+ 107      =1  #define GPIO1_PushPull_Mode   P1M1&=~SET_BIT0;P1M2|=SET_BIT0
+ 108      =1  //------------------- Define Port as Input Only mode -------------------
+ 109      =1  #define P00_Input_Mode        P0M1|=SET_BIT0;P0M2&=~SET_BIT0
+ 110      =1  #define P01_Input_Mode        P0M1|=SET_BIT1;P0M2&=~SET_BIT1
+ 111      =1  #define P02_Input_Mode        P0M1|=SET_BIT2;P0M2&=~SET_BIT2
+ 112      =1  #define P03_Input_Mode        P0M1|=SET_BIT3;P0M2&=~SET_BIT3
+ 113      =1  #define P04_Input_Mode        P0M1|=SET_BIT4;P0M2&=~SET_BIT4
+ 114      =1  #define P05_Input_Mode        P0M1|=SET_BIT5;P0M2&=~SET_BIT5
+ 115      =1  #define P06_Input_Mode        P0M1|=SET_BIT6;P0M2&=~SET_BIT6
+ 116      =1  #define P07_Input_Mode        P0M1|=SET_BIT7;P0M2&=~SET_BIT7
+ 117      =1  #define P10_Input_Mode        P1M1|=SET_BIT0;P1M2&=~SET_BIT0
+ 118      =1  #define P11_Input_Mode        P1M1|=SET_BIT1;P1M2&=~SET_BIT1
+ 119      =1  #define P12_Input_Mode        P1M1|=SET_BIT2;P1M2&=~SET_BIT2
+ 120      =1  #define P13_Input_Mode        P1M1|=SET_BIT3;P1M2&=~SET_BIT3
+ 121      =1  #define P14_Input_Mode        P1M1|=SET_BIT4;P1M2&=~SET_BIT4
+ 122      =1  #define P15_Input_Mode        P1M1|=SET_BIT5;P1M2&=~SET_BIT5
+ 123      =1  #define P16_Input_Mode        P1M1|=SET_BIT6;P1M2&=~SET_BIT6
+ 124      =1  #define P17_Input_Mode        P1M1|=SET_BIT7;P1M2&=~SET_BIT7
+ 125      =1  #define P30_Input_Mode        P3M1|=SET_BIT0;P3M2&=~SET_BIT0
+ 126      =1  //-------------------Define Port as Open Drain mode -------------------
+ 127      =1  #define P00_OpenDrain_Mode    P0M1|=SET_BIT0;P0M2|=SET_BIT0
+ 128      =1  #define P01_OpenDrain_Mode    P0M1|=SET_BIT1;P0M2|=SET_BIT1
+ 129      =1  #define P02_OpenDrain_Mode    P0M1|=SET_BIT2;P0M2|=SET_BIT2
+ 130      =1  #define P03_OpenDrain_Mode    P0M1|=SET_BIT3;P0M2|=SET_BIT3
+ 131      =1  #define P04_OpenDrain_Mode    P0M1|=SET_BIT4;P0M2|=SET_BIT4
+ 132      =1  #define P05_OpenDrain_Mode    P0M1|=SET_BIT5;P0M2|=SET_BIT5
+ 133      =1  #define P06_OpenDrain_Mode    P0M1|=SET_BIT6;P0M2|=SET_BIT6
+ 134      =1  #define P07_OpenDrain_Mode    P0M1|=SET_BIT7;P0M2|=SET_BIT7
+ 135      =1  #define P10_OpenDrain_Mode    P1M1|=SET_BIT0;P1M2|=SET_BIT0
+ 136      =1  #define P11_OpenDrain_Mode    P1M1|=SET_BIT1;P1M2|=SET_BIT1
+ 137      =1  #define P12_OpenDrain_Mode    P1M1|=SET_BIT2;P1M2|=SET_BIT2
+ 138      =1  #define P13_OpenDrain_Mode    P1M1|=SET_BIT3;P1M2|=SET_BIT3
+ 139      =1  #define P14_OpenDrain_Mode    P1M1|=SET_BIT4;P1M2|=SET_BIT4
+ 140      =1  #define P15_OpenDrain_Mode    P1M1|=SET_BIT5;P1M2|=SET_BIT5
+ 141      =1  #define P16_OpenDrain_Mode    P1M1|=SET_BIT6;P1M2|=SET_BIT6
+ 142      =1  #define P17_OpenDrain_Mode    P1M1|=SET_BIT7;P1M2|=SET_BIT7
+ 143      =1  #define P30_OpenDrain_Mode    P3M1|=SET_BIT0;P3M2|=SET_BIT0
+ 144      =1  //--------- Define all port as quasi mode ---------
+ 145      =1  #define Set_All_GPIO_Quasi_Mode     P0M1=0;P0M2=0;P1M1=0;P1M2=0;P3M1=0;P3M2=0
+ 146      =1  
+ 147      =1  #define     set_GPIO1   P12=1
+ 148      =1  #define     clr_GPIO1   P12=0
+ 149      =1  
+ 150      =1  /****************************************************************************
+ 151      =1     Enable INT port 0~3
+ 152      =1  ***************************************************************************/
+ 153      =1  #define   Enable_INT_Port0          PICON &= 0xFB;
+ 154      =1  #define   Enable_INT_Port1          PICON |= 0x01;
+ 155      =1  #define   Enable_INT_Port2          PICON |= 0x02;
+ 156      =1  #define   Enable_INT_Port3          PICON |= 0x03;
+ 157      =1  /*****************************************************************************
+ 158      =1   Enable each bit low level trig mode
+ 159      =1  *****************************************************************************/
+ 160      =1  #define   Enable_BIT7_LowLevel_Trig     PICON&=0x7F;PINEN|=0x80;PIPEN&=0x7F
+ 161      =1  #define   Enable_BIT6_LowLevel_Trig     PICON&=0x7F;PINEN|=0x40;PIPEN&=0xBF
+ 162      =1  #define   Enable_BIT5_LowLevel_Trig     PICON&=0xBF;PINEN|=0x20;PIPEN&=0xDF
+ 163      =1  #define   Enable_BIT4_LowLevel_Trig     PICON&=0xBF;PINEN|=0x10;PIPEN&=0xEF
+ 164      =1  #define   Enable_BIT3_LowLevel_Trig     PICON&=0xDF;PINEN|=0x08;PIPEN&=0xF7
+ 165      =1  #define   Enable_BIT2_LowLevel_Trig     PICON&=0xEF;PINEN|=0x04;PIPEN&=0xFB
+ 166      =1  #define   Enable_BIT1_LowLevel_Trig     PICON&=0xF7;PINEN|=0x02;PIPEN&=0xFD
+ 167      =1  #define   Enable_BIT0_LowLevel_Trig     PICON&=0xFD;PINEN|=0x01;PIPEN&=0xFE
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 31  
+
+ 168      =1  /*****************************************************************************
+ 169      =1   Enable each bit high level trig mode
+ 170      =1  *****************************************************************************/
+ 171      =1  #define   Enable_BIT7_HighLevel_Trig      PICON&=0x7F;PINEN&=0x7F;PIPEN|=0x80
+ 172      =1  #define   Enable_BIT6_HighLevel_Trig      PICON&=0x7F;PINEN&=0xBF;PIPEN|=0x40
+ 173      =1  #define   Enable_BIT5_HighLevel_Trig      PICON&=0xBF;PINEN&=0xDF;PIPEN|=0x20
+ 174      =1  #define   Enable_BIT4_HighLevel_Trig      PICON&=0xBF;PINEN&=0xEF;PIPEN|=0x10
+ 175      =1  #define   Enable_BIT3_HighLevel_Trig      PICON&=0xDF;PINEN&=0xF7;PIPEN|=0x08
+ 176      =1  #define   Enable_BIT2_HighLevel_Trig      PICON&=0xEF;PINEN&=0xFB;PIPEN|=0x04
+ 177      =1  #define   Enable_BIT1_HighLevel_Trig      PICON&=0xF7;PINEN&=0xFD;PIPEN|=0x02
+ 178      =1  #define   Enable_BIT0_HighLevel_Trig      PICON&=0xFD;PINEN&=0xFE;PIPEN|=0x01
+ 179      =1  /*****************************************************************************
+ 180      =1   Enable each bit falling edge trig mode
+ 181      =1  *****************************************************************************/
+ 182      =1  #define   Enable_BIT7_FallEdge_Trig     PICON|=0x80;PINEN|=0x80;PIPEN&=0x7F
+ 183      =1  #define   Enable_BIT6_FallEdge_Trig     PICON|=0x80;PINEN|=0x40;PIPEN&=0xBF
+ 184      =1  #define   Enable_BIT5_FallEdge_Trig     PICON|=0x40;PINEN|=0x20;PIPEN&=0xDF
+ 185      =1  #define   Enable_BIT4_FallEdge_Trig     PICON|=0x40;PINEN|=0x10;PIPEN&=0xEF
+ 186      =1  #define   Enable_BIT3_FallEdge_Trig     PICON|=0x20;PINEN|=0x08;PIPEN&=0xF7
+ 187      =1  #define   Enable_BIT2_FallEdge_Trig     PICON|=0x10;PINEN|=0x04;PIPEN&=0xFB
+ 188      =1  #define   Enable_BIT1_FallEdge_Trig     PICON|=0x08;PINEN|=0x02;PIPEN&=0xFD
+ 189      =1  #define   Enable_BIT0_FallEdge_Trig     PICON|=0x04;PINEN|=0x01;PIPEN&=0xFE
+ 190      =1  /*****************************************************************************
+ 191      =1   Enable each bit rasing edge trig mode
+ 192      =1  *****************************************************************************/
+ 193      =1  #define   Enable_BIT7_RasingEdge_Trig     PICON|=0x80;PINEN&=0x7F;PIPEN|=0x80
+ 194      =1  #define   Enable_BIT6_RasingEdge_Trig     PICON|=0x80;PINEN&=0xBF;PIPEN|=0x40
+ 195      =1  #define   Enable_BIT5_RasingEdge_Trig     PICON|=0x40;PINEN&=0xDF;PIPEN|=0x20
+ 196      =1  #define   Enable_BIT4_RasingEdge_Trig     PICON|=0x40;PINEN&=0xEF;PIPEN|=0x10
+ 197      =1  #define   Enable_BIT3_RasingEdge_Trig     PICON|=0x20;PINEN&=0xF7;PIPEN|=0x08
+ 198      =1  #define   Enable_BIT2_RasingEdge_Trig     PICON|=0x10;PINEN&=0xFB;PIPEN|=0x04
+ 199      =1  #define   Enable_BIT1_RasingEdge_Trig     PICON|=0x08;PINEN&=0xFD;PIPEN|=0x02
+ 200      =1  #define   Enable_BIT0_RasingEdge_Trig     PICON|=0x04;PINEN&=0xFE;PIPEN|=0x01
+ 201      =1  
+ 202      =1  
+ 203      =1  /*****************************************************************************************
+ 204      =1  * For TIMER VALUE setting is base on " option -> C51 -> Preprocesser Symbols -> Define "
+ 205      =1  *****************************************************************************************/
+ 206      =1  #ifdef FOSC_110592    // if Fsys = 11.0592MHz 
+           =1     #define TIMER_DIV12_VALUE_10us      65536-9     //9*12/11.0592 = 10 uS,         // Timer divider = 12 for TM0/
+             -TM1
+           =1     #define TIMER_DIV12_VALUE_1ms       65536-923   //923*12/11.0592 = 1 mS         // Timer divider = 12
+           =1     #define TIMER_DIV12_VALUE_10ms      65536-9216  //18432*12/22118400 = 10 ms     // Timer divider = 12
+           =1     #define TIMER_DIV4_VALUE_10us       65536-28    //28*4/11.0592 = 10 uS          // Timer divider = 4  for TM2/TM3
+           =1     #define TIMER_DIV4_VALUE_1ms        65536-2765  //2765*4/11.0592 = 1 mS         // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_100us      65536-277   //553*4/22118400 = 100 us       // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_200us      65536-553   //1106*4/22118400 = 200 us      // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_500us      65536-1383  //2765*4/22118400 = 500 us      // Timer divider = 4    
+           =1     #define TIMER_DIV16_VALUE_10ms      65536-6912  //1500*16/22118400 = 10 ms      // Timer divider = 16
+           =1     #define TIMER_DIV64_VALUE_30ms      65536-5184  //10368*64/22118400 = 30 ms     // Timer divider = 64
+           =1     #define TIMER_DIV128_VALUE_100ms    65536-8640  //17280*128/22118400 = 100 ms   // Timer divider = 128
+           =1     #define TIMER_DIV128_VALUE_200ms    65536-17280 //34560*128/22118400 = 200 ms   // Timer divider = 128
+           =1     #define TIMER_DIV256_VALUE_500ms    65536-21600 //43200*256/22118400 = 500 ms   // Timer divider = 256
+           =1     #define TIMER_DIV512_VALUE_1s       65536-21600 //43200*512/22118400 = 1 s      // Timer divider = 512
+           =1 #endif
+ 222      =1  #ifdef FOSC_160000    // if Fsys = 16MHz 
+ 223      =1      #define TIMER_DIV12_VALUE_10us      65536-13    //13*12/16000000 = 10 uS,       // Timer divider = 12 for TM0/T
+             -M1
+ 224      =1      #define TIMER_DIV12_VALUE_100us     65536-130   //130*12/16000000 = 10 uS,      // Timer divider = 12 
+ 225      =1      #define TIMER_DIV12_VALUE_1ms       65536-1334  //1334*12/16000000 = 1 mS,      // Timer divider = 12 
+ 226      =1      #define TIMER_DIV12_VALUE_10ms      65536-13334 //13334*12/16000000 = 10 mS     // Timer divider = 12 
+ 227      =1      #define TIMER_DIV12_VALUE_40ms      65536-53336 //53336*12/16000000 = 40 ms     // Timer divider = 12 
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 32  
+
+ 228      =1      #define TIMER_DIV4_VALUE_10us       65536-40    //40*4/16000000 = 10 uS,        // Timer divider = 4  for TM2/TM
+             -3
+ 229      =1      #define TIMER_DIV4_VALUE_100us      65536-400   //400*4/16000000 = 100 us       // Timer divider = 4
+ 230      =1      #define TIMER_DIV4_VALUE_200us      65536-800   //800*4/16000000 = 200 us       // Timer divider = 4
+ 231      =1      #define TIMER_DIV4_VALUE_500us      65536-2000  //2000*4/16000000 = 500 us      // Timer divider = 4
+ 232      =1      #define TIMER_DIV4_VALUE_1ms        65536-4000  //4000*4/16000000 = 1 mS,       // Timer divider = 4
+ 233      =1      #define TIMER_DIV16_VALUE_10ms      65536-10000 //10000*16/16000000 = 10 ms     // Timer  divider = 16
+ 234      =1      #define TIMER_DIV64_VALUE_30ms      65536-7500  //7500*64/16000000 = 30 ms      // Timer divider = 64
+ 235      =1      #define TIMER_DIV128_VALUE_100ms    65536-12500 //12500*128/16000000 = 100 ms   // Timer divider = 128
+ 236      =1      #define TIMER_DIV128_VALUE_200ms    65536-25000 //25000*128/16000000 = 200 ms   // Timer divider = 128
+ 237      =1      #define TIMER_DIV256_VALUE_500ms    65536-31250 //31250*256/16000000 = 500 ms   // Timer divider = 256
+ 238      =1      #define TIMER_DIV512_VALUE_1s       65536-31250 //31250*512/16000000 = 1 s.     // Timer Divider = 512
+ 239      =1  #endif
+ 240      =1  #ifdef FOSC_184320    // if Fsys = 18.432MHz 
+           =1     #define TIMER_DIV12_VALUE_10us      65536-15    //15*12/18.432 = 10 uS,  Timer Clock = Fsys/12
+           =1     #define TIMER_DIV12_VALUE_1ms       65536-1536  //1536*12/18.432 = 1 mS, Timer Clock = Fsys/12
+           =1     #define TIMER_DIV4_VALUE_10us       65536-46    //46*4/18.432 = 10 uS,   Timer Clock = Fsys/4
+           =1     #define TIMER_DIV4_VALUE_1ms        65536-4608  //4608*4/18.432 = 1 mS,  Timer Clock = Fsys/4
+           =1 #endif
+ 246      =1  #ifdef FOSC_200000    // if Fsys = 20 MHz
+           =1     #define TIMER_DIV12_VALUE_10us      65536-17   //17*12/20000000 = 10 uS,  Timer Clock = Fsys/12
+           =1     #define TIMER_DIV12_VALUE_1ms       65536-1667    //1667*12/20000000 = 1 mS, Timer Clock = Fsys/12
+           =1     #define TIMER_DIV4_VALUE_10us       65536-50      //50*4/20000000 = 10 uS,    Timer Clock = Fsys/4
+           =1     #define TIMER_DIV4_VALUE_1ms        65536-5000    //5000*4/20000000 = 1 mS,   Timer Clock = Fsys/4
+           =1 #endif
+ 252      =1  #ifdef FOSC_221184    // if Fsys = 22.1184 MHz 
+           =1     #define TIMER_DIV12_VALUE_10us      65536-18        //18*12/22118400 = 10 uS,       // Timer divider = 12
+           =1     #define TIMER_DIV12_VALUE_1ms       65536-1843      //1843*12/22118400 = 1 mS,      // Timer divider = 12
+           =1     #define TIMER_DIV12_VALUE_10ms      65536-18432     //18432*12/22118400 = 10 ms     // Timer divider = 12
+           =1     #define TIMER_DIV4_VALUE_10us       65536-56        //9*4/22118400 = 10 uS,         // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_1ms        65536-5530      //923*4/22118400 = 1 mS,        // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_100us      65536-553       //553*4/22118400 = 100 us       // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_200us      65536-1106      //1106*4/22118400 = 200 us      // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_500us      65536-2765      //2765*4/22118400 = 500 us      // Timer divider = 4    
+           =1     #define TIMER_DIV16_VALUE_10ms      65536-13824     //1500*16/22118400 = 10 ms      // Timer divider = 16
+           =1     #define TIMER_DIV64_VALUE_30ms      65536-10368     //10368*64/22118400 = 30 ms     // Timer divider = 64
+           =1     #define TIMER_DIV128_VALUE_100ms    65536-17280     //17280*128/22118400 = 100 ms   // Timer divider = 128
+           =1     #define TIMER_DIV128_VALUE_200ms    65536-34560     //34560*128/22118400 = 200 ms   // Timer divider = 128
+           =1     #define TIMER_DIV256_VALUE_500ms    65536-43200     //43200*256/22118400 = 500 ms   // Timer divider = 256
+           =1     #define TIMER_DIV512_VALUE_1s       65536-43200     //43200*512/22118400 = 1 s      // Timer divider = 512
+           =1 #endif
+ 268      =1  #ifdef FOSC_240000    // if Fsys = 20 MHz
+           =1     #define TIMER_DIV12_VALUE_10us      65536-20        //20*12/24000000 = 10 uS,       // Timer divider = 12
+           =1     #define TIMER_DIV12_VALUE_1ms       65536-2000      //2000*12/24000000 = 1 mS,      // Timer divider = 12
+           =1     #define TIMER_DIV12_VALUE_10ms      65536-20000     //2000*12/24000000 = 10 mS      // Timer divider = 12
+           =1     #define TIMER_DIV4_VALUE_10us       65536-60        //60*4/24000000 = 10 uS,        // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_100us      65536-600       //600*4/24000000 = 100 us       // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_200us      65536-1200      //1200*4/24000000 = 200 us      // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_500us      65536-3000      //3000*4/24000000 = 500 us      // Timer divider = 4
+           =1     #define TIMER_DIV4_VALUE_1ms        65536-6000      //6000*4/24000000 = 1 mS,       // Timer divider = 4
+           =1     #define TIMER_DIV16_VALUE_10ms      65536-15000     //15000*16/24000000 = 10 ms     // Timer  divider = 16
+           =1     #define TIMER_DIV64_VALUE_30ms      65536-11250     //11250*64/24000000 = 30 ms     // Timer divider = 64
+           =1     #define TIMER_DIV128_VALUE_100ms    65536-18750     //37500*128/24000000 = 200 ms   // Timer divider = 128
+           =1     #define TIMER_DIV128_VALUE_200ms    65536-37500     //37500*128/24000000 = 200 ms   // Timer divider = 128
+           =1     #define TIMER_DIV256_VALUE_500ms    65536-46875     //46875*256/24000000 = 500 ms   // Timer divider = 256
+           =1     #define TIMER_DIV512_VALUE_1s       65536-46875     //46875*512/24000000 = 1 s.     // Timer Divider = 512
+           =1 #endif
+ 284      =1  //-------------------- Timer0 function define --------------------
+ 285      =1  #define   TIMER1_MODE0_ENABLE   TMOD&=0x0F
+ 286      =1  #define   TIMER1_MODE1_ENABLE   TMOD&=0x0F;TMOD|=0x10
+ 287      =1  #define   TIMER1_MODE2_ENABLE   TMOD&=0x0F;TMOD|=0x20
+ 288      =1  #define   TIMER1_MODE3_ENABLE   TMOD&=0x0F;TMOD|=0x30
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 33  
+
+ 289      =1  //-------------------- Timer1 function define --------------------
+ 290      =1  #define   TIMER0_MODE0_ENABLE   TMOD&=0xF0
+ 291      =1  #define   TIMER0_MODE1_ENABLE   TMOD&=0xF0;TMOD|=0x01
+ 292      =1  #define   TIMER0_MODE2_ENABLE   TMOD&=0xF0;TMOD|=0x02
+ 293      =1  #define   TIMER0_MODE3_ENABLE   TMOD&=0xF0;TMOD|=0x03
+ 294      =1  //-------------------- Timer2 function define --------------------
+ 295      =1  #define   TIMER2_DIV_4      T2MOD|=0x10;T2MOD&=0x9F
+ 296      =1  #define   TIMER2_DIV_16     T2MOD|=0x20;T2MOD&=0xAF
+ 297      =1  #define   TIMER2_DIV_32     T2MOD|=0x30;T2MOD&=0xBF
+ 298      =1  #define   TIMER2_DIV_64     T2MOD|=0x40;T2MOD&=0xCF
+ 299      =1  #define   TIMER2_DIV_128    T2MOD|=0x50;T2MOD&=0xDF
+ 300      =1  #define   TIMER2_DIV_256    T2MOD|=0x60;T2MOD&=0xEF
+ 301      =1  #define   TIMER2_DIV_512    T2MOD|=0x70
+ 302      =1  #define   TIMER2_Auto_Reload_Delay_Mode       T2CON&=~SET_BIT0;T2MOD|=SET_BIT7;T2MOD|=SET_BIT3
+ 303      =1  #define   TIMER2_Compare_Capture_Mode         T2CON|=SET_BIT0;T2MOD&=~SET_BIT7;T2MOD|=SET_BIT2
+ 304      =1  
+ 305      =1  #define   TIMER2_CAP0_Capture_Mode      T2CON&=~SET_BIT0;T2MOD=0x89
+ 306      =1  #define   TIMER2_CAP1_Capture_Mode      T2CON&=~SET_BIT0;T2MOD=0x8A
+ 307      =1  #define   TIMER2_CAP2_Capture_Mode      T2CON&=~SET_BIT0;T2MOD=0x8B
+ 308      =1  
+ 309      =1  //-------------------- Timer2 Capture define --------------------
+ 310      =1  //--- Falling Edge -----
+ 311      =1  #define IC0_P12_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON0|=SET_BIT4;CAPCON2|=SET_BIT4
+ 312      =1  #define IC1_P11_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x01;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 313      =1  #define IC2_P10_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x02;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 314      =1  #define IC3_P00_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x03;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 315      =1  #define IC3_P04_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x04;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 316      =1  #define IC4_P01_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x05;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 317      =1  #define IC5_P03_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x06;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 318      =1  #define IC6_P05_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x07;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 319      =1  #define IC7_P15_CAP0_FallingEdge_Capture    CAPCON1&=0xFC;CAPCON3&=0xF0;CAPCON3|=0x08;CAPCON0|=SET_BIT4;CAPC
+             -ON2|=SET_BIT4
+ 320      =1  
+ 321      =1  #define IC0_P12_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON0|=SET_BIT5;CAPCON2|=SET_BIT5
+ 322      =1  #define IC1_P11_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x10;CAPCON0|=SET_BIT5;CAPC
+             -ON0|=SET_BIT5
+ 323      =1  #define IC2_P10_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x20;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 324      =1  #define IC3_P00_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x30;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 325      =1  #define IC3_P04_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x40;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 326      =1  #define IC4_P01_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x50;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 327      =1  #define IC5_P03_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x60;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 328      =1  #define IC6_P05_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x70;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 329      =1  #define IC7_P15_CAP1_FallingEdge_Capture    CAPCON1&=0xF3;CAPCON3&=0x0F;CAPCON3|=0x80;CAPCON0|=SET_BIT5;CAPC
+             -ON2|=SET_BIT5
+ 330      =1  
+ 331      =1  #define IC0_P12_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON0|=SET_BIT6;CAPCON2|=SET_BIT6
+ 332      =1  #define IC1_P11_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x10;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 333      =1  #define IC2_P10_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x20;CAPCON0|=SET_BIT6;CAPC
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 34  
+
+             -ON2|=SET_BIT6
+ 334      =1  #define IC3_P00_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x30;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 335      =1  #define IC3_P04_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x40;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 336      =1  #define IC4_P01_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x50;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 337      =1  #define IC5_P03_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x60;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 338      =1  #define IC6_P05_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x70;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 339      =1  #define IC7_P15_CAP2_FallingEdge_Capture    CAPCON1&=0x0F;CAPCON4&=0xF0;CAPCON4|=0x80;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6
+ 340      =1  
+ 341      =1  //----- Rising edge ----
+ 342      =1  #define IC0_P12_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0CAPCON0|=SET_BIT4;CAPCO
+             -N2|=SET_BIT4;
+ 343      =1  #define IC1_P11_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x01;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 344      =1  #define IC2_P10_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x02;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 345      =1  #define IC3_P00_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x03;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 346      =1  #define IC3_P04_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x04;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 347      =1  #define IC4_P01_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x05;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 348      =1  #define IC5_P03_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x06;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 349      =1  #define IC6_P05_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x07;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 350      =1  #define IC7_P15_CAP0_RisingEdge_Capture     CAPCON1&=0xFC;CAPCON1|=0x01;CAPCON3&=0xF0;CAPCON3|=0x08;CAPCON0|
+             -=SET_BIT4;CAPCON2|=SET_BIT4;
+ 351      =1  
+ 352      =1  #define IC0_P12_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0FCAPCON0|=SET_BIT5;CAPCO
+             -N2|=SET_BIT5;
+ 353      =1  #define IC1_P11_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x10;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 354      =1  #define IC2_P10_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x20;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 355      =1  #define IC3_P00_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x30;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 356      =1  #define IC3_P04_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x40;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 357      =1  #define IC4_P01_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x50;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 358      =1  #define IC5_P03_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x60;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 359      =1  #define IC6_P05_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x70;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 360      =1  #define IC7_P15_CAP1_RisingEdge_Capture     CAPCON1&=0xF3;CAPCON1|=0x04;CAPCON3&=0x0F;CAPCON3|=0x80;CAPCON0|
+             -=SET_BIT5;CAPCON2|=SET_BIT5;
+ 361      =1  
+ 362      =1  #define IC0_P12_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON0|=SET_BIT6;CAPC
+             -ON2|=SET_BIT6;
+ 363      =1  #define IC1_P11_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x01;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 364      =1  #define IC2_P10_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x02;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 365      =1  #define IC3_P00_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x03;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 366      =1  #define IC3_P04_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x04;CAPCON0|
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 35  
+
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 367      =1  #define IC4_P01_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x05;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 368      =1  #define IC5_P03_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x06;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 369      =1  #define IC6_P05_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x07;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 370      =1  #define IC7_P15_CAP3_RisingEdge_Capture     CAPCON1&=0x0F;CAPCON1|=0x10;CAPCON4&=0xF0;CAPCON4|=0x08;CAPCON0|
+             -=SET_BIT6;CAPCON2|=SET_BIT6;
+ 371      =1  
+ 372      =1  //-----BOTH  edge ----
+ 373      =1  #define IC0_P12_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON0|=SET_BIT4;CAPCO
+             -N2|=SET_BIT4
+ 374      =1  #define IC1_P11_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x01;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 375      =1  #define IC2_P10_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x02;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 376      =1  #define IC3_P00_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x03;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 377      =1  #define IC3_P04_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x04;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 378      =1  #define IC4_P01_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x05;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 379      =1  #define IC5_P03_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x06;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 380      =1  #define IC6_P05_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x07;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 381      =1  #define IC7_P15_CAP0_BothEdge_Capture       CAPCON1&=0xFC;CAPCON1|=0x02;CAPCON3&=0xF0;CAPCON3|=0x08;CAPCON0|=
+             -SET_BIT4;CAPCON2|=SET_BIT4
+ 382      =1  
+ 383      =1  #define IC0_P12_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON0|=SET_BIT5;CAPCO
+             -N2|=SET_BIT5
+ 384      =1  #define IC1_P11_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x10;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 385      =1  #define IC2_P10_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x20;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 386      =1  #define IC3_P00_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x30;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 387      =1  #define IC3_P04_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x40;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 388      =1  #define IC4_P01_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x50;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 389      =1  #define IC5_P03_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x60;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 390      =1  #define IC6_P05_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x70;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 391      =1  #define IC7_P15_CAP1_BothEdge_Capture       CAPCON1&=0xF3;CAPCON1|=0x08;CAPCON3&=0x0F;CAPCON3|=0x80;CAPCON0|=
+             -SET_BIT5;CAPCON2|=SET_BIT5;
+ 392      =1  
+ 393      =1  #define IC0_P12_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON0|=SET_BIT6;CAPCO
+             -N2|=SET_BIT6;
+ 394      =1  #define IC1_P11_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x01;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 395      =1  #define IC2_P10_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x02;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 396      =1  #define IC3_P00_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x03;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 397      =1  #define IC3_P04_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x04;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 398      =1  #define IC4_P01_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x05;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 399      =1  #define IC5_P03_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x06;CAPCON0|=
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 36  
+
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 400      =1  #define IC6_P05_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x07;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 401      =1  #define IC7_P15_CAP3_BothEdge_Capture       CAPCON1&=0x0F;CAPCON1|=0x20;CAPCON4&=0xF0;CAPCON4|=0x08;CAPCON0|=
+             -SET_BIT6;CAPCON2|=SET_BIT6;
+ 402      =1  
+ 403      =1  #define TIMER2_IC2_DISABLE                  CAPCON0&=~SET_BIT6       
+ 404      =1  #define TIMER2_IC1_DISABLE                  CAPCON0&=~SET_BIT5      
+ 405      =1  #define TIMER2_IC0_DISABLE                  CAPCON0&=~SET_BIT4  
+ 406      =1  
+ 407      =1  /*****************************************************************************************
+ 408      =1  * For PWM setting 
+ 409      =1  *****************************************************************************************/
+ 410      =1  //--------- PMW clock source select define ---------------------
+ 411      =1  #define   PWM_CLOCK_FSYS          CKCON&=0xBF
+ 412      =1  #define   PWM_CLOCK_TIMER1        CKCON|=0x40
+ 413      =1  //--------- PWM clock devide define ----------------------------
+ 414      =1  #define   PWM_CLOCK_DIV_2         PWMCON1|=0x01;PWMCON1&=0xF9
+ 415      =1  #define   PWM_CLOCK_DIV_4         PWMCON1|=0x02;PWMCON1&=0xFA
+ 416      =1  #define   PWM_CLOCK_DIV_8         PWMCON1|=0x03;PWMCON1&=0xFB
+ 417      =1  #define   PWM_CLOCK_DIV_16        PWMCON1|=0x04;PWMCON1&=0xFC
+ 418      =1  #define   PWM_CLOCK_DIV_32        PWMCON1|=0x05;PWMCON1&=0xFD
+ 419      =1  #define   PWM_CLOCK_DIV_64        PWMCON1|=0x06;PWMCON1&=0xFE
+ 420      =1  #define   PWM_CLOCK_DIV_128       PWMCON1|=0x07
+ 421      =1  //--------- PWM I/O select define ------------------------------
+ 422      =1  #define   PWM5_P15_OUTPUT_ENABLE    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1|=0x20;TA=0xAA;TA=0x55;
+             -SFRS&=0xFE;EA=BIT_TMP       //P1.5 as PWM5 output enable
+ 423      =1  #define   PWM5_P03_OUTPUT_ENABLE    PIOCON0|=0x20                                                   //P0.3 as PWM5
+ 424      =1  #define   PWM4_P01_OUTPUT_ENABLE    PIOCON0|=0x10                                                   //P0.1 as PWM4 output enable
+ 425      =1  #define   PWM3_P04_OUTPUT_ENABLE    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1|=0x08;TA=0xAA;TA=0x55;
+             -SFRS&=0xFE;EA=BIT_TMP       //P0.4 as PWM3 output enable
+ 426      =1  #define   PWM3_P00_OUTPUT_ENABLE    PIOCON0|=0x08                                                   //P0.0 as PWM3 
+ 427      =1  #define   PWM2_P05_OUTPUT_ENABLE    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1|=0x04;TA=0xAA;TA=0x55;
+             -SFRS&=0xFE;EA=BIT_TMP       //P1.0 as PWM2 output enable
+ 428      =1  #define   PWM2_P10_OUTPUT_ENABLE    PIOCON0|=0x04                                                   //P1.0 as PWM2
+ 429      =1  #define   PWM1_P14_OUTPUT_ENABLE    BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1|=0x02;TA=0xAA;TA=0x55;
+             -SFRS&=0xFE;EA=BIT_TMP       //P1.4 as PWM1 output enable
+ 430      =1  #define   PWM1_P11_OUTPUT_ENABLE    PIOCON0|=0x02                                                   //P1.1 as PWM1 
+ 431      =1  #define   PWM0_P12_OUTPUT_ENABLE    PIOCON0|=0x01                                                   //P1.2 as PWM0 output enable
+ 432      =1  #define   ALL_PWM_OUTPUT_ENABLE     PIOCON0=0xFF;PIOCON1=0xFF
+ 433      =1  #define   PWM5_P15_OUTPUT_DISABLE   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1&=0xDF;TA=0xAA;TA=0x55
+             -;SFRS&=0xFE;EA=BIT_TMP        //P1.5 as PWM5 output disable
+ 434      =1  #define   PWM5_P03_OUTPUT_DISABLE   PIOCON0&=0xDF                                                   //P0.3 as PWM5
+ 435      =1  #define   PWM4_P01_OUTPUT_DISABLE   PIOCON0&=0xEF                                                   //P0.1 as PWM4 output disable
+ 436      =1  #define   PWM3_P04_OUTPUT_DISABLE   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1&=0xF7;TA=0xAA;TA=0x55
+             -;SFRS&=0xFE;EA=BIT_TMP        //P0.4 as PWM3 output disable
+ 437      =1  #define   PWM3_P00_OUTPUT_DISABLE   PIOCON0&=0xF7                                                   //P0.0 as PWM3 
+ 438      =1  #define   PWM2_P05_OUTPUT_DISABLE   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1&=0xFB;TA=0xAA;TA=0x55
+             -;SFRS&=0xFE;EA=BIT_TMP        //P1.0 as PWM2 output disable
+ 439      =1  #define   PWM2_P10_OUTPUT_DISABLE   PIOCON0&=0xFB                                                   //P1.0 as PWM2
+ 440      =1  #define   PWM1_P14_OUTPUT_DISABLE   BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;SFRS|=0x01;PIOCON1&=0xFD;TA=0xAA;TA=0x55
+             -;SFRS&=0xFE;EA=BIT_TMP        //P1.4 as PWM1 output disable
+ 441      =1  #define   PWM1_P11_OUTPUT_DISABLE   PIOCON0&=0xFD                                                   //P1.1 as PWM1 
+ 442      =1  #define   PWM0_P12_OUTPUT_DISABLE   PIOCON0&=0xFE                                                   //P1.2 as PWM0 output disable
+ 443      =1  #define   ALL_PWM_OUTPUT_DISABLE    PIOCON0=0x00;PIOCON1=0x00
+ 444      =1  //--------- PWM I/O Polarity Control ---------------------------
+ 445      =1  #define   PWM5_OUTPUT_INVERSE     PNP|=0x20       
+ 446      =1  #define   PWM4_OUTPUT_INVERSE     PNP|=0x10       
+ 447      =1  #define   PWM3_OUTPUT_INVERSE     PNP|=0x08       
+ 448      =1  #define   PWM2_OUTPUT_INVERSE     PNP|=0x04       
+ 449      =1  #define   PWM1_OUTPUT_INVERSE     PNP|=0x02       
+ 450      =1  #define   PWM0_OUTPUT_INVERSE     PNP|=0x01       
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 37  
+
+ 451      =1  #define   PWM_OUTPUT_ALL_INVERSE  PNP=0xFF
+ 452      =1  #define   PWM5_OUTPUT_NORMAL      PNP&=0xDF       
+ 453      =1  #define   PWM4_OUTPUT_NORMAL      PNP&=0xEF       
+ 454      =1  #define   PWM3_OUTPUT_NORMAL      PNP&=0xF7       
+ 455      =1  #define   PWM2_OUTPUT_NORMAL      PNP&=0xFB       
+ 456      =1  #define   PWM1_OUTPUT_NORMAL      PNP&=0xFD       
+ 457      =1  #define   PWM0_OUTPUT_NORMAL      PNP&=0xFE       
+ 458      =1  #define   PWM_OUTPUT_ALL_NORMAL   PNP=0x00
+ 459      =1  //--------- PWM type define ------------------------------------
+ 460      =1  #define   PWM_EDGE_TYPE           PWMCON1&=~SET_BIT4
+ 461      =1  #define   PWM_CENTER_TYPE         PWMCON1|=SET_BIT4
+ 462      =1  //--------- PWM mode define ------------------------------------
+ 463      =1  #define   PWM_IMDEPENDENT_MODE    PWMCON1&=0x3F
+ 464      =1  #define   PWM_COMPLEMENTARY_MODE  PWMCON1|=0x40;PWMCON1&=0x7F
+ 465      =1  #define   PWM_SYNCHRONIZED_MODE   PWMCON1|=0x80;PWMCON1&=0xBF
+ 466      =1  #define   PWM_GP_MODE_ENABLE      PWMCON1|=0x20
+ 467      =1  #define   PWM_GP_MODE_DISABLE     PWMCON1&=0xDF
+ 468      =1  //--------- PMW interrupt setting ------------------------------
+ 469      =1  #define   PWM_FALLING_INT         BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xCF;TA=0xAA;TA=0x55;SFRS=0x00;
+             -EA=BIT_TMP
+ 470      =1  #define   PWM_RISING_INT          BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=0x10;PWMCON0&=0xDF;TA=0xAA;TA=0x
+             -55;SFRS=0x00;EA=BIT_TMP
+ 471      =1  #define   PWM_CENTRAL_POINT_INT   BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=0x20;PWMCON0&=0xEF;TA=0xAA;T
+             -A=0x55;SFRS=0x00;EA=BIT_TMP
+ 472      =1  #define   PWM_PERIOD_END_INT      BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC|=0x30;TA=0xAA;TA=0x55;SFRS=0x00
+             -;EA=BIT_TMP
+ 473      =1  //--------- PWM interrupt pin select ---------------------------
+ 474      =1  #define   PWM_INT_PWM0            BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xF8;TA=0xAA;TA=0x55;SFRS=0x00;EA
+             -=BIT_TMP
+ 475      =1  #define   PWM_INT_PWM1            BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xF8;PWMINTC|=0x01;TA=0xAA;TA=0x5
+             -5;SFRS=0x00;EA=BIT_TMP
+ 476      =1  #define   PWM_INT_PWM2            BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xF8;PWMINTC|=0x02;TA=0xAA;TA=0x5
+             -5;SFRS=0x00;EA=BIT_TMP
+ 477      =1  #define   PWM_INT_PWM3            BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xF8;PWMINTC|=0x03;TA=0xAA;TA=0x5
+             -5;SFRS=0x00;EA=BIT_TMP
+ 478      =1  #define   PWM_INT_PWM4            BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xF8;PWMINTC|=0x04;TA=0xAA;TA=0x5
+             -5;SFRS=0x00;EA=BIT_TMP
+ 479      =1  #define   PWM_INT_PWM5            BIT_TMP=EA;TA=0xAA;TA=0x55;SFRS=0x01;PWMINTC&=0xF8;PWMINTC|=0x05;TA=0xAA;TA=0x5
+             -5;SFRS=0x00;EA=BIT_TMP
+ 480      =1  //--------- PWM Dead time setting ------------------------------
+ 481      =1  #define   PWM45_DEADTIME_ENABLE     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN|=0x04;EA=BIT_TMP
+ 482      =1  #define   PWM34_DEADTIME_ENABLE     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN|=0x02;EA=BIT_TMP
+ 483      =1  #define   PWM01_DEADTIME_ENABLE     BIT_TMP=EA;EA=0;TA=0xAA;TA=0x55;PDTEN|=0x01;EA=BIT_TMP
+ 484      =1  
+ 485      =1  /*****************************************************************************************
+ 486      =1  * For ADC INIT setting 
+ 487      =1  *****************************************************************************************/
+ 488      =1  #define Enable_ADC_AIN0     ADCCON0&=0xF0;P17_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT0;ADCCON1|=SET_BIT0     
+             -            //P17
+ 489      =1  #define Enable_ADC_AIN1     ADCCON0&=0xF0;ADCCON0|=0x01;P30_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT1;ADCCON
+             -1|=SET_BIT0    //P30
+ 490      =1  #define Enable_ADC_AIN2     ADCCON0&=0xF0;ADCCON0|=0x02;P07_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT2;ADCCON
+             -1|=SET_BIT0    //P07
+ 491      =1  #define Enable_ADC_AIN3     ADCCON0&=0xF0;ADCCON0|=0x03;P06_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT3;ADCCON
+             -1|=SET_BIT0    //P06
+ 492      =1  #define Enable_ADC_AIN4     ADCCON0&=0xF0;ADCCON0|=0x04;P05_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT4;ADCCON
+             -1|=SET_BIT0    //P05
+ 493      =1  #define Enable_ADC_AIN5     ADCCON0&=0xF0;ADCCON0|=0x05;P04_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT5;ADCCON
+             -1|=SET_BIT0    //P04
+ 494      =1  #define Enable_ADC_AIN6     ADCCON0&=0xF0;ADCCON0|=0x06;P03_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT6;ADCCON
+             -1|=SET_BIT0    //P03
+ 495      =1  #define Enable_ADC_AIN7     ADCCON0&=0xF0;ADCCON0|=0x07;P11_Input_Mode;AINDIDS=0x00;AINDIDS|=SET_BIT7;ADCCON
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 38  
+
+             -1|=SET_BIT0    //P11
+ 496      =1  #define Enable_ADC_BandGap  ADCCON0|=SET_BIT3;ADCCON0&=0xF8;ADCCON1|=SET_BIT0                                             //Band-
+             -gap 1.22V
+ 497      =1  #define Disable_ADC         ADCCON1&=0xFE;
+ 498      =1  
+ 499      =1  #define PWM0_FALLINGEDGE_TRIG_ADC   ADCCON0&=~SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1&=~SET_BIT3;ADCCON1&=~SET_
+             -BIT2;ADCCON1|=SET_BIT1
+ 500      =1  #define PWM2_FALLINGEDGE_TRIG_ADC   ADCCON0&=~SET_BIT5;ADCCON0|=SET_BIT4;ADCCON1&=~SET_BIT3;ADCCON1&=~SET_B
+             -IT2;ADCCON1|=SET_BIT1
+ 501      =1  #define PWM4_FALLINGEDGE_TRIG_ADC   ADCCON0|=SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1&=~SET_BIT3;ADCCON1&=~SET_B
+             -IT2;ADCCON1|=SET_BIT1
+ 502      =1  #define PWM0_RISINGEDGE_TRIG_ADC    ADCCON0&=~SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1&=~SET_BIT3;ADCCON1|=SET_BI
+             -T2;ADCCON1|=SET_BIT1
+ 503      =1  #define PWM2_RISINGEDGE_TRIG_ADC    ADCCON0&=~SET_BIT5;ADCCON0|=SET_BIT4;ADCCON1&=~SET_BIT3;ADCCON1|=SET_BIT
+             -2;ADCCON1|=SET_BIT1
+ 504      =1  #define PWM4_RISINGEDGE_TRIG_ADC    ADCCON0|=SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1&=~SET_BIT3;ADCCON1|=SET_BIT
+             -2;ADCCON1|=SET_BIT1
+ 505      =1  #define PWM0_CENTRAL_TRIG_ADC       ADCCON0&=~SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1|=SET_BIT3;ADCCON1&=~SET_BIT
+             -2;ADCCON1|=SET_BIT1
+ 506      =1  #define PWM2_CENTRAL_TRIG_ADC       ADCCON0&=~SET_BIT5;ADCCON0|=SET_BIT4;ADCCON1|=SET_BIT3;ADCCON1&=~SET_BIT2
+             -;ADCCON1|=SET_BIT1
+ 507      =1  #define PWM4_CENTRAL_TRIG_ADC       ADCCON0|=SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1|=SET_BIT3;ADCCON1&=~SET_BIT2
+             -;ADCCON1|=SET_BIT1
+ 508      =1  #define PWM0_END_TRIG_ADC           ADCCON0&=~SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1|=SET_BIT3;ADCCON1|=SET_BIT2;A
+             -DCCON1|=SET_BIT1
+ 509      =1  #define PWM2_END_TRIG_ADC           ADCCON0&=~SET_BIT5;ADCCON0|=SET_BIT4;ADCCON1|=SET_BIT3;ADCCON1|=SET_BIT2;AD
+             -CCON1|=SET_BIT1
+ 510      =1  #define PWM4_END_TRIG_ADC           ADCCON0|=SET_BIT5;ADCCON0&=~SET_BIT4;ADCCON1|=SET_BIT3;ADCCON1|=SET_BIT2;AD
+             -CCON1|=SET_BIT1
+ 511      =1  
+ 512      =1  #define P04_FALLINGEDGE_TRIG_ADC    ADCCON0|=0x30;ADCCON1&=0xF3;ADCCON1|=SET_BIT1;ADCCON1&=~SET_BIT6
+ 513      =1  #define P13_FALLINGEDGE_TRIG_ADC    ADCCON0|=0x30;ADCCON1&=0xF3;ADCCON1|=SET_BIT1;ADCCON1|=SET_BIT6
+ 514      =1  #define P04_RISINGEDGE_TRIG_ADC     ADCCON0|=0x30;ADCCON1&=~SET_BIT3;ADCCON1|=SET_BIT2;ADCCON1|=SET_BIT1;ADC
+             -CON1&=~SET_BIT6
+ 515      =1  #define P13_RISINGEDGE_TRIG_ADC     ADCCON0|=0x30;ADCCON1&=~SET_BIT3;ADCCON1|=SET_BIT2;ADCCON1|=SET_BIT1;ADC
+             -CON1|=SET_BIT6
+ 516      =1  
+ 517      =1  /*****************************************************************************************
+ 518      =1  * For SPI INIT setting 
+ 519      =1  *****************************************************************************************/
+ 520      =1  #define   SPICLK_DIV2             clr_SPR0;clr_SPR1
+ 521      =1  #define   SPICLK_DIV4             set_SPR0;clr_SPR1
+ 522      =1  #define   SPICLK_DIV8             clr_SPR0;set_SPR1
+ 523      =1  #define   SPICLK_DIV16            set_SPR0;set_SPR1
+ 524      =1  #define   Enable_SPI_Interrupt    set_ESPI;set_EA
+ 525      =1  #define   SS    P15
+  11          #include "irfapp_main.h"
+   1      =1  /*
+   2      =1   *  irfapp_main.h
+   3      =1   *
+   4      =1   *  Created on: Dec 25, 2020
+   5      =1   *      Author: Truong VV
+   6      =1   */
+   7      =1  
+   8      =1  #ifndef _IRFAPP_MAIN_H_
+   9      =1  #define _IRFAPP_MAIN_H_
+  10      =1  
+  11      =1  /******************************************************************************/
+  12      =1  /*                              DEFINE                                      */
+  13      =1  /******************************************************************************/
+  14      =1  
+  15      =1  /* Command type */
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 39  
+
+  16      =1  #define MASTER_UPDATA_TYPE              0xB0
+  17      =1  #define MASTER_ERROR_TYE                0xB1
+  18      =1  #define SLAVE_UPDATE_TYPE               0xA0
+  19      =1  #define SLAVE_ERROR_TYPE                0xA1
+  20      =1  
+  21      =1  /* Command */
+  22      =1  /* INFORMATION */
+  23      =1  #define DEVICE_ANNOUNCE                 0x10
+  24      =1  #define SEND_FIRST_TIME                 0x11
+  25      =1  #define SEND_FIRST_TIME_1               0x12
+  26      =1  #define SEND_FIRST_TIME_2               0x13
+  27      =1  
+  28      =1  /* Connect */
+  29      =1  #define CHECK_CONNECT                   0x20
+  30      =1  #define CHECK_CONNECT_SUCCESS           0x21
+  31      =1  #define CHECK_CONNECT_NOTSUCCESS        0x22
+  32      =1  
+  33      =1  
+  34      =1  /* Start */
+  35      =1  #define START_RUN                       0x30
+  36      =1  #define START_RUN_NORMAL                0x31
+  37      =1  #define START_RUN_4KMH                  0x32
+  38      =1  #define START_RUN_6KMH                  0x33
+  39      =1  #define START_RUN_8KHM                  0x34
+  40      =1  #define START_RUN_10KM                  0x35
+  41      =1  
+  42      =1  /* Stop */
+  43      =1  #define STOP_RUN                        0x40
+  44      =1  #define STOP_RUN_BY_TIMEOUT             0x41
+  45      =1  #define STOP_RUN_BY_USER                0x42
+  46      =1  #define STOP_RUN_BY_ERROR_MOTOR         0x43
+  47      =1  #define STOP_RUN_BY_ERROR_SYSTEM        0x44
+  48      =1  
+  49      =1  /* CHANGE UP DOWN FLOOR */
+  50      =1  #define UP_DOW_FLOOR                    0x50
+  51      =1  #define FLOOR_MAX                       0x51
+  52      =1  #define FLOOR_MIN                       0x52
+  53      =1  #define FLOOR_NORMAL                    0x53
+  54      =1  
+  55      =1  
+  56      =1  /* GET STATE MOTOR */
+  57      =1  #define GET_STATE_MOTOR                 0x70
+  58      =1  #define IS_HAVEMOTOR                    0x71
+  59      =1  #define IS_NOTMOTOR                     0x72
+  60      =1  
+  61      =1  /* SET STATE FLOOR  */  
+  62      =1  #define GET_STATE_FLOOR                 0x73
+  63      =1  #define IS_HAVEFLOOR                    0x74
+  64      =1  #define IS_NOTFLOOR                     0x75
+  65      =1  
+  66      =1  /* SET SPEED MOTOR */
+  67      =1  #define SET_SPEED_MOTOR                 0x80
+  68      =1  #define SET_SPEED_MOTOR_NORMAL          0x81
+  69      =1  #define SET_SPEED_MOTOR_MAX             0x82
+  70      =1  #define SET_SPEED_MOTOR_MIN             0x83
+  71      =1  
+  72      =1  /* LOG STATE */
+  73      =1  #define GET_ALL_STATE                   0x90
+  74      =1  
+  75      =1  
+  76      =1  typedef void (*App_CommandHandle_t)(u8 type, u8* buff, u8 length);
+  77      =1  
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 40  
+
+  78      =1  typedef struct App_ComandInfo_t
+  79      =1  {
+  80      =1      u8 cmdId;
+  81      =1      App_CommandHandle_t cmdHandle;
+  82      =1  } App_ComandInfo_t;
+  83      =1  
+  84      =1  
+  85      =1  /******************************************************************************/
+  86      =1  /*                              FUNCTION                                      */
+  87      =1  /******************************************************************************/
+  88      =1  void APP_CheckCommandExistAndExecutes(u8 command, u8 type, u8* buff, u8 length);
+  89      =1  
+  90      =1  #endif /*_IRFAPP_MAIN_H_*/
+  12          
+  13          /******************************************************************************/
+  14          /*                              FUNCTION                                      */
+  15          /******************************************************************************/
+  16          static void APP_SendFirstTime(u8 type,u8 *buff, u8 len);
+  17          
+  18          static void APP_SendFirstTime1(u8 type,u8 *buff, u8 len);
+  19          
+  20          static void APP_SendFirstTime2(u8 type,u8 *buff, u8 len);
+  21          
+  22          static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 len);
+  23          
+  24          static void APP_CheckConnect(u8 type,u8 *buff, u8 len);
+  25          
+  26          static void APP_StartRun(u8 type,u8 *buff, u8 len);
+  27          
+  28          static void APP_StopRun(u8 type, u8 *buff, u8 len);
+  29          
+  30          static void APP_UpDownFloor(u8 type, u8 *buff, u8 len);
+  31          
+  32          static void APP_GetStateMotor(u8 type, u8 *buff, u8 len);
+  33          
+  34          static void APP_GetStateFloor(u8 type, u8 *buff, u8 len);
+  35          
+  36          static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 len);
+  37          
+  38          static void APP_GetAllState(u8 type, u8 *buff, u8 len);
+  39          
+  40          static const App_ComandInfo_t appListCommand[] =
+  41          {
+  42              {SEND_FIRST_TIME        ,APP_SendFirstTime},
+  43              {SEND_FIRST_TIME_1      ,APP_SendFirstTime1},
+  44              {SEND_FIRST_TIME_2      ,APP_SendFirstTime2},
+  45              {DEVICE_ANNOUNCE        ,APP_DeviceAnnounce},
+  46              {CHECK_CONNECT          ,APP_CheckConnect},
+  47              {START_RUN              ,APP_StartRun},
+  48              {STOP_RUN               ,APP_StopRun},
+  49              {UP_DOW_FLOOR           ,APP_UpDownFloor},
+  50              {GET_STATE_MOTOR        ,APP_GetStateMotor},
+  51              {GET_STATE_FLOOR        ,APP_GetStateFloor},
+  52              {SET_SPEED_MOTOR        ,APP_SetSpeedMotor},
+  53              {GET_ALL_STATE          ,APP_GetAllState}
+  54          };
+  55          
+  56          /**
+  57           * @func   APP_CheckCommandExistAndExecutes
+  58           * @brief  None
+  59           * @param  
+  60           * @retval None
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 41  
+
+  61           */
+  62          void APP_CheckCommandExistAndExecutes(u8 command, u8 type, u8* buff, u8 length)
+  63          {
+  64   1          int i = 0;
+  65   1          for(i = 0; i<sizeof(appListCommand)/sizeof(App_ComandInfo_t);i++)
+  66   1          {
+  67   2              if(command == appListCommand[i].cmdId)
+  68   2              {
+  69   3                  if(appListCommand[i].cmdHandle != NULL)
+  70   3                  {
+  71   4                      appListCommand[i].cmdHandle(type, buff, length);
+*** ERROR C212 IN LINE 71 OF ..\App\irfapp_main.c: indirect call: parameters do not fit within registers
+  72   4                  }
+  73   3              }
+  74   2          }
+  75   1      }
+  76          
+  77          
+  78          /**
+  79           * @func   APP_SendFirstTime
+  80           * @brief  None
+  81           * @param  
+  82           * @retval None
+  83           */
+  84          static void APP_SendFirstTime(u8 type,u8 *buff, u8 len)
+  85          {
+  86   1      
+  87   1      }
+  88          
+  89          /**
+  90           * @func   APP_SendFirstTime1
+  91           * @brief  None
+  92           * @param  
+  93           * @retval None
+  94           */
+  95          static void APP_SendFirstTime1(u8 type,u8 *buff, u8 len)
+  96          {
+  97   1      
+  98   1      }
+  99          
+ 100          /**
+ 101           * @func   APP_SendFirstTime2
+ 102           * @brief  None
+ 103           * @param  
+ 104           * @retval None
+ 105           */
+ 106          static void APP_SendFirstTime2(u8 type,u8 *buff, u8 len)
+ 107          {
+ 108   1      
+ 109   1      }
+ 110          
+ 111          /**
+ 112           * @func   APP_DeviceAnnounce
+ 113           * @brief  None
+ 114           * @param  
+ 115           * @retval None
+ 116           */
+ 117          static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 len)
+ 118          {
+ 119   1      
+ 120   1      }
+ 121          
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 42  
+
+ 122          /**
+ 123           * @func   APP_CheckConnect
+ 124           * @brief  None
+ 125           * @param  
+ 126           * @retval None
+ 127           */
+ 128          static void APP_CheckConnect(u8 type,u8 *buff, u8 len)
+ 129          {
+ 130   1      
+ 131   1      }
+ 132          
+ 133          /**
+ 134           * @func   APP_StartRun
+ 135           * @brief  None
+ 136           * @param  
+ 137           * @retval None
+ 138           */
+ 139          static void APP_StartRun(u8 type,u8 *buff, u8 len)
+ 140          {
+ 141   1      
+ 142   1      }
+ 143          
+ 144          /**
+ 145           * @func   APP_StopRun
+ 146           * @brief  None
+ 147           * @param  
+ 148           * @retval None
+ 149           */
+ 150          static void APP_StopRun(u8 type, u8 *buff, u8 len)
+ 151          {
+ 152   1      
+ 153   1      }
+ 154          
+ 155          /**
+ 156           * @func   APP_UpDownFloor
+ 157           * @brief  None
+ 158           * @param  
+ 159           * @retval None
+ 160           */
+ 161          static void APP_UpDownFloor(u8 type, u8 *buff, u8 len)
+ 162          {
+ 163   1      
+ 164   1      }
+ 165          
+ 166          /**
+ 167           * @func   APP_GetStateMotor
+ 168           * @brief  None
+ 169           * @param  
+ 170           * @retval None
+ 171           */
+ 172          static void APP_GetStateMotor(u8 type, u8 *buff, u8 len)
+ 173          {
+ 174   1      
+ 175   1      }
+ 176          
+ 177          /**
+ 178           * @func   APP_GetStateFloor
+ 179           * @brief  None
+ 180           * @param  
+ 181           * @retval None
+ 182           */
+ 183          static void APP_GetStateFloor(u8 type, u8 *buff, u8 len)
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/11/2021 22:33:58 PAGE 43  
+
+ 184          {
+ 185   1      
+ 186   1      }
+ 187          
+ 188          /**
+ 189           * @func   APP_SetSpeedMotor
+ 190           * @brief  None
+ 191           * @param  
+ 192           * @retval None
+ 193           */
+ 194          static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 len)
+ 195          {
+ 196   1      
+ 197   1      }
+ 198          
+ 199          /**
+ 200           * @func   APP_GetAllState
+ 201           * @brief  None
+ 202           * @param  
+ 203           * @retval None
+ 204           */
+ 205          static void APP_GetAllState(u8 type, u8 *buff, u8 len)
+ 206          {
+ 207   1      
+ 208   1      }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

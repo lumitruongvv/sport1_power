@@ -13,9 +13,9 @@
  * Last Changed:     $Date: x/x/xxxx $
  */
 
-#ifndef IRF_H_
+#ifndef IRF_H
 
-#define IRF_H_
+#define IRF_H
 
 
 /******************************************************************************/
@@ -27,8 +27,8 @@
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
 
-#define IRF_BUFF_MAX        50
-#define IRF_QUEUE_MAX       3
+#define IRF_BUFF_MAX        5
+#define IRF_QUEUE_MAX       2
 #define IRF_HEADER          4
 
 
@@ -48,8 +48,6 @@ typedef struct irf_Command_t
 /******************************************************************************/
 
 void IRF_Init(void);
-
-static void IRF_CallBackHandle(void);
 
 void IRF_Proc(void);
 

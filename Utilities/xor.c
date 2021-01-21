@@ -14,12 +14,13 @@
 /*                              FUNCTION                                      */
 /******************************************************************************/
 
-u8 XOR_Caculator(uint8_t* data, uint8_t ofset, uint16_t length)
+u8 XOR_Caculator(uint8_t* buffer, uint8_t ofset, uint16_t length)
 {
     u8 result = 0;
-    for(u8 i = ofset; i < length; i++)
+	u8 i = 0;
+    for(i = ofset; i < length; i++)
     {
-        result ^= data[i];
+        result ^= buffer[i];
     }
     return result;
 }

@@ -1,0 +1,202 @@
+C51 COMPILER V9.60.0.0   UART                                                              01/19/2021 10:55:47 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\Driver\uart.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\
+                    -Driver;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\uart.lst) TABS(2) OBJECT(.\Objects\uart.ob
+                    -j)
+
+line level    source
+
+   1          /*
+   2           * Copyright (c) 2021
+   3           * Team, JSC.
+   4           * All Rights Reserved
+   5           *
+   6           *
+   7           * Description:
+   8           *
+   9           * Author: Truongvv
+  10           *
+  11           * Last Changed By:  $Author: Truongvv $
+  12           * Revision:         $Revision: 1.0 $
+  13           * Last Changed:     $Date: x/x/xxxx $
+  14           */
+  15          #include "N76E003.h"
+  16          #include "SFR_Macro.h"
+  17          #include "Function_Define.h"
+  18          #include "uart.h"
+  19          
+  20          type_UartCallBackFnc    p_uartCallBack = NULL;
+  21          
+  22          /**
+  23           * @func   UART_Init
+  24           * @brief  None
+  25           * @param  
+  26           * @retval None
+  27           */
+  28          void UART_Init (u32 baudRate) //use timer3 as Baudrate generator
+  29          {
+  30   1          P06_Quasi_Mode;   //Setting UART pin as Quasi mode for transmit
+  31   1          P07_Quasi_Mode;   //Setting UART pin as Quasi mode for transmit 
+  32   1      
+  33   1          #ifdef FOSC_160000
+  34   1              RH3    = HIBYTE(65536 - (1000000/baudRate)-1);      /*16 MHz */
+  35   1              RL3    = LOBYTE(65536 - (1000000/baudRate)-1);      /*16 MHz */
+  36   1          #endif
+  37   1          #ifdef FOSC_166000
+                      RH3    = HIBYTE(65536 - (1037500/baudRate));        /*16.6 MHz */
+                      RL3    = LOBYTE(65536 - (1037500/baudRate));        /*16.6 MHz */
+                  #endif
+  41   1      
+  42   1          SCON = 0x70;     //UART0 Mode1
+  43   1          set_SMOD;        //UART0 Double Rate Enable
+  44   1          T3CON &= 0xF8;   //T3PS2=0,T3PS1=0,T3PS0=0(Prescale=1)
+  45   1          set_BRCK;        //UART0 baud rate clock source = Timer3
+  46   1          set_TR3;         //Trigger Timer3
+  47   1          UART_Disable();
+  48   1      }
+  49          
+  50          /**
+  51           * @func   UART_Enable
+  52           * @brief  None
+  53           * @param  
+C51 COMPILER V9.60.0.0   UART                                                              01/19/2021 10:55:47 PAGE 2   
+
+  54           * @retval None
+  55           */
+  56          void UART_Enable(void)
+  57          {
+  58   1          set_ES;
+  59   1      }
+  60          
+  61          /**
+  62           * @func   UART_Disable
+  63           * @brief  None
+  64           * @param  
+  65           * @retval None
+  66           */
+  67          void UART_Disable(void)
+  68          {
+  69   1          clr_ES;
+  70   1      }
+  71          
+  72          
+  73          /**
+  74           * @func   UART_SendByte
+  75           * @brief  None
+  76           * @param  
+  77           * @retval None
+  78           */
+  79          void UART_SendByte (u8 byte)
+  80          {
+  81   1          TI = 0;
+  82   1          SBUF = byte;
+  83   1          while(TI==0);
+  84   1      }
+  85          
+  86          /**
+  87           * @func   UART_SendData
+  88           * @brief  None
+  89           * @param  
+  90           * @retval None
+  91           */
+  92          void UART_SendData (u8* buff, u8 length)
+  93          {
+  94   1          uint8_t i;
+  95   1        for(i = 0; i < length; i++)
+  96   1          {
+  97   2              UART_SendByte (buff[i]);
+  98   2          }
+  99   1      }
+ 100          
+ 101          /**
+ 102           * @func   UART_RevData
+ 103           * @brief  None
+ 104           * @param  
+ 105           * @retval None
+ 106           */
+ 107          u8 UART_RevData (void)
+ 108          {
+ 109   1        u8 dataRx;
+ 110   1        dataRx = SBUF;
+ 111   1        return dataRx;
+ 112   1      }
+ 113          
+ 114          /**
+ 115           * @func   MODIFY_Hirc166
+C51 COMPILER V9.60.0.0   UART                                                              01/19/2021 10:55:47 PAGE 3   
+
+ 116           * @brief  None
+ 117           * @param  
+ 118           * @retval None
+ 119           */
+ 120          void MODIFY_Hirc166(void)
+ 121          {
+ 122   1          UINT8 xdata hircmap0,hircmap1;
+ 123   1          UINT16 xdata trimvalue16bit;
+ 124   1          // Check if power on reset, modify HIRC 
+ 125   1          if ((PCON&SET_BIT4)==SET_BIT4)        
+ 126   1          {
+ 127   2              hircmap0 = RCTRIM0;
+ 128   2              hircmap1 = RCTRIM1;
+ 129   2              trimvalue16bit = ((hircmap0<<1)+(hircmap1&0x01));
+ 130   2              trimvalue16bit = trimvalue16bit - 15;
+ 131   2              hircmap1 = trimvalue16bit&0x01;
+ 132   2              hircmap0 = trimvalue16bit>>1;
+ 133   2              TA=0XAA;
+ 134   2              TA=0X55;
+ 135   2              RCTRIM0 = hircmap0;
+ 136   2              TA=0XAA;
+ 137   2              TA=0X55;
+ 138   2              RCTRIM1 = hircmap1;
+ 139   2              // Clear power on flag 
+ 140   2              PCON &= CLR_BIT4;
+ 141   2          }
+ 142   1      }
+ 143          
+ 144          /**
+ 145           * @func   UART_CallBackInit
+ 146           * @brief  None
+ 147           * @param  
+ 148           * @retval None
+ 149           */
+ 150          void UART_CallBackInit(type_UartCallBackFnc uartCallBackFnc)
+ 151          {
+ 152   1          p_uartCallBack = uartCallBackFnc;
+ 153   1      }
+ 154          
+ 155          /**
+ 156           * @func   SerialPort0_ISR
+ 157           * @brief  None
+ 158           * @param  
+ 159           * @retval None
+ 160           */
+ 161          void SerialPort0_ISR(void) interrupt 4
+ 162          {
+ 163   1          if(RI == SET)
+ 164   1          {
+ 165   2              clr_RI;
+ 166   2              if(p_uartCallBack != NULL)
+ 167   2              {
+ 168   3                  p_uartCallBack();
+ 169   3              }
+ 170   2          }
+ 171   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    353    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      3       7
+C51 COMPILER V9.60.0.0   UART                                                              01/19/2021 10:55:47 PAGE 4   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -523,10 +523,3 @@ extern bit BIT_TMP;
 #define		SPICLK_DIV16						set_SPR0;set_SPR1
 #define		Enable_SPI_Interrupt		set_ESPI;set_EA
 #define		SS		P15
-
-/*****************************************************************************************
-* Mydefine
-*****************************************************************************************/
-// #define DEF_FN_AC_RELAY()              P15_PushPull_Mode
-// #define DEF_FN_DC_PWM()                P11_PushPull_Mode
-

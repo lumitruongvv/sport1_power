@@ -1,0 +1,1 @@
+"..\Utilities\debug.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Driver;..\Utilities;..\Common) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\debug.lst) TABS (2) OBJECT(.\Objects\debug.obj)

@@ -8,6 +8,7 @@
 #include "N76E003.h"
 #include "SFR_Macro.h"
 #include "Function_Define.h"
+#include "string.h"
 #include "queue.h"
 
 /******************************************************************************/
@@ -32,7 +33,7 @@ void  QUEUE_Init(QUEUEx_t *q,u8* buffer,u8 queue_size, u8 element_size)
  * @brief functions QUEUE_Push.
  *
  */
-u8    QUEUE_Push(QUEUEx_t *q,u8* data)
+u8    QUEUE_Push(QUEUEx_t *q,u8* buffer)
 {
     if(QUEUE_Count(q)>=q->queue_size)
     {       
@@ -50,7 +51,7 @@ u8    QUEUE_Push(QUEUEx_t *q,u8* data)
         q->in=0;
     }
 
-    memcpy((u8*)&(q->p[q->in]),(u8*)data,q->element_size);
+    memcpy((u8*)&(q->p[q->in]),(u8*)buffer,q->element_size);
     q->in +=q->element_size;
 
     q->count++;

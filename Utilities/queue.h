@@ -5,8 +5,8 @@
  *      Author: Truong VV
  */
 
-#ifndef _QUEUE_H_
-#define _QUEUE_H
+#ifndef QUEUE_H
+#define QUEUE_H
 
 
 /******************************************************************************/
@@ -26,9 +26,9 @@ typedef struct QUEUEx_t
 /*                              FUNCTION                                      */
 /******************************************************************************/
 void  QUEUE_Init(QUEUEx_t *q,u8* buffer,u8 queue_size, u8 element_size);
-u8    QUEUE_Push(QUEUEx_t *q,u8* data);
+u8    QUEUE_Push(QUEUEx_t *q,u8* buffer);
 u8    QUEUE_Get(QUEUEx_t *q, u8* buffer);
 u8    QUEUE_Empty(QUEUEx_t *q);
 u8    QUEUE_Count(QUEUEx_t *q);
 
-#endif /*_QUEUE_H*/
+#endif /*QUEUE_H*/

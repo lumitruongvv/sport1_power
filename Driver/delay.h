@@ -27,12 +27,13 @@
 /*                     EXPORTED TYPES and DEFINITIONS                         */
 /******************************************************************************/
 
+#define F_CPU 		    16000000
+#define dly_const       (F_CPU / 16000000.0) 
 /******************************************************************************/
 /*                            EXPORTED FUNCTIONS                              */
 /******************************************************************************/
-void delay_ms (uint16_t time_ms);
-void delay_us (uint16_t time_us);
-void delay_100us (uint16_t time_us);
+void delay_us(uint16_t  value);
+void delay_ms(uint16_t  value);
 
 
 #endif	/* DELAY_H_ */

@@ -1,0 +1,150 @@
+C51 COMPILER V9.60.0.0   TIMER                                                             01/19/2021 10:55:47 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN .\Objects\timer.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\Driver\timer.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid;..
+                    -\Driver;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\timer.lst) TABS(2) OBJECT(.\Objects\timer
+                    -.obj)
+
+line level    source
+
+   1          /*
+   2           *  time.c
+   3           *
+   4           *  Created on: Dec 25, 2020
+   5           *      Author: Truong VV
+   6           */
+   7          
+   8          #include "N76E003.h"
+   9          #include "SFR_Macro.h"
+  10          #include "Function_Define.h"
+  11          #include "timer.h"
+  12          
+  13          /******************************************************************************/
+  14          /*                              DECLARE AND DEFINE                                      */
+  15          /******************************************************************************/
+  16          
+  17          type_TimerCallBackFnc p_timerCallBack;
+  18          
+  19          /******************************************************************************/
+  20          /*                              FUNCTION                                      */
+  21          /******************************************************************************/
+  22          /**
+  23           * @func   PWM_Start
+  24           * @brief  None
+  25           * @param  
+  26           * @retval None
+  27           */
+  28          void TIMER_Init(uint8_t channel)
+  29          {
+  30   1          switch (channel)
+  31   1          {
+  32   2          case TIMER0:
+  33   2              CKCON |= (1 << 3); // clock source of Timer 0 is direct the system clock
+  34   2              TL0 =  0x80;  // 1ms
+  35   2              TH0 =  0xC1;  // 1ms
+  36   2              TMOD |= (1 << 0); // timer0 16bit
+  37   2              break;
+  38   2          case TIMER1:
+  39   2              break;
+  40   2          case TIMER2:
+  41   2              break;
+  42   2          case TIMER3:
+  43   2              break;
+  44   2          default:
+  45   2              break;
+  46   2          }
+  47   1          TIMER_Disable(TIMER0);
+  48   1      }
+  49          
+  50          /**
+  51           * @func   PWM_Start
+  52           * @brief  None
+  53           * @param  
+C51 COMPILER V9.60.0.0   TIMER                                                             01/19/2021 10:55:47 PAGE 2   
+
+  54           * @retval None
+  55           */
+  56          void TIMER_CallBackInit(type_TimerCallBackFnc pHandle)
+  57          {
+  58   1          p_timerCallBack = pHandle;
+  59   1      }
+  60          
+  61          /**
+  62           * @func   PWM_Start
+  63           * @brief  None
+  64           * @param  
+  65           * @retval None
+  66           */
+  67          void TIMER_Enable(uint8_t channel)
+  68          {
+  69   1          switch (channel)
+  70   1          {
+  71   2          case TIMER0:
+  72   2              TCON  |= (1 << 4); // enable timer0
+  73   2              break;
+  74   2          case TIMER1:
+  75   2              TCON  |= (1 << 6); // enable timer1
+  76   2          case TIMER2:
+  77   2              T2CON |= (1 << 2); // enable time2
+  78   2          case TIMER3:
+  79   2              T3CON |= (1 << 3); // enable time3
+  80   2          default:
+  81   2              break;
+  82   2          }
+  83   1      }
+  84          
+  85          /**
+  86           * @func   PWM_Start
+  87           * @brief  None
+  88           * @param  
+  89           * @retval None
+  90           */
+  91          void TIMER_Disable(uint8_t channel)
+  92          {
+  93   1          switch (channel)
+  94   1          {
+  95   2          case TIMER0:
+  96   2              TCON  &= ~(1 << 4); // enable timer0
+  97   2              break;
+  98   2          case TIMER1:
+  99   2              TCON  &= ~(1 << 6); // enable timer1
+ 100   2          case TIMER2:
+ 101   2              T2CON &= ~(1 << 2); // enable time2
+ 102   2          case TIMER3:
+ 103   2              T3CON &= ~(1 << 3); // enable time3
+ 104   2          default:
+ 105   2              break;
+ 106   2          }
+ 107   1      }
+ 108          
+ 109          /**
+ 110           * @func   Timer0Overflow_ISR
+ 111           * @brief  None
+ 112           * @param  
+ 113           * @retval None
+ 114           */
+ 115          void Timer0Overflow_ISR(void) interrupt 1
+C51 COMPILER V9.60.0.0   TIMER                                                             01/19/2021 10:55:47 PAGE 3   
+
+ 116          {
+ 117   1          if(p_timerCallBack != NULL)
+ 118   1          {
+ 119   2              p_timerCallBack();
+ 120   2          }
+ 121   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    168    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      3    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

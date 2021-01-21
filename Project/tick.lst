@@ -1,0 +1,110 @@
+C51 COMPILER V9.60.0.0   TICK                                                              01/19/2021 10:55:48 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TICK
+OBJECT MODULE PLACED IN .\Objects\tick.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\Mid\tick.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Dri
+                    -ver;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\tick.lst) TABS(2) OBJECT(.\Objects\tick.obj)
+
+line level    source
+
+   1          /*
+   2           *  tick.c
+   3           *
+   4           *  Created on: Dec 25, 2020
+   5           *      Author: Truong VV
+   6           */
+   7          
+   8          #include "N76E003.h"
+   9          #include "SFR_Macro.h"
+  10          #include "Function_Define.h"
+  11          #include "timer.h"
+  12          #include "tick.h"
+  13          
+  14          static uint32_t tick = 0;
+  15          
+  16          /******************************************************************************/
+  17          /*                              FUNCTION                                      */
+  18          /******************************************************************************/
+  19          
+  20          /**
+  21           * @func   TICK_Init
+  22           * @brief  None
+  23           * @param  
+  24           * @retval None
+  25           */
+  26          void TICK_Init(void)
+  27          {
+  28   1          TIMER_Init(TIMER0);
+  29   1          TIMER_CallBackInit(TICK_Handle);
+  30   1          TIMER_Enable(TIMER0);
+  31   1      }
+  32          
+  33          /**
+  34           * @func   TICK_Hanle
+  35           * @brief  None
+  36           * @param  
+  37           * @retval None
+  38           */
+  39          void TICK_Handle(void)
+  40          {
+  41   1          tick++;
+  42   1      }
+  43          /**
+  44           * @func   GET_CurrentTick
+  45           * @brief  None
+  46           * @param  
+  47           * @retval None
+  48           */
+  49          uint32_t GET_CurrentTick(void)
+  50          {
+  51   1          return tick;
+  52   1      }
+  53          
+  54          /**
+C51 COMPILER V9.60.0.0   TICK                                                              01/19/2021 10:55:48 PAGE 2   
+
+  55           * @func   GET_LengthTime
+  56           * @brief  None
+  57           * @param  
+  58           * @retval None
+  59           */
+  60          uint32_t GET_LengthTime(uint32_t currentTick)
+  61          {
+  62   1          uint32_t currentValue;
+  63   1          currentValue = GET_CurrentTick();
+  64   1          if(currentValue >= currentTick)
+  65   1          {
+  66   2              return (currentValue - currentTick);
+  67   2          }
+  68   1          return (currentValue + 0xFFFFFFFF - currentTick);
+  69   1      }
+  70          
+  71          /**
+  72           * @func   GET_LengthTimeExceed
+  73           * @brief  None
+  74           * @param  
+  75           * @retval None
+  76           */
+  77          uint8_t  GET_LengthTimeExceed(uint32_t startTime, uint32_t time_ms)
+  78          {
+  79   1          if(GET_LengthTime(startTime) >= time_ms)
+  80   1          {
+  81   2              return 1;
+  82   2          }
+  83   1          return 0;
+  84   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    224    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4      16
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

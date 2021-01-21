@@ -5,15 +5,16 @@
  *      Author: Truong VV
  */
 
-#ifndef _XOR_H_
-#define _XOR_H_
+#ifndef _XOR_H
+#define _XOR_H
 /******************************************************************************/
 /*                              INCLUDE FILES                                 */
 /******************************************************************************/
+#include "stdint.h"
 /******************************************************************************/
 /*                              FUNCTION                                      */
 /******************************************************************************/
 
-u8 XOR_Caculator(uint8_t* data, uint8_t ofset, uint16_t length);
+u8 XOR_Caculator(uint8_t* buffer, uint8_t ofset, uint16_t length);
 
-#endif /*_XOR_H_*/
+#endif /*_XOR_H*/

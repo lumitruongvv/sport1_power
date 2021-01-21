@@ -10,48 +10,43 @@
 #include "Function_Define.h"
 #include "irfapp_main.h"
 
+
+volatile uint8_t deviceAnnounceFlag = 0;
+volatile uint8_t checkConnectFlag = 0;
+volatile uint8_t startRunFlag = 0;
+volatile uint8_t stopRunFlag = 0;
+volatile uint8_t updownFloorFlag = 0;
+volatile uint8_t getStateMotorFlag = 0;
+volatile uint8_t getStateFloorFlag = 0;
+volatile uint8_t setSpeedMotorFlag = 0;
+volatile uint8_t getAllStateFlag = 0;
+volatile uint8_t resetDeviceFlag = 0;
+volatile uint8_t speedValue = 0;
+
+
 /******************************************************************************/
 /*                              FUNCTION                                      */
 /******************************************************************************/
-static void APP_SendFirstTime(u8 type,u8 *buff, u8 len);
+static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 length);
 
-static void APP_SendFirstTime1(u8 type,u8 *buff, u8 len);
+static void APP_CheckConnect(u8 type,u8 *buff, u8 length);
 
-static void APP_SendFirstTime2(u8 type,u8 *buff, u8 len);
+static void APP_StartRun(u8 type,u8 *buff, u8 length);
 
-static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 len);
+static void APP_StopRun(u8 type, u8 *buff, u8 length);
 
-static void APP_CheckConnect(u8 type,u8 *buff, u8 len);
+static void APP_UpDownFloor(u8 type, u8 *buff, u8 length);
 
-static void APP_StartRun(u8 type,u8 *buff, u8 len);
+static void APP_GetStateMotor(u8 type, u8 *buff, u8 length);
 
-static void APP_StopRun(u8 type, u8 *buff, u8 len);
+static void APP_GetStateFloor(u8 type, u8 *buff, u8 length);
 
-static void APP_UpDownFloor(u8 type, u8 *buff, u8 len);
+static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 length);
 
-static void APP_GetStateMotor(u8 type, u8 *buff, u8 len);
+static void APP_GetAllState(u8 type, u8 *buff, u8 length);
 
-static void APP_GetStateFloor(u8 type, u8 *buff, u8 len);
+static void APP_ResetDevice(u8 type, u8 *buff, u8 length);
 
-static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 len);
-
-static void APP_GetAllState(u8 type, u8 *buff, u8 len);
-
-static const App_ComandInfo_t appListCommand[]=
-{
-    {SEND_FIRST_TIME        ,APP_SendFirstTime},
-    {SEND_FIRST_TIME_1      ,APP_SendFirstTime1},
-    {SEND_FIRST_TIME_2      ,APP_SendFirstTime2},
-    {DEVICE_ANNOUNCE        ,APP_DeviceAnnounce},
-    {CHECK_CONNECT          ,APP_CheckConnect},
-    {START_RUN              ,APP_StartRun},
-    {STOP_RUN               ,APP_StopRun},
-    {UP_DOW_FLOOR           ,APP_UpDownFloor},
-    {GET_STATE_MOTOR        ,APP_GetStateMotor},
-    {GET_STATE_FLOOR        ,APP_GetStateFloor},
-    {SET_SPEED_MOTOR        ,APP_SetSpeedMotor},
-    {GET_ALL_STATE          ,APP_GetAllState}
-};
 
 /**
  * @func   APP_CheckCommandExistAndExecutes
@@ -61,51 +56,43 @@ static const App_ComandInfo_t appListCommand[]=
  */
 void APP_CheckCommandExistAndExecutes(u8 command, u8 type, u8* buff, u8 length)
 {
-    for(int i = 0; i<sizeof(appListCommand)/sizeof(App_ComandInfo_t);i++)
+    switch (command)
     {
-        if(command == appListCommand[i].cmdId)
-        {
-            if(appListCommand[i].cmdHandle != NULL)
-            {
-                appListCommand[i].cmdHandle(type, buff, length);
-            }
-        }
+    case DEVICE_ANNOUNCE:
+        APP_DeviceAnnounce(type, buff, length);
+        break;
+    case CHECK_CONNECT:
+        APP_CheckConnect(type, buff, length);
+        break;
+    case START_RUN:
+        APP_StartRun(type, buff, length);
+        break;
+    case STOP_RUN:
+        APP_StopRun(type, buff, length);
+        break;
+    case UP_DOW_FLOOR:
+        APP_UpDownFloor(type, buff, length);
+        break;
+    case GET_STATE_MOTOR:
+        APP_GetStateMotor(type, buff, length);
+        break;
+    case GET_STATE_FLOOR:
+        APP_GetStateFloor(type, buff, length);
+        break;
+    case SET_SPEED_MOTOR:
+        APP_SetSpeedMotor(type, buff, length);
+        break;
+    case GET_ALL_STATE:
+        APP_GetAllState(type, buff, length);
+        break;
+    case RESET_DEVICE:
+        APP_ResetDevice(type, buff, length);
+        break;
+    default:
+        break;
     }
 }
 
-
-/**
- * @func   APP_SendFirstTime
- * @brief  None
- * @param  
- * @retval None
- */
-static void APP_SendFirstTime(u8 type,u8 *buff, u8 len)
-{
-
-}
-
-/**
- * @func   APP_SendFirstTime1
- * @brief  None
- * @param  
- * @retval None
- */
-static void APP_SendFirstTime1(u8 type,u8 *buff, u8 len)
-{
-
-}
-
-/**
- * @func   APP_SendFirstTime2
- * @brief  None
- * @param  
- * @retval None
- */
-static void APP_SendFirstTime2(u8 type,u8 *buff, u8 len)
-{
-
-}
 
 /**
  * @func   APP_DeviceAnnounce
@@ -113,9 +100,9 @@ static void APP_SendFirstTime2(u8 type,u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 len)
+static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 length)
 {
-
+    deviceAnnounceFlag = 1;
 }
 
 /**
@@ -124,9 +111,9 @@ static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_CheckConnect(u8 type,u8 *buff, u8 len)
+static void APP_CheckConnect(u8 type,u8 *buff, u8 length)
 {
-
+	checkConnectFlag = 1;
 }
 
 /**
@@ -135,9 +122,9 @@ static void APP_CheckConnect(u8 type,u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_StartRun(u8 type,u8 *buff, u8 len)
+static void APP_StartRun(u8 type,u8 *buff, u8 length)
 {
-
+    startRunFlag = 1;
 }
 
 /**
@@ -146,9 +133,9 @@ static void APP_StartRun(u8 type,u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_StopRun(u8 type, u8 *buff, u8 len)
+static void APP_StopRun(u8 type, u8 *buff, u8 length)
 {
-
+    stopRunFlag = 1;
 }
 
 /**
@@ -157,9 +144,9 @@ static void APP_StopRun(u8 type, u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_UpDownFloor(u8 type, u8 *buff, u8 len)
+static void APP_UpDownFloor(u8 type, u8 *buff, u8 length)
 {
-
+    updownFloorFlag = 1;
 }
 
 /**
@@ -168,8 +155,9 @@ static void APP_UpDownFloor(u8 type, u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_GetStateMotor(u8 type, u8 *buff, u8 len)
+static void APP_GetStateMotor(u8 type, u8 *buff, u8 length)
 {
+    getStateMotorFlag = 1;
 
 }
 
@@ -179,9 +167,9 @@ static void APP_GetStateMotor(u8 type, u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_GetStateFloor(u8 type, u8 *buff, u8 len)
+static void APP_GetStateFloor(u8 type, u8 *buff, u8 length)
 {
-
+    getStateFloorFlag = 1;
 }
 
 /**
@@ -190,9 +178,10 @@ static void APP_GetStateFloor(u8 type, u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 len)
+static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 length)
 {
-
+    setSpeedMotorFlag = 1;
+    speedValue = buff[0];
 }
 
 /**
@@ -201,7 +190,18 @@ static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 len)
  * @param  
  * @retval None
  */
-static void APP_GetAllState(u8 type, u8 *buff, u8 len)
+static void APP_GetAllState(u8 type, u8 *buff, u8 length)
 {
+    getAllStateFlag = 1;
+}   
 
+/**
+ * @func   APP_ResetDevice
+ * @brief  None
+ * @param  
+ * @retval None
+ */
+static void APP_ResetDevice(u8 type, u8 *buff, u8 length)
+{
+    resetDeviceFlag = 1;
 }

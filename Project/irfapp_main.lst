@@ -1,0 +1,243 @@
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/19/2021 10:55:45 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IRFAPP_MAIN
+OBJECT MODULE PLACED IN .\Objects\irfapp_main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\App\irfapp_main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid
+                    -;..\Driver;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\irfapp_main.lst) TABS(2) OBJECT(.\Obje
+                    -cts\irfapp_main.obj)
+
+line level    source
+
+   1          /*
+   2           *      irfapp_main.c
+   3           *
+   4           *      Created on: Dec 25, 2020
+   5           *      Author: Truong VV
+   6           */
+   7          
+   8          #include "N76E003.h"
+   9          #include "SFR_Macro.h"
+  10          #include "Function_Define.h"
+  11          #include "irfapp_main.h"
+  12          
+  13          
+  14          volatile uint8_t deviceAnnounceFlag = 0;
+  15          volatile uint8_t checkConnectFlag = 0;
+  16          volatile uint8_t startRunFlag = 0;
+  17          volatile uint8_t stopRunFlag = 0;
+  18          volatile uint8_t updownFloorFlag = 0;
+  19          volatile uint8_t getStateMotorFlag = 0;
+  20          volatile uint8_t getStateFloorFlag = 0;
+  21          volatile uint8_t setSpeedMotorFlag = 0;
+  22          volatile uint8_t getAllStateFlag = 0;
+  23          
+  24          /******************************************************************************/
+  25          /*                              FUNCTION                                      */
+  26          /******************************************************************************/
+  27          static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 length);
+  28          
+  29          static void APP_CheckConnect(u8 type,u8 *buff, u8 length);
+  30          
+  31          static void APP_StartRun(u8 type,u8 *buff, u8 length);
+  32          
+  33          static void APP_StopRun(u8 type, u8 *buff, u8 length);
+  34          
+  35          static void APP_UpDownFloor(u8 type, u8 *buff, u8 length);
+  36          
+  37          static void APP_GetStateMotor(u8 type, u8 *buff, u8 length);
+  38          
+  39          static void APP_GetStateFloor(u8 type, u8 *buff, u8 length);
+  40          
+  41          static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 length);
+  42          
+  43          static void APP_GetAllState(u8 type, u8 *buff, u8 length);
+  44          
+  45          
+  46          /**
+  47           * @func   APP_CheckCommandExistAndExecutes
+  48           * @brief  None
+  49           * @param  
+  50           * @retval None
+  51           */
+  52          void APP_CheckCommandExistAndExecutes(u8 command, u8 type, u8* buff, u8 length)
+  53          {
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/19/2021 10:55:45 PAGE 2   
+
+  54   1          switch (command)
+  55   1          {
+  56   2          case DEVICE_ANNOUNCE:
+  57   2              APP_DeviceAnnounce(type, buff, length);
+  58   2              break;
+  59   2          case CHECK_CONNECT:
+  60   2              APP_CheckConnect(type, buff, length);
+  61   2              break;
+  62   2          case START_RUN:
+  63   2              APP_StartRun(type, buff, length);
+  64   2              break;
+  65   2          case STOP_RUN:
+  66   2              APP_StopRun(type, buff, length);
+  67   2              break;
+  68   2          case UP_DOW_FLOOR:
+  69   2              APP_UpDownFloor(type, buff, length);
+  70   2              break;
+  71   2          case GET_STATE_MOTOR:
+  72   2              APP_GetStateMotor(type, buff, length);
+  73   2              break;
+  74   2          case GET_STATE_FLOOR:
+  75   2              APP_GetStateFloor(type, buff, length);
+  76   2              break;
+  77   2          case SET_SPEED_MOTOR:
+  78   2              APP_SetSpeedMotor(type, buff, length);
+  79   2              break;
+  80   2          case GET_ALL_STATE:
+  81   2              APP_GetAllState(type, buff, length);
+  82   2          default:
+  83   2              break;
+  84   2          }
+  85   1      }
+  86          
+  87          
+  88          /**
+  89           * @func   APP_DeviceAnnounce
+  90           * @brief  None
+  91           * @param  
+  92           * @retval None
+  93           */
+  94          static void APP_DeviceAnnounce(u8 type,u8 *buff, u8 length)
+  95          {
+  96   1          deviceAnnounceFlag = 1;
+  97   1      }
+*** WARNING C280 IN LINE 94 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 94 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 94 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+  98          
+  99          /**
+ 100           * @func   APP_CheckConnect
+ 101           * @brief  None
+ 102           * @param  
+ 103           * @retval None
+ 104           */
+ 105          static void APP_CheckConnect(u8 type,u8 *buff, u8 length)
+ 106          {
+ 107   1        checkConnectFlag = 1;
+ 108   1      }
+*** WARNING C280 IN LINE 105 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 105 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 105 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 109          
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/19/2021 10:55:45 PAGE 3   
+
+ 110          /**
+ 111           * @func   APP_StartRun
+ 112           * @brief  None
+ 113           * @param  
+ 114           * @retval None
+ 115           */
+ 116          static void APP_StartRun(u8 type,u8 *buff, u8 length)
+ 117          {
+ 118   1          startRunFlag = 1;
+ 119   1      }
+*** WARNING C280 IN LINE 116 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 116 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 116 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 120          
+ 121          /**
+ 122           * @func   APP_StopRun
+ 123           * @brief  None
+ 124           * @param  
+ 125           * @retval None
+ 126           */
+ 127          static void APP_StopRun(u8 type, u8 *buff, u8 length)
+ 128          {
+ 129   1          stopRunFlag = 1;
+ 130   1      }
+*** WARNING C280 IN LINE 127 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 127 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 127 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 131          
+ 132          /**
+ 133           * @func   APP_UpDownFloor
+ 134           * @brief  None
+ 135           * @param  
+ 136           * @retval None
+ 137           */
+ 138          static void APP_UpDownFloor(u8 type, u8 *buff, u8 length)
+ 139          {
+ 140   1          updownFloorFlag = 1;
+ 141   1      }
+*** WARNING C280 IN LINE 138 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 138 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 138 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 142          
+ 143          /**
+ 144           * @func   APP_GetStateMotor
+ 145           * @brief  None
+ 146           * @param  
+ 147           * @retval None
+ 148           */
+ 149          static void APP_GetStateMotor(u8 type, u8 *buff, u8 length)
+ 150          {
+ 151   1          getStateMotorFlag = 1;
+ 152   1      }
+*** WARNING C280 IN LINE 149 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 149 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 149 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 153          
+ 154          /**
+ 155           * @func   APP_GetStateFloor
+ 156           * @brief  None
+ 157           * @param  
+ 158           * @retval None
+ 159           */
+C51 COMPILER V9.60.0.0   IRFAPP_MAIN                                                       01/19/2021 10:55:45 PAGE 4   
+
+ 160          static void APP_GetStateFloor(u8 type, u8 *buff, u8 length)
+ 161          {
+ 162   1          getStateFloorFlag = 1;
+ 163   1      }
+*** WARNING C280 IN LINE 160 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 160 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 160 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 164          
+ 165          /**
+ 166           * @func   APP_SetSpeedMotor
+ 167           * @brief  None
+ 168           * @param  
+ 169           * @retval None
+ 170           */
+ 171          static void APP_SetSpeedMotor(u8 type, u8 *buff, u8 length)
+ 172          {
+ 173   1          setSpeedMotorFlag = 1;
+ 174   1      }
+*** WARNING C280 IN LINE 171 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 171 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 171 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+ 175          
+ 176          /**
+ 177           * @func   APP_GetAllState
+ 178           * @brief  None
+ 179           * @param  
+ 180           * @retval None
+ 181           */
+ 182          static void APP_GetAllState(u8 type, u8 *buff, u8 length)
+ 183          {
+ 184   1          getAllStateFlag = 1;
+ 185   1      }   
+*** WARNING C280 IN LINE 182 OF ..\App\irfapp_main.c: 'type': unreferenced local variable
+*** WARNING C280 IN LINE 182 OF ..\App\irfapp_main.c: 'buff': unreferenced local variable
+*** WARNING C280 IN LINE 182 OF ..\App\irfapp_main.c: 'length': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    446    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      9      51
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  27 WARNING(S),  0 ERROR(S)

@@ -15,7 +15,8 @@
 #include "N76E003.h"
 #include "SFR_Macro.h"
 #include "Function_Define.h"
-#include "irf.h"
+#include "irfapp_main.h"
+#include "Irf.h"
 #include "uart.h"
 #include "queue.h"
 #include "xor.h"
@@ -23,10 +24,10 @@
 QUEUEx_t    irf_CommandQueue;
 irf_Command_t irf_CommandBuff[IRF_QUEUE_MAX];
 
-
 /******************************************************************************/
 /*                            FUNCTIONS                              */
 /******************************************************************************/
+static void IRF_CallBackHandle(void);
 
 /**
  * @func    IRF_Init
@@ -35,7 +36,7 @@ irf_Command_t irf_CommandBuff[IRF_QUEUE_MAX];
  */
 void IRF_Init(void)
 {
-    UART_Init(UART_Init);
+    UART_Init(UART_BAUDRATE);
     UART_CallBackInit(IRF_CallBackHandle);
     QUEUE_Init(&irf_CommandQueue, (u8*)irf_CommandBuff,\
                 IRF_QUEUE_MAX, sizeof(irf_Command_t));

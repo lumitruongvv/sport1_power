@@ -1,10 +1,19 @@
+".\Objects\irfapp_main.obj",
 ".\Objects\main.obj",
+".\Objects\main_init.obj",
+".\Objects\mainfunclist.obj",
 ".\Objects\adc.obj",
 ".\Objects\delay.obj",
 ".\Objects\pwm.obj",
+".\Objects\timer.obj",
 ".\Objects\uart.obj",
 ".\Objects\Irf.obj",
-".\Objects\STARTUP.obj" 
+".\Objects\motor.obj",
+".\Objects\relay.obj",
+".\Objects\tick.obj",
+".\Objects\STARTUP.obj",
+".\Objects\queue.obj",
+".\Objects\xor.obj" 
 TO ".\Objects\project_treadmill_power" 
-PRINT(".\Listings\project_treadmill_power.m51") RAMSIZE(256) 
+PRINT(".\project_treadmill_power.m51") RAMSIZE(256) 
 DISABLEWARNING (16) 

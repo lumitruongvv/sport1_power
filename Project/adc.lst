@@ -1,0 +1,79 @@
+C51 COMPILER V9.60.0.0   ADC                                                               01/19/2021 10:55:46 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ADC
+OBJECT MODULE PLACED IN .\Objects\adc.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\Driver\adc.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\D
+                    -river;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\adc.lst) TABS(2) OBJECT(.\Objects\adc.obj)
+
+line level    source
+
+   1          /*
+   2           * Copyright (c) 2021
+   3           * Team, JSC.
+   4           * All Rights Reserved
+   5           *
+   6           *
+   7           * Description:
+   8           *
+   9           * Author: Truongvv
+  10           *
+  11           * Last Changed By:  $Author: Truongvv $
+  12           * Revision:         $Revision: 1.0 $
+  13           * Last Changed:     $Date: x/x/xxxx $
+  14           */
+  15          #include "N76E003.h"
+  16          #include "SFR_Macro.h"
+  17          #include "Function_Define.h"
+  18          #include "adc.h"
+  19          
+  20          /**
+  21           * @func   ADC_Init
+  22           * @brief  None
+  23           * @param  
+  24           * @retval None
+  25           */
+  26          void ADC_Init (void)
+  27          {
+  28   1          P03_Input_Mode;
+  29   1          ADCCON0 &= ~(1 << 7); // Clear Flag
+  30   1          ADCCON1 |= (1 << 0); // Enable ADC
+  31   1      }
+  32          
+  33          /**
+  34           * @func   ADC_Read
+  35           * @brief  None
+  36           * @param  
+  37           * @retval None
+  38           */
+  39          uint16_t ADC_Read (uint8_t channel)
+  40          {
+  41   1          uint16_t vruiAdcValueH = 0;
+  42   1          uint8_t vruiAdcValueL = 0;
+  43   1          uint16_t vruiAdcValue = 0;
+  44   1          ADCCON0 &= ~(1 << 7); // Clear Flag
+  45   1          AINDIDS |= (1 << channel); // Digital Input Disconnect P03
+  46   1          ADCCON0 = ((ADCCON0 & 0xF0)|channel); // Select channel
+  47   1          ADCCON0 |= (1 << 6); // Start converting
+  48   1          while (!(ADCCON0 & (1 << 7)));
+  49   1          vruiAdcValueH = (ADCRH >> 4)*256;
+  50   1          vruiAdcValueL = (ADCRH << 4)|(ADCRL & 0x0F);
+  51   1          vruiAdcValue = (uint16_t) (vruiAdcValueH + vruiAdcValueL);
+  52   1          return vruiAdcValue;
+  53   1      }
+
+C51 COMPILER V9.60.0.0   ADC                                                               01/19/2021 10:55:46 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     76    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

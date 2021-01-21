@@ -1,5 +1,25 @@
+/* My define */
+typedef char                  int8_t;
+typedef unsigned char         uint8_t;
+typedef unsigned int          uint16_t;
+typedef int                   int16_t;
+typedef unsigned long         uint32_t;
+
+typedef unsigned char         UINT8;
+typedef unsigned int          UINT16;
+typedef unsigned long         UINT32;
+
+typedef unsigned char         u8;
+typedef unsigned int          u16;
+typedef unsigned long         u32;
+
 #define SET             1
 #define RESET           0
+#define ENABLE_AllInterrupt()   set_EA
+#define DISABLE_ALLInterrupt()  clr_EA
+
+#define SetBit(port, bit)       port |= (1 << bit)
+#define ResetBit(port, bit)     port &= ~(1 << bit)
 
 /**** P0		80H *****/
 #define set_P00			P00		=		1
@@ -1152,6 +1172,7 @@
 #define clr_PWKTH   EIPH1   &= ~SET_BIT2
 #define clr_PT3H    EIPH1   &= ~SET_BIT1
 #define clr_PSH_1   EIPH1   &= ~SET_BIT0
+
 
 
 
