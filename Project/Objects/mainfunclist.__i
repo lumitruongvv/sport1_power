@@ -1,0 +1,1 @@
+"..\App\mainfunclist.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Driver;..\Utilities;..\Common) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\mainfunclist.lst) TABS (2) OBJECT(.\Objects\mainfunclist.obj)

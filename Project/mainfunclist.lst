@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/19/2021 10:55:46 PAGE 1   
+C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/31/2021 11:17:48 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAINFUNCLIST
@@ -19,202 +19,249 @@ line level    source
    8          #include "N76E003.h"
    9          #include "SFR_Macro.h"
   10          #include "Function_Define.h"
-  11          #include "mainfunclist.h"
-  12          #include "Irf.h"
-  13          
-  14          /******************************************************************************/
-  15          /*                              DECLARE                                      */
-  16          /******************************************************************************/
+  11          #include "irfapp_main.h"
+  12          #include "mainfunclist.h"
+  13          #include "Irf.h"
+  14          #include "motor.h"
+  15          #include "relay.h"
+  16          #include "xor.h"
   17          
-  18          uint8_t checkConnect[]  = {0x20, 0xA1, 0x00, 0x01, 0x0A, 0x8A};
-  19          uint8_t startRun[]      = {0x30, 0xA1, 0x00, 0x01, 0x0A, 0x9A};
-  20          uint8_t stopRun[]       = {0x40, 0xA1, 0x00, 0x01, 0x0A, 0xEA};
-  21          uint8_t updownFloor[]   = {0x50, 0xA1, 0x00, 0x01, 0x0A, 0xFA};
-  22          uint8_t getStateMotor[] = {0x70, 0xA1, 0x00, 0x01, 0x72, 0xA2};
-  23          uint8_t getStateFloor[] = {0x73, 0xA1, 0x00, 0x01, 0x75, 0xA6};
-  24          uint8_t setSpeedMotor[] = {0x80, 0xA1, 0x00, 0x01, 0x0A, 0x2A};
-  25          uint8_t getAllState[]   = {0x90, 0xA1, 0x00, 0x04, 0x21, 0x40, 0x72, 0x75, 0x35};
-  26          
-  27          extern volatile uint8_t deviceAnnounceFlag;
-  28          extern volatile uint8_t checkConnectFlag;
-  29          extern volatile uint8_t startRunFlag;
-  30          extern volatile uint8_t stopRunFlag;
-  31          extern volatile uint8_t updownFloorFlag;
-  32          extern volatile uint8_t getStateMotorFlag;
-  33          extern volatile uint8_t getStateFloorFlag;
-  34          extern volatile uint8_t setSpeedMotorFlag;
-  35          extern volatile uint8_t getAllStateFlag;
-  36          
-  37          /******************************************************************************/
-  38          /*                              FUNCTION                                      */
-  39          /******************************************************************************/
-  40          
-  41          /**
-  42           * @func   funcHandle_AllFlag
-  43           * @brief  None
-  44           * @param  
-  45           * @retval None
-  46           */
-  47          void funcHandle_AllFlag(void)
-  48          {
-  49   1          if(deviceAnnounceFlag==1||checkConnectFlag==1||startRunFlag==1||\
-  50   1              stopRunFlag==1||updownFloorFlag==1||getStateMotorFlag==1||\
-  51   1              getStateFloorFlag==1||setSpeedMotorFlag==1||getAllStateFlag==1)
-  52   1          {
-  53   2              if(deviceAnnounceFlag == 1)
-C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/19/2021 10:55:46 PAGE 2   
+  18          /******************************************************************************/
+  19          /*                              DECLARE                                      */
+  20          /******************************************************************************/
+  21          
+  22          uint8_t checkConnect[]  = {0x20, 0xA1, 0x00, 0x01, 0x0A, 0x8A};
+  23          uint8_t startRun[]      = {0x30, 0xA1, 0x00, 0x01, 0x0A, 0x9A};
+  24          uint8_t stopRun[]       = {0x40, 0xA1, 0x00, 0x01, 0x0A, 0xEA};
+  25          uint8_t updownFloor[]   = {0x50, 0xA1, 0x00, 0x01, 0x0A, 0xFA};
+  26          uint8_t getStateMotor[] = {0x70, 0xA1, 0x00, 0x01, 0x72, 0xA2};
+  27          uint8_t getStateFloor[] = {0x73, 0xA1, 0x00, 0x01, 0x75, 0xA6};
+  28          uint8_t setSpeedMotor[] = {0x80, 0xA1, 0x00, 0x01, 0x0A, 0x2A};
+  29          uint8_t getAllState[]   = {0x90, 0xA1, 0x00, 0x02, 0x21, 0x71, 0x63};
+  30          uint8_t resetDevice[]   = {0x0F, 0xA1, 0x00, 0x01, 0x0A, 0xA5};
+  31          
+  32          extern volatile uint8_t deviceAnnounceFlag;
+  33          extern volatile uint8_t checkConnectFlag;
+  34          extern volatile uint8_t startRunFlag;
+  35          extern volatile uint8_t stopRunFlag;
+  36          extern volatile uint8_t updownFloorFlag;
+  37          extern volatile uint8_t getStateMotorFlag;
+  38          extern volatile uint8_t getStateFloorFlag;
+  39          extern volatile uint8_t setSpeedMotorFlag;
+  40          extern volatile uint8_t getAllStateFlag;
+  41          extern volatile uint8_t resetDeviceFlag = 0;
+  42          extern volatile uint8_t speedValue;
+  43          
+  44          uint16_t currentDuty;
+  45          uint8_t stateConnectFlag;
+  46          uint8_t stateMotorFlag;
+  47          uint8_t stateFloorFlag;
+  48          
+  49          /******************************************************************************/
+  50          /*                              FUNCTION                                      */
+  51          /******************************************************************************/
+  52          
+  53          /**
+C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/31/2021 11:17:48 PAGE 2   
 
-  54   2              {
-  55   3                  funcHandle_DeviceAnnounceFlag();
-  56   3      
-  57   3              }else if(checkConnectFlag == 1)
-  58   2              {
-  59   3                  funcHandle_CheckConnectFlag();
-  60   3      
-  61   3              }else if(startRunFlag == 1)
-  62   2              {   
-  63   3                  funcHandle_StartRunFlag();
-  64   3      
-  65   3              }else if(stopRunFlag == 1)
+  54           * @func   funcHandle_AllFlag
+  55           * @brief  None
+  56           * @param  
+  57           * @retval None
+  58           */
+  59          void funcHandle_AllFlag(void)
+  60          {
+  61   1          if(deviceAnnounceFlag==1||checkConnectFlag==1||startRunFlag==1||\
+  62   1              stopRunFlag==1||updownFloorFlag==1||getStateMotorFlag==1||\
+  63   1              getStateFloorFlag==1||setSpeedMotorFlag==1||getAllStateFlag==1)
+  64   1          {
+  65   2              if(deviceAnnounceFlag == 1)
   66   2              {
-  67   3                  funcHandle_StopRunFlag();
+  67   3                  funcHandle_DeviceAnnounceFlag();
   68   3      
-  69   3              }else if(updownFloorFlag == 1)
+  69   3              }else if(checkConnectFlag == 1)
   70   2              {
-  71   3                  funcHandle_UpdownFloorFlag();
+  71   3                  funcHandle_CheckConnectFlag();
   72   3      
-  73   3              }else if(getStateMotorFlag == 1)
-  74   2              {
-  75   3                  funcHandle_GetStateMotorFlag();
+  73   3              }else if(startRunFlag == 1)
+  74   2              {   
+  75   3                  funcHandle_StartRunFlag();
   76   3      
-  77   3              }else if(getStateFloorFlag == 1)
+  77   3              }else if(stopRunFlag == 1)
   78   2              {
-  79   3                  funcHandle_GetStateFloorFlag();
+  79   3                  funcHandle_StopRunFlag();
   80   3      
-  81   3              }else if(setSpeedMotorFlag == 1)
+  81   3              }else if(updownFloorFlag == 1)
   82   2              {
-  83   3                  funcHandle_SetSpeedMotorFlag();
+  83   3                  funcHandle_UpdownFloorFlag();
   84   3      
-  85   3              }else if(getAllStateFlag == 1)
+  85   3              }else if(getStateMotorFlag == 1)
   86   2              {
-  87   3                  funcHandle_GetAllStateFlag();
+  87   3                  funcHandle_GetStateMotorFlag();
   88   3      
-  89   3              }
-  90   2          }
-  91   1      }
-  92          /**
-  93           * @func   funcHandle_DeviceAnnounceFlag
-  94           * @brief  None
-  95           * @param  
-  96           * @retval None
-  97           */
-  98          void funcHandle_DeviceAnnounceFlag(void)
-  99          {
- 100   1          
- 101   1      }
- 102          /**
- 103           * @func   funcHandle_CheckConnectFlag
- 104           * @brief  None
- 105           * @param  
- 106           * @retval None
- 107           */
- 108          void funcHandle_CheckConnectFlag(void)
- 109          {
- 110   1          checkConnectFlag = 0;
- 111   1          IRF_Send(checkConnect, sizeof(checkConnect));
- 112   1      }
- 113          /**
- 114           * @func   funcHandle_StartRunFlag
- 115           * @brief  None
-C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/19/2021 10:55:46 PAGE 3   
+  89   3              }else if(getStateFloorFlag == 1)
+  90   2              {
+  91   3                  funcHandle_GetStateFloorFlag();
+  92   3      
+  93   3              }else if(setSpeedMotorFlag == 1)
+  94   2              {
+  95   3                  funcHandle_SetSpeedMotorFlag();
+  96   3      
+  97   3              }else if(getAllStateFlag == 1)
+  98   2              {
+  99   3                  funcHandle_GetAllStateFlag();
+ 100   3      
+ 101   3              }
+ 102   2          }
+ 103   1      }
+ 104          /**
+ 105           * @func   funcHandle_DeviceAnnounceFlag
+ 106           * @brief  None
+ 107           * @param  
+ 108           * @retval None
+ 109           */
+ 110          void funcHandle_DeviceAnnounceFlag(void)
+ 111          {
+ 112   1          
+ 113   1      }
+ 114          /**
+ 115           * @func   funcHandle_CheckConnectFlag
+C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/31/2021 11:17:48 PAGE 3   
 
- 116           * @param  
- 117           * @retval None
- 118           */
- 119          void funcHandle_StartRunFlag(void)
- 120          {
- 121   1          startRunFlag = 0;
- 122   1          IRF_Send(startRun, sizeof(startRun));
- 123   1      }
- 124          /**
- 125           * @func   funcHandle_StopRunFlag
- 126           * @brief  None
- 127           * @param  
- 128           * @retval None
- 129           */
- 130          void funcHandle_StopRunFlag(void)
- 131          {
- 132   1          stopRunFlag = 0;
- 133   1          IRF_Send(stopRun, sizeof(stopRun));
- 134   1      }
- 135          /**
- 136           * @func   funcHandle_UpdownFloorFlag
- 137           * @brief  None
- 138           * @param  
- 139           * @retval None
- 140           */
- 141          void funcHandle_UpdownFloorFlag(void)
- 142          {
- 143   1          updownFloorFlag = 0;
- 144   1          IRF_Send(updownFloor, sizeof(updownFloor));
- 145   1      }
- 146          /**
- 147           * @func   funcHandle_GetStateMotorFlag
- 148           * @brief  None
- 149           * @param  
- 150           * @retval None
- 151           */
- 152          void funcHandle_GetStateMotorFlag(void)
- 153          {
- 154   1          getStateMotorFlag = 0;
- 155   1          IRF_Send(getStateMotor, sizeof(getStateMotor));
- 156   1      }
- 157          /**
- 158           * @func   funcHandle_GetStateFloorFlag
- 159           * @brief  None
- 160           * @param  
- 161           * @retval None
- 162           */
- 163          void funcHandle_GetStateFloorFlag(void)
- 164          {
- 165   1          getStateFloorFlag = 0;
- 166   1          IRF_Send(getStateFloor, sizeof(getStateFloor));
- 167   1      }
- 168          /**
- 169           * @func   funcHandle_SetSpeedMotorFlag
- 170           * @brief  None
- 171           * @param  
- 172           * @retval None
- 173           */
- 174          void funcHandle_SetSpeedMotorFlag(void)
- 175          {
- 176   1          setSpeedMotorFlag = 0;
- 177   1          IRF_Send(setSpeedMotor, sizeof(setSpeedMotor));
-C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/19/2021 10:55:46 PAGE 4   
+ 116           * @brief  None
+ 117           * @param  
+ 118           * @retval None
+ 119           */
+ 120          void funcHandle_CheckConnectFlag(void)
+ 121          {
+ 122   1          checkConnectFlag = 0;
+ 123   1          IRF_Send(checkConnect, sizeof(checkConnect));
+ 124   1          stateConnectFlag = 1;
+ 125   1      }
+ 126          /**
+ 127           * @func   funcHandle_StartRunFlag
+ 128           * @brief  None
+ 129           * @param  
+ 130           * @retval None
+ 131           */
+ 132          void funcHandle_StartRunFlag(void)
+ 133          {
+ 134   1          startRunFlag = 0;
+ 135   1          IRF_Send(startRun, sizeof(startRun));
+ 136   1          RELAY_AC(ON);
+ 137   1          MOTOR_SetSpeed(DEFAULTDUTY, DEFAULTSPEEP);
+ 138   1          currentDuty = DEFAULTSPEEP;
+ 139   1      }
+ 140          /**
+ 141           * @func   funcHandle_StopRunFlag
+ 142           * @brief  None
+ 143           * @param  
+ 144           * @retval None
+ 145           */
+ 146          void funcHandle_StopRunFlag(void)
+ 147          {
+ 148   1      
+ 149   1          stopRunFlag = 0;
+ 150   1          IRF_Send(stopRun, sizeof(stopRun));
+ 151   1          MOTOR_SetSpeed(currentDuty, DEFAULTDUTY);
+ 152   1          RELAY_AC(OFF);
+ 153   1      }
+ 154          /**
+ 155           * @func   funcHandle_UpdownFloorFlag
+ 156           * @brief  None
+ 157           * @param  
+ 158           * @retval None
+ 159           */
+ 160          void funcHandle_UpdownFloorFlag(void)
+ 161          {
+ 162   1          updownFloorFlag = 0;
+ 163   1          IRF_Send(updownFloor, sizeof(updownFloor));
+ 164   1      }
+ 165          
+ 166          /**
+ 167           * @func   funcHandle_GetStateMotorFlag
+ 168           * @brief  None
+ 169           * @param  
+ 170           * @retval None
+ 171           */
+ 172          void funcHandle_GetStateMotorFlag(void)
+ 173          {
+ 174   1          getStateMotorFlag = 0;
+ 175   1          IRF_Send(getStateMotor, sizeof(getStateMotor));
+ 176   1      }
+ 177          /**
+C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/31/2021 11:17:48 PAGE 4   
 
- 178   1      }
- 179          /**
- 180           * @func   funcHandle_GetAllStateFlag
- 181           * @brief  None
- 182           * @param  
- 183           * @retval None
- 184           */
- 185          void funcHandle_GetAllStateFlag(void)
- 186          {
- 187   1          getAllStateFlag = 0;
- 188   1          IRF_Send(getAllState, sizeof(getAllState));
- 189   1      }
+ 178           * @func   funcHandle_GetStateFloorFlag
+ 179           * @brief  None
+ 180           * @param  
+ 181           * @retval None
+ 182           */
+ 183          void funcHandle_GetStateFloorFlag(void)
+ 184          {
+ 185   1          getStateFloorFlag = 0;
+ 186   1          IRF_Send(getStateFloor, sizeof(getStateFloor));
+ 187   1      }
+ 188          
+ 189          /**
+ 190           * @func   funcHandle_SetSpeedMotorFlag
+ 191           * @brief  None
+ 192           * @param  
+ 193           * @retval None
+ 194           */
+ 195          void funcHandle_SetSpeedMotorFlag(void)
+ 196          {
+ 197   1          uint16_t desireDuty;
+ 198   1          setSpeedMotorFlag = 0;
+ 199   1          IRF_Send(setSpeedMotor, sizeof(setSpeedMotor));
+ 200   1          desireDuty = MOTOR_GetCurrentSpeed(speedValue);
+ 201   1          MOTOR_SetSpeed(currentDuty, desireDuty);
+ 202   1          currentDuty = desireDuty;
+ 203   1      }
+ 204          
+ 205          /**
+ 206           * @func   funcHandle_GetAllStateFlag
+ 207           * @brief  None
+ 208           * @param  
+ 209           * @retval None
+ 210           */
+ 211          void funcHandle_GetAllStateFlag(void)
+ 212          {
+ 213   1          getAllStateFlag = 0;
+ 214   1          /* kiem tra xem co motor hay khong */
+ 215   1          if(stateConnectFlag == 1)
+ 216   1          {
+ 217   2              getAllState[4] = CHECK_CONNECT_SUCCESS;
+ 218   2          }else
+ 219   1          {
+ 220   2              getAllState[4] = CHECK_CONNECT_NOTSUCCESS;
+ 221   2          }
+ 222   1          if(stateMotorFlag == 1)
+ 223   1          {
+ 224   2              getAllState[5] = IS_HAVEMOTOR;
+ 225   2          }else
+ 226   1          {
+ 227   2              getAllState[5] = IS_NOTMOTOR;
+ 228   2          }
+ 229   1          getAllState[6] = XOR_Caculator(getAllState, 0, sizeof(getAllState)-1);
+*** WARNING C206 IN LINE 229 OF ..\App\mainfunclist.c: 'XOR_Caculator': missing function-prototype
+*** ERROR C267 IN LINE 229 OF ..\App\mainfunclist.c: 'XOR_Caculator': requires ANSI-style prototype
+ 230   1          IRF_Send(getAllState, sizeof(getAllState));
+ 231   1      }
+ 232          
+ 233          /**
+ 234           * @func   funcHandle_ResetDeviceFlag
+ 235           * @brief  None
+ 236           * @param  
+ 237           * @retval None
+C51 COMPILER V9.60.0.0   MAINFUNCLIST                                                      01/31/2021 11:17:48 PAGE 5   
 
+ 238           */
+ 239          void funcHandle_ResetDeviceFlag(void)
+ 240          {
+ 241   1          resetDeviceFlag = 0;
+ 242   1          IRF_Send(resetDevice, sizeof(resetDevice));
+ 243   1      
+ 244   1      }
 
-MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    301    ----
-   CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     51    ----
-   PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
-   IDATA SIZE       =   ----    ----
-   BIT SIZE         =   ----    ----
-END OF MODULE INFORMATION.
-
-
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  1 ERROR(S)

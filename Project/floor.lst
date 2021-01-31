@@ -1,0 +1,76 @@
+C51 COMPILER V9.60.0.0   FLOOR                                                             01/31/2021 11:17:48 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE FLOOR
+OBJECT MODULE PLACED IN .\Objects\floor.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\Mid\floor.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Dr
+                    -iver;..\Utilities;..\Common) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\floor.lst) TABS(2) OBJECT(.\Objects\floor.ob
+                    -j)
+
+line level    source
+
+   1          /*
+   2           *  floor.h
+   3           *
+   4           *  Created on: Dec 25, 2020
+   5           *      Author: Truong VV
+   6           */
+   7          
+   8          #include "floor.h"
+*** WARNING C318 IN LINE 14 OF ..\Mid\floor.h: can't open file 'stdint.h'
+*** ERROR C141 IN LINE 19 OF ..\Mid\floor.h: syntax error near 'percent', expected ')'
+*** ERROR C129 IN LINE 20 OF ..\Mid\floor.h: missing ';' before 'FLOOR_GetPercent'
+   9          #include "adc.h"
+  10          #include "relay.h"
+  11          
+  12          /******************************************************************************/
+  13          /*                              DECLARE                                       */
+  14          /******************************************************************************/
+  15          
+  16          /******************************************************************************/
+  17          /*                              FUNCTION                                      */
+  18          /******************************************************************************/
+  19          /**
+  20           * @func   FLOOR_Init
+  21           * @brief  None
+  22           * @param  
+  23           * @retval None
+  24           */
+  25          void FLOOR_Init(void)
+  26          {
+  27          
+  28          }
+  29          /**
+  30           * @func   FLOOR_SetPercent
+  31           * @brief  None
+  32           * @param  
+  33           * @retval None
+  34           */
+  35          void FLOOR_SetPercent(uint8_t percent)
+  36          {
+  37          
+  38          }
+  39          /**
+  40           * @func   FLOOR_GetPercent
+  41           * @brief  None
+  42           * @param  
+  43           * @retval None
+  44           */
+  45          uint8_t FLOOR_GetPercent(void)
+  46          {
+  47          
+  48          }
+  49          /**
+  50           * @func   FLOOR_ResetPercent
+C51 COMPILER V9.60.0.0   FLOOR                                                             01/31/2021 11:17:48 PAGE 2   
+
+  51           * @brief  None
+  52           * @param  
+  53           * @retval None
+  54           */
+  55          void FLOOR_ResetPercent(void)
+  56          {
+  57          
+  58          }
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  2 ERROR(S)

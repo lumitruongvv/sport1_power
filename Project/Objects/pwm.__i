@@ -1,0 +1,1 @@
+"..\Driver\pwm.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Driver;..\Utilities;..\Common) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\pwm.lst) TABS (2) OBJECT(.\Objects\pwm.obj)

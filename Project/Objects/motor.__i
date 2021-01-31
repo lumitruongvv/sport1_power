@@ -1,0 +1,1 @@
+"..\Mid\motor.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Driver;..\Utilities;..\Common) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\motor.lst) TABS (2) OBJECT(.\Objects\motor.obj)

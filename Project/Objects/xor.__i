@@ -1,0 +1,1 @@
+"..\Utilities\xor.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(..\App;..\Mid;..\Driver;..\Utilities;..\Common) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\xor.lst) TABS (2) OBJECT(.\Objects\xor.obj)

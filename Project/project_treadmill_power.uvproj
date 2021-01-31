@@ -531,6 +531,16 @@
               <FileType>5</FileType>
               <FilePath>..\Mid\tick.h</FilePath>
             </File>
+            <File>
+              <FileName>floor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Mid\floor.c</FilePath>
+            </File>
+            <File>
+              <FileName>floor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Mid\floor.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

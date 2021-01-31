@@ -31,7 +31,7 @@ void MAIN_Init(void)
 {
     MOTOR_Config();
     RELAY_Config();
-    MOTOR_Init(DEFAULTSPEED);
+    MOTOR_Init(DEFAULTSPEEP);
     FLOOR_Init();
     TICK_Init();
     IRF_Init();

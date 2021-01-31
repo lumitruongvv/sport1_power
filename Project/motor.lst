@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MOTOR                                                             01/19/2021 10:55:47 PAGE 1   
+C51 COMPILER V9.60.0.0   MOTOR                                                             01/31/2021 11:14:46 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MOTOR
@@ -42,50 +42,53 @@ line level    source
   31           * @brief   None
   32           * @param   None
   33           */
-  34          void MOTOR_Init(uint16_t defaultSpeed)
+  34          void MOTOR_Init(uint16_t defaultDuty)
   35          {
   36   1          PWM_Init();
-  37   1          PWM_CreatedPeriodDuty(defaultSpeed);
+  37   1          PWM_CreatedPeriodDuty(defaultDuty);
   38   1      }
   39          /**
   40           * @func    MOTOR_GetCurrentSpeed
   41           * @brief   None
   42           * @param   None
   43           */
-  44          uint16_t MOTOR_GetCurrentSpeed(void)
+  44          uint16_t MOTOR_GetCurrentSpeed(uint8_t revSpeed)
   45          {
-  46   1          return 0;
-  47   1      }
-  48          /**
-  49           * @func    MOTOR_Start
-  50           * @brief   None
-  51           * @param   None
-  52           */
-  53          void MOTOR_Start(uint16_t currentSpeed, uint16_t desiredSpeed)
-C51 COMPILER V9.60.0.0   MOTOR                                                             01/19/2021 10:55:47 PAGE 2   
+  46   1          float x = revSpeed/10.0;
+  47   1          return ((uint16_t)(13650 - 150*x));
+  48   1      }
+  49          /**
+  50           * @func    MOTOR_SetSpeed
+  51           * @brief   None
+  52           * @param   None
+  53           */
+C51 COMPILER V9.60.0.0   MOTOR                                                             01/31/2021 11:14:46 PAGE 2   
 
-  54          {
-  55   1      
-  56   1      }
-*** WARNING C280 IN LINE 53 OF ..\Mid\motor.c: 'currentSpeed': unreferenced local variable
-*** WARNING C280 IN LINE 53 OF ..\Mid\motor.c: 'desiredSpeed': unreferenced local variable
-  57          /**
-  58           * @func    MOTOR_Stop
-  59           * @brief   None
-  60           * @param   None
-  61           */
-  62          void MOTOR_Stop(uint16_t currentSpeed, uint16_t desiredSpeed)
-  63          {
-  64   1      
-  65   1      }
-*** WARNING C280 IN LINE 62 OF ..\Mid\motor.c: 'currentSpeed': unreferenced local variable
-*** WARNING C280 IN LINE 62 OF ..\Mid\motor.c: 'desiredSpeed': unreferenced local variable
+  54          void MOTOR_SetSpeed(uint16_t currentDuty, uint16_t desireDuty)
+  55          {
+  56   1          uint16_t i = 0;
+  57   1          if(currentDuty >= desireDuty)
+  58   1          {
+  59   2              for(i = currentDuty; i >= desireDuty; i--)
+  60   2              {
+  61   3                  PWM_CreatedPeriodDuty(i);
+  62   3                  delay_ms(10);
+  63   3              }
+  64   2          }else
+  65   1          {
+  66   2              for(i = currentDuty; i <= desireDuty; i++)
+  67   2              {
+  68   3                  PWM_CreatedPeriodDuty(i);
+  69   3                  delay_ms(10);
+  70   3              }
+  71   2          }
+  72   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     69    ----
+   CODE SIZE        =    252    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----      10
+   XDATA SIZE       =   ----      12
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -93,4 +96,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

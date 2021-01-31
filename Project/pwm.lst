@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   PWM                                                               01/19/2021 10:55:47 PAGE 1   
+C51 COMPILER V9.60.0.0   PWM                                                               01/31/2021 11:14:45 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PWM
@@ -22,12 +22,12 @@ line level    source
   12           * Revision:         $Revision: 1.0 $
   13           * Last Changed:     $Date: x/x/xxxx $
   14           */
-  15          #include "N76E003.h"
-  16          #include "SFR_Macro.h"
-  17          #include "Function_Define.h"
-  18          #include "pwm.h"
-  19          #include "delay.h"
-  20          
+  15          
+  16          #include "N76E003.h"
+  17          #include "SFR_Macro.h"
+  18          #include "Function_Define.h"
+  19          #include "pwm.h"
+  20          #include "delay.h"
   21          /**
   22           * @func   PWM_Init
   23           * @brief  None
@@ -40,62 +40,61 @@ line level    source
   30   1          PWMCON0 |= (1 << 4);    // Clear PWM 16BIT COUNTER
   31   1          CKCON   &= ~(1 << 6);   // Clock PWM is Clock SYS
   32   1          PWMCON1 |= (1 << 2);    // DIV Clock 16 = 1M
-  33   1        
-  34   1      }
-  35            
-  36          
-  37          /**
-  38           * @func   PWM_CreatedPeriodDuty
-  39           * @brief  None
-  40           * @param  
-  41           * @retval None
-  42           */
-  43          void PWM_CreatedPeriodDuty (uint16_t pwmDuty)
-  44          {
-  45   1          uint16_t vruiPwmDuty;
-  46   1          PWMCON0 &= ~(1 << 7);
-  47   1          vruiPwmDuty = (uint16_t) pwmDuty;
-  48   1          PWMPL = 0xE7;
-  49   1          PWMPH = 0x03; // period     1ms
-  50   1          PWM2H = vruiPwmDuty >> 8; // DUTY 
-  51   1          PWM2L = (vruiPwmDuty - PWM1H*256);
-  52   1          PWMCON0 |= (1 << 7); // Start run
-  53   1      }
-  54          
-C51 COMPILER V9.60.0.0   PWM                                                               01/19/2021 10:55:47 PAGE 2   
+  33   1      }
+  34            
+  35          
+  36          /**
+  37           * @func   PWM_CreatedPeriodDuty
+  38           * @brief  None
+  39           * @param  
+  40           * @retval None
+  41           */
+  42          void PWM_CreatedPeriodDuty (uint16_t pwmDuty)
+  43          {
+  44   1          uint16_t vruiPwmDuty;
+  45   1          PWMCON0 &= ~(1 << 7);
+  46   1          vruiPwmDuty = (uint16_t) pwmDuty;
+  47   1          PWMPL = 0x98;
+  48   1          PWMPH = 0x3A; //      15khz
+  49   1          PWM2H = vruiPwmDuty >> 8; // DUTY 
+  50   1          PWM2L = (vruiPwmDuty - PWM1H*256);
+  51   1          PWMCON0 |= (1 << 7); // Start run
+  52   1      }
+  53          
+  54          /**
+C51 COMPILER V9.60.0.0   PWM                                                               01/31/2021 11:14:45 PAGE 2   
 
-  55          /**
-  56           * @func   PWM_Stop
-  57           * @brief  None
-  58           * @param  
-  59           * @retval None
-  60           */
-  61          void PWM_Stop(uint16_t pwmDuty)
-  62          {
-  63   1        uint16_t i;
-  64   1          for(i = pwmDuty; i < 1000; i=i+2)
-  65   1          {
-  66   2              PWM_CreatedPeriodDuty(i);
-  67   2              delay_ms(100);      
-  68   2          }
-  69   1      }
-  70          
-  71          /**
-  72           * @func   PWM_Start
-  73           * @brief  None
-  74           * @param  
-  75           * @retval None
-  76           */
-  77          void PWM_Start(uint16_t pwmDuty)
-  78          {
-  79   1        uint16_t i;
-  80   1          for(i = 999; i > pwmDuty; i=i-2)
-  81   1          {
-  82   2              PWM_CreatedPeriodDuty(i);
-  83   2              delay_ms(100);      
-  84   2          }
-  85   1      
-  86   1      }
+  55           * @func   PWM_Stop
+  56           * @brief  None 
+  57           * @param  
+  58           * @retval None
+  59           */
+  60          void PWM_Stop(uint16_t pwmDuty)
+  61          {
+  62   1        uint16_t i;
+  63   1          for(i = pwmDuty; i <= 15000; i=i+100)
+  64   1          {
+  65   2              PWM_CreatedPeriodDuty(i);
+  66   2              delay_ms(100);      
+  67   2          }
+  68   1      }
+  69          
+  70          /**
+  71           * @func   PWM_Start
+  72           * @brief  None
+  73           * @param  
+  74           * @retval None
+  75           */
+  76          void PWM_Start(uint16_t pwmDuty)
+  77          {
+  78   1        uint16_t i;
+  79   1          for(i = 15000; i > pwmDuty; i=i-100)
+  80   1          {
+  81   2              PWM_CreatedPeriodDuty(i);
+  82   2              delay_ms(100);      
+  83   2          }
+  84   1      
+  85   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
