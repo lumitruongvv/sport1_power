@@ -17,4 +17,4 @@
 
 u8 XOR_Caculator(uint8_t* buffer, uint8_t ofset, uint16_t length);
 
-#endif /*_XOR_H*/
+#endif /*_XOR_H */
